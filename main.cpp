@@ -10,18 +10,34 @@ public:
     sf::RectangleShape snake;
     enum Move {Left ='L', Right= 'R', Up='U', Down='D'};
     Move choice;
-    void KeyPressed(Move choice);
+    void KeyPressed();
 
-     sf::Vector2f pos = snake.getPosition();
+     
 
 private:
     sf::Clock c_clock;
     sf::Time c_elapsed;
+    sf::Vector2f pos = snake.getPosition();
+
+public:
+    Game();
+    Game(sf::Vector2f position, sf::RectangleShape snake)
+    {
+        setPosition(position);
+    }
+    void setPosition(sf::Vector2f p)
+    {
+        pos = p;
+    }sf::Vector2f getPos()
+    {
+        return pos;
+    }
+
     };
 
 sf::Time Game::GetElapsed() { return c_elapsed; }
 void Game::RestartClock() { c_elapsed = c_clock.restart(); }
-void Game::KeyPressed(Move choice){
+void Game::KeyPressed(){
    switch (choice) {
    case Left:
    sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
@@ -49,8 +65,10 @@ void Game::KeyPressed(Move choice){
 
 
 int main(){
-
-
+    
+    
+    
+    
     // const float movementSpeed = 2.f;
     // float up,down,left,right = 0;
     
@@ -61,6 +79,9 @@ int main(){
     sf::RectangleShape rec1;
     sf::RectangleShape rec2;
     sf::RectangleShape rec3;
+    Game loc(rec3.getPosition(), rec3);
+    loc.getPos();
+
     //static
 
     //borders
@@ -139,13 +160,6 @@ int main(){
         
         //&& !inner.intersects(boundsW));  //will need to be called redraw
       
-       
-
-
-        //  switch(choice){
-        //     case Left:
-
-        //  }
 
         // if (inner.intersects(boundsW)){
         //     window.clear();
