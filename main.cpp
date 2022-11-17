@@ -3,31 +3,52 @@
 #include <iostream>
 //put below into functions to be drawn repeatedly
 
-// class Game {
-// public:
-//     sf::Time GetElapsed();
-//     void RestartClock();
+class Game {
+public:
+    sf::Time GetElapsed();
+    void RestartClock();
+    sf::RectangleShape snake;
+    enum Move {Left ='L', Right= 'R', Up='U', Down='D'};
+    Move choice;
+    void KeyPressed(Move choice);
 
-//     void KeyPressed(unsigned char evt);
+     sf::Vector2f pos = snake.getPosition();
 
-// private:
-//     sf::Clock c_clock;
-//     sf::Time c_elapsed;
-//     };
+private:
+    sf::Clock c_clock;
+    sf::Time c_elapsed;
+    };
 
-// sf::Time Game::GetElapsed() { return c_elapsed; }
-// void Game::RestartClock() { c_elapsed = c_clock.restart(); }
-// void Game::KeyPressed(unsigned char evt){
-//     switch (evt) {
-//     case sf::Keyboard::Left:
-//         std::cout << "LEFT\n";
-//         break;
-//     }
+sf::Time Game::GetElapsed() { return c_elapsed; }
+void Game::RestartClock() { c_elapsed = c_clock.restart(); }
+void Game::KeyPressed(Move choice){
+   switch (choice) {
+   case Left:
+   sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+   std::cout<< pos.x <<std::endl;
+   break;
+   case Right:
+   sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+   std::cout<< pos.x <<std::endl;
+   break;
+   case Up:
+   sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+   std::cout<< pos.x <<std::endl;
+   break;
+   case Down:
+   sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+   std::cout<< pos.x <<std::endl;
+   break;
+   
+   }
+}
+    
 
-//}
 
-int main()
-{
+
+
+
+int main(){
 
 
     // const float movementSpeed = 2.f;
@@ -79,9 +100,8 @@ int main()
     rec3.setFillColor(sf::Color::Red);
 
     std::vector <sf::RectangleShape> myRecs;
-    
-    
-    myRecs.insert(myRecs.begin(),{rec1,rec2});
+    myRecs.insert(myRecs.end(),{rec1,rec2});
+
     std::vector <sf::RectangleShape>::iterator recDis;
 
     sf::FloatRect inner = rec3.getGlobalBounds();
@@ -104,10 +124,8 @@ int main()
         for (recDis = myRecs.begin(); recDis != myRecs.end(); ++recDis) {  //will need to be called for redraw
             window.draw(*recDis);  
         }
-        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            rec3.move(0,0);
-        }
-        do{
+        
+      
             window.clear();
             window.draw(rec1);
             window.draw(rec2);
@@ -119,8 +137,16 @@ int main()
             //left -= movementSpeed * 
             rec3.move(-.2,0);
         
-        } while (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)); //&& !inner.intersects(boundsW));  //will need to be called redraw
-        
+        //&& !inner.intersects(boundsW));  //will need to be called redraw
+      
+       
+
+
+        //  switch(choice){
+        //     case Left:
+
+        //  }
+
         // if (inner.intersects(boundsW)){
         //     window.clear();
         // }
@@ -128,8 +154,7 @@ int main()
          
         
             
-          //  window.draw(rec3);
-        
+         
 
         window.display();
         
