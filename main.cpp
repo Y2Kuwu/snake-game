@@ -7,11 +7,12 @@ class Game {
 public:
     sf::RectangleShape snek;
     //sf::Event push;
+    sf::Vector2f pos;
     Game(sf::RectangleShape snake);
     sf::Time GetElapsed();
     void RestartClock();
 
-    void KeyIsPressed(sf::Event push);
+    void KeyIsPressed(sf::Event push, sf::RectangleShape snek);//, sf::Vector2f pos);
     sf::Vector2f currLocation(sf::Vector2f snakeLocation);
     //void "food"location / generated is consumed T/F
     //void length / points()
@@ -25,13 +26,13 @@ public:
      
 
 private:
-    sf::Clock c_clock;
-    sf::Time c_elapsed;
-    sf::Vector2f pos;
+    sf::Clock c_clock; 
+    sf::Time c_elapsed; 
+   // sf::Vector2f pos;
 
 };
 Game::Game(sf::RectangleShape snake){
-    snek = snake;
+     snek = snake;
 }
 sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfully
     
@@ -39,11 +40,16 @@ sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfull
 
 sf::Time Game::GetElapsed() { return c_elapsed; }
 void Game::RestartClock() { c_elapsed = c_clock.restart(); }
-void Game::KeyIsPressed(sf::Event push){
+void Game::KeyIsPressed(sf::Event push, sf::RectangleShape snek){// , sf::Vector2f pos){
    //switch (push.type == sf::Event::KeyPressed && push.key.code) {
    switch (push.key.code) {
    case sf::Keyboard::Left:
+   snek.getPosition() == pos;
+   pos.x -= 1;
+   pos.y = 0;
+    
    std::cout<< "left" <<std::endl;
+   std::cout<< std::to_string(pos.x) <<std::endl;
    break;
    
    case sf::Keyboard::Right:
@@ -189,40 +195,64 @@ int main(){
              sf::FloatRect visibleArea(-600, -200, event.size.width, event.size.height);
              window.setView(sf::View(visibleArea));
     }
-            //added event trigger
-         if (event.type == sf::Event::KeyPressed){
-            ;
-                //check location right before? or before and after? or pass data?
-            snk.KeyIsPressed(event);
-           // std::cout << "EVENT TRIGGERED\n";
-         }
-    
+            // 
             
+            // window.draw(testText);
+            // window.draw(testText1);
+            //std::cout << std::to_string(snakeHead.x);
+            //added event trigger
+        while(event.type == sf::Event::KeyPressed)
+        {
+            window.draw(rec1);
+            window.draw(rec2);
+            window.draw(text);
+            snk.KeyIsPressed(event, rec3);
+            //window.clear();
+            //rec3.move(-2.0f,0);
+            // window.draw(rec1);
+            // window.draw(rec2);
+            //window.draw(text);
+            window.draw(testText);
+            window.draw(testText1);
+            window.draw(rec3);
+            if(event.type == !sf::Event::KeyPressed);
+            break;
         }
+
+            //window.clear();
+            
+            
+         //    }
+                //check location right before? or before and after? or pass data?
+           
+            
+           
+            
+            
+            
+            
+           // std::cout << "EVENT TRIGGERED\n";
+        
+
+         
+        
         
         // for (recDis = myRecs.begin(); recDis != myRecs.end(); ++recDis) {  //will need to be called for redraw
         //     window.draw(*recDis);  
         //     std::cout << "created\n";
         // }
-        
             
-            window.clear();
+            
            
-            window.draw(rec1);
-            window.draw(rec2);
-            window.draw(rec3);
-            window.draw(text);
-            window.draw(testText);
-            window.draw(testText1);
             //bounderies do not need to be drawn
-            window.draw(w);
-            window.draw(e);
-            window.draw(s);
-            window.draw(n);
+           // window.draw(w);
+           // window.draw(e);
+           // window.draw(s);
+           // window.draw(n);
             //
 
             
-            snk.currLocation(snakeHead);
+            //snk.currLocation(snakeHead);
            // snk.KeyPressed();
             // testX = snakeHead.x;
             // testY = snakeHead.y;
@@ -245,6 +275,7 @@ int main(){
         window.display();
         
         }
+    }
        
     
 return 0;
