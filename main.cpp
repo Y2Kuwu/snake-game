@@ -7,11 +7,11 @@ class Game {
 public:
     sf::RectangleShape snek;
     //sf::Event push;
-
     Game(sf::RectangleShape snake);
     sf::Time GetElapsed();
     void RestartClock();
-    void KeyPressed(sf::Event push);
+
+    void KeyIsPressed(sf::Event push);
     sf::Vector2f currLocation(sf::Vector2f snakeLocation);
     //void "food"location / generated is consumed T/F
     //void length / points()
@@ -20,7 +20,8 @@ public:
     //rework enumeration sfml already has keys enumerated
     Move choice;
     
-
+   
+     
      
 
 private:
@@ -38,10 +39,12 @@ sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfull
 
 sf::Time Game::GetElapsed() { return c_elapsed; }
 void Game::RestartClock() { c_elapsed = c_clock.restart(); }
-void Game::KeyPressed(sf::Event push){
-   switch (push.type == sf::Event::KeyPressed) {
-   case Left:
-   sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+void Game::KeyIsPressed(sf::Event push){
+   //switch (push.type == sf::Event::KeyPressed && push.key.code) {
+   switch (push.key.code) {
+   case sf::Keyboard::Left:
+   //push.key.code == sf::Keyboard::Left;
+   //sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
    std::cout<< "left" <<std::endl;
    break;
    case Right:
@@ -188,9 +191,12 @@ int main(){
              sf::FloatRect visibleArea(-600, -200, event.size.width, event.size.height);
              window.setView(sf::View(visibleArea));
     }
+            //added event trigger
          if (event.type == sf::Event::KeyPressed){
-            snk.KeyPressed(event);
-            std::cout << "EVENT TRIGGERED";
+            ;
+                //check location right before? or before and after? or pass data?
+            snk.KeyIsPressed(event);
+           // std::cout << "EVENT TRIGGERED\n";
          }
     
             
