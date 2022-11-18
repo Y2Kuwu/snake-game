@@ -31,9 +31,8 @@ private:
 Game::Game(sf::RectangleShape snake){
     snek = snake;
 }
-sf::Vector2f Game::currLocation(sf::Vector2f s){
-    s = snek.getPosition();
-
+sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfully
+    
 }
 
 sf::Time Game::GetElapsed() { return c_elapsed; }
@@ -149,8 +148,11 @@ int main(){
     //
     //text for visual testing
     sf::Font ff;
-    sf::Text testText("", ff, 40);
-    testText.setPosition(sf::Vector2f(275,60));
+    std::string testX;
+    std::string testY;
+    sf::Text testText((testX, testY), ff, 40);
+    testText.setPosition(sf::Vector2f(275,120));
+    testText.setColor(sf::Color::Black);
     //
 
     while (window.isOpen())
@@ -190,6 +192,9 @@ int main(){
 
             Game snk(rec3);
             snk.currLocation(snakeHead);
+            testX = snakeHead.x;
+            testY = snakeHead.y;
+            window.draw(testText);
 
             //left -= movementSpeed * 
         
