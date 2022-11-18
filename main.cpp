@@ -147,13 +147,31 @@ int main(){
     text.setOutlineThickness(2);
     //
     //text for visual testing
-    sf::Font ff;
-    std::string testX;
-    std::string testY;
-    sf::Text testText((testX, testY), ff, 40);
+    
+    // std::string testX;
+    // testX = snakeHead.x;
+    // std::string testY;
+    // testY = snakeHead.y;
+
+    ///sf::Text testText(std::to_string(snakeHead.x), sf::Text::, 20);
+    sf::Text testText;
+    sf::Text testText1;
+    sf::Font def;
+    def.loadFromFile("MG.ttf");
+    testText.setFont(def);
+    testText.setCharacterSize(20);
+    testText.setStyle(sf::Text::Regular);
+    testText.setString(std::to_string(snakeHead.x));
     testText.setPosition(sf::Vector2f(275,120));
     testText.setColor(sf::Color::Black);
-    //
+
+    testText1.setFont(def);
+    testText1.setCharacterSize(20);
+    testText1.setStyle(sf::Text::Regular);
+    testText1.setString(std::to_string(snakeHead.y));
+    testText1.setPosition(sf::Vector2f(275,140));
+    testText1.setColor(sf::Color::Black);
+    
 
     while (window.isOpen())
     {
@@ -176,13 +194,15 @@ int main(){
             window.draw(*recDis);  
         }
         
-      
+            
             window.clear();
+           
             window.draw(rec1);
             window.draw(rec2);
             window.draw(rec3);
             window.draw(text);
-            
+            window.draw(testText);
+            window.draw(testText1);
             //bounderies do not need to be drawn
             window.draw(w);
             window.draw(e);
@@ -192,9 +212,9 @@ int main(){
 
             Game snk(rec3);
             snk.currLocation(snakeHead);
-            testX = snakeHead.x;
-            testY = snakeHead.y;
-            window.draw(testText);
+            // testX = snakeHead.x;
+            // testY = snakeHead.y;
+            
 
             //left -= movementSpeed * 
         
