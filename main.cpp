@@ -16,9 +16,9 @@ public:
     //void "food"location / generated is consumed T/F
     //void length / points()
 
-    enum Move {Left ='L', Right= 'R', Up='U', Down='D'};
+   //enum Move {Left ='L', Right= 'R', Up='U', Down='D'};
     //rework enumeration sfml already has keys enumerated
-    Move choice;
+   // Move choice;
     
    
      
@@ -43,21 +43,19 @@ void Game::KeyIsPressed(sf::Event push){
    //switch (push.type == sf::Event::KeyPressed && push.key.code) {
    switch (push.key.code) {
    case sf::Keyboard::Left:
-   //push.key.code == sf::Keyboard::Left;
-   //sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
    std::cout<< "left" <<std::endl;
    break;
-   case Right:
-   sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
-   std::cout<< pos.x <<std::endl;
+   
+   case sf::Keyboard::Right:
+   std::cout<< "right" <<std::endl;
    break;
-   case Up:
-   sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
-   std::cout<< pos.x <<std::endl;
+
+   case sf::Keyboard::Up:
+   std::cout<< "up" <<std::endl;
    break;
-   case Down:
-   sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
-   std::cout<< pos.x <<std::endl;
+
+   case sf::Keyboard::Down:
+   std::cout<< "down" <<std::endl;
    break;
    
    }
