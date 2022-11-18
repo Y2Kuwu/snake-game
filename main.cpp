@@ -6,11 +6,12 @@
 class Game {
 public:
     sf::RectangleShape snek;
-    
+    //sf::Event push;
+
     Game(sf::RectangleShape snake);
     sf::Time GetElapsed();
     void RestartClock();
-    void KeyPressed();
+    void KeyPressed(sf::Event push);
     sf::Vector2f currLocation(sf::Vector2f snakeLocation);
     //void "food"location / generated is consumed T/F
     //void length / points()
@@ -37,11 +38,11 @@ sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfull
 
 sf::Time Game::GetElapsed() { return c_elapsed; }
 void Game::RestartClock() { c_elapsed = c_clock.restart(); }
-void Game::KeyPressed(){
-   switch (choice) {
+void Game::KeyPressed(sf::Event push){
+   switch (push.type == sf::Event::KeyPressed) {
    case Left:
    sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-   std::cout<< pos.x <<std::endl;
+   std::cout<< "left" <<std::endl;
    break;
    case Right:
    sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
@@ -80,9 +81,11 @@ int main(){
     sf::RectangleShape rec1;
     sf::RectangleShape rec2;
     sf::RectangleShape rec3;
-    
-
     //static
+
+    Game snk(rec3);
+
+    
 
     //borders
     sf::RectangleShape n, e, s, w;
@@ -185,14 +188,18 @@ int main(){
              sf::FloatRect visibleArea(-600, -200, event.size.width, event.size.height);
              window.setView(sf::View(visibleArea));
     }
-    
+         if (event.type == sf::Event::KeyPressed){
+            snk.KeyPressed(event);
+            std::cout << "EVENT TRIGGERED";
+         }
     
             
         }
         
-        for (recDis = myRecs.begin(); recDis != myRecs.end(); ++recDis) {  //will need to be called for redraw
-            window.draw(*recDis);  
-        }
+        // for (recDis = myRecs.begin(); recDis != myRecs.end(); ++recDis) {  //will need to be called for redraw
+        //     window.draw(*recDis);  
+        //     std::cout << "created\n";
+        // }
         
             
             window.clear();
@@ -210,8 +217,9 @@ int main(){
             window.draw(n);
             //
 
-            Game snk(rec3);
+            
             snk.currLocation(snakeHead);
+           // snk.KeyPressed();
             // testX = snakeHead.x;
             // testY = snakeHead.y;
             
