@@ -5,35 +5,36 @@
 
 class Game {
 public:
+    sf::RectangleShape snek;
+    
+    Game(sf::RectangleShape snake);
     sf::Time GetElapsed();
     void RestartClock();
-    sf::RectangleShape snake;
-    enum Move {Left ='L', Right= 'R', Up='U', Down='D'};
-    Move choice;
     void KeyPressed();
+    sf::Vector2f currLocation(sf::Vector2f snakeLocation);
+    //void "food"location / generated is consumed T/F
+    //void length / points()
+
+    enum Move {Left ='L', Right= 'R', Up='U', Down='D'};
+    //rework enumeration sfml already has keys enumerated
+    Move choice;
+    
 
      
 
 private:
     sf::Clock c_clock;
     sf::Time c_elapsed;
-    sf::Vector2f pos = snake.getPosition();
+    sf::Vector2f pos;
 
-public:
-    Game();
-    Game(sf::Vector2f position, sf::RectangleShape snake)
-    {
-        setPosition(position);
-    }
-    void setPosition(sf::Vector2f p)
-    {
-        pos = p;
-    }sf::Vector2f getPos()
-    {
-        return pos;
-    }
+};
+Game::Game(sf::RectangleShape snake){
+    snek = snake;
+}
+sf::Vector2f Game::currLocation(sf::Vector2f s){
+    s = snek.getPosition();
 
-    };
+}
 
 sf::Time Game::GetElapsed() { return c_elapsed; }
 void Game::RestartClock() { c_elapsed = c_clock.restart(); }
@@ -66,8 +67,9 @@ void Game::KeyPressed(){
 
 int main(){
     
+   
     
-    
+
     
     // const float movementSpeed = 2.f;
     // float up,down,left,right = 0;
@@ -79,8 +81,7 @@ int main(){
     sf::RectangleShape rec1;
     sf::RectangleShape rec2;
     sf::RectangleShape rec3;
-    Game loc(rec3.getPosition(), rec3);
-    loc.getPos();
+    
 
     //static
 
@@ -95,7 +96,7 @@ int main(){
     s.setSize(sf::Vector2f(650, 5));
     s.setPosition(25, 670);
     //
-    //border boundaries
+    //border boundaries for collision
     sf::FloatRect boundsN = n.getGlobalBounds();
     sf::FloatRect boundsE = e.getGlobalBounds();
     sf::FloatRect boundsS = s.getGlobalBounds();
@@ -104,7 +105,9 @@ int main(){
     e.setFillColor(sf::Color::Red);
     s.setFillColor(sf::Color::Red);
     w.setFillColor(sf::Color::Red);
+    //
 
+    //static 
     rec1.setFillColor(sf::Color::Cyan);
     rec1.setSize(sf::Vector2f(670, 670));
     rec1.setPosition(15, 15);
@@ -114,18 +117,41 @@ int main(){
     rec2.setOutlineColor(sf::Color::Black);
     rec2.setOutlineThickness(4);
     rec2.setPosition(25, 25);
-    //
+    
 
     rec3.setSize(sf::Vector2f(20,20));
     rec3.setOrigin(-340,-340);
     rec3.setFillColor(sf::Color::Red);
+    
+    //player collision box
+    sf::FloatRect inner = rec3.getGlobalBounds();
+    //
+
+    //player position
+    sf::Vector2f snakeHead = rec3.getPosition();
+    //
 
     std::vector <sf::RectangleShape> myRecs;
     myRecs.insert(myRecs.end(),{rec1,rec2});
 
     std::vector <sf::RectangleShape>::iterator recDis;
 
-    sf::FloatRect inner = rec3.getGlobalBounds();
+    
+
+    //title box
+    sf::Font bars;
+    bars.loadFromFile("LibreBarcode39Text-Regular.ttf");
+    sf::Text text("SNAKE", bars, 60);
+    text.setColor(sf::Color::Black);
+    text.setPosition(sf::Vector2f(275,20));
+    text.setOutlineColor(sf::Color::Red);
+    text.setOutlineThickness(2);
+    //
+    //text for visual testing
+    sf::Font ff;
+    sf::Text testText("", ff, 40);
+    testText.setPosition(sf::Vector2f(275,60));
+    //
 
     while (window.isOpen())
     {
@@ -139,6 +165,8 @@ int main(){
              sf::FloatRect visibleArea(-600, -200, event.size.width, event.size.height);
              window.setView(sf::View(visibleArea));
     }
+    
+    
             
         }
         
@@ -151,12 +179,19 @@ int main(){
             window.draw(rec1);
             window.draw(rec2);
             window.draw(rec3);
+            window.draw(text);
+            
+            //bounderies do not need to be drawn
             window.draw(w);
             window.draw(e);
             window.draw(s);
             window.draw(n);
+            //
+
+            Game snk(rec3);
+            snk.currLocation(snakeHead);
+
             //left -= movementSpeed * 
-            rec3.move(-.2,0);
         
         //&& !inner.intersects(boundsW));  //will need to be called redraw
       
