@@ -7,13 +7,18 @@ class Game {
 public:
     sf::RectangleShape snek;
     //sf::Event push;
-    sf::Vector2f pos;
+    //sf::Vector2f pos;
     Game(sf::RectangleShape snake);
     sf::Time GetElapsed();
     void RestartClock();
+    float x; 
+    float y;
+    sf::Vector2f snakeLocation;
 
-    void KeyIsPressed(sf::Event push, sf::RectangleShape snek);//, sf::Vector2f pos);
-    sf::Vector2f currLocation(sf::Vector2f snakeLocation);
+    sf::Vector2f pos;
+    sf::Vector2f KeyIsPressed(sf::Event push, sf::RectangleShape snek);//, sf::Vector2f pos);
+   
+    //sf::Vector2f currLocation(sf::Vector2f snakeLocation);
     //void "food"location / generated is consumed T/F
     //void length / points()
 
@@ -34,22 +39,23 @@ private:
 Game::Game(sf::RectangleShape snake){
      snek = snake;
 }
-sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfully
+//sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfully
     
-}
+//}
 
 sf::Time Game::GetElapsed() { return c_elapsed; }
 void Game::RestartClock() { c_elapsed = c_clock.restart(); }
-void Game::KeyIsPressed(sf::Event push, sf::RectangleShape snek){// , sf::Vector2f pos){
+sf::Vector2f Game::KeyIsPressed(sf::Event push, sf::RectangleShape snek){// , sf::Vector2f pos){
    //switch (push.type == sf::Event::KeyPressed && push.key.code) {
    switch (push.key.code) {
    case sf::Keyboard::Left:
    snek.getPosition() == pos;
    pos.x -= 1;
    pos.y = 0;
-    
+   //set location here?
    std::cout<< "left" <<std::endl;
    std::cout<< std::to_string(pos.x) <<std::endl;
+   return (pos); //return new value?
    break;
    
    case sf::Keyboard::Right:
@@ -138,6 +144,7 @@ int main(){
 
     //player position
     sf::Vector2f snakeHead = rec3.getPosition();
+    sf::Vector2f newSnakeHead;
     //
 
     std::vector <sf::RectangleShape> myRecs;
@@ -203,15 +210,23 @@ int main(){
             //added event trigger
         while(event.type == sf::Event::KeyPressed)
         {
-            window.draw(rec1);
-            window.draw(rec2);
-            window.draw(text);
+             window.clear();
+            
             snk.KeyIsPressed(event, rec3);
             //window.clear();
             //rec3.move(-2.0f,0);
             // window.draw(rec1);
             // window.draw(rec2);
             //window.draw(text);
+            // window.draw(rec1);
+            // window.draw(rec2);
+            //snk.snakeLocation = snakeHead;
+            rec3.move(snk.pos.x,snk.pos.y);
+            //rec3.setPosition(newSnakeHead);
+            std::cout<<"printed"; 
+            std::cout<<std::to_string(snk.pos.x);  
+             std::cout<<std::to_string(snk.pos.y);        
+            window.draw(text);
             window.draw(testText);
             window.draw(testText1);
             window.draw(rec3);
