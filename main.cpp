@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include "snakeBody.hpp"
 //put below into functions to be drawn repeatedly
 
 class Game {
@@ -11,64 +12,70 @@ public:
     Game(sf::RectangleShape snake);
     sf::Time GetElapsed();
     void RestartClock();
-    float x; 
+    float x;
     float y;
+    float speed = 20.0f;
     sf::Vector2f snakeLocation;
+    sf::Event snakes;
 
     sf::Vector2f pos;
-    sf::Vector2f KeyIsPressed(sf::Event push, sf::RectangleShape snek);//, sf::Vector2f pos);
-   
-    //sf::Vector2f currLocation(sf::Vector2f snakeLocation);
-    //void "food"location / generated is consumed T/F
-    //void length / points()
+    void KeyIsPressed(sf::RectangleShape snek, sf::Event evt);//, sf::Vector2f pos);
 
-   //enum Move {Left ='L', Right= 'R', Up='U', Down='D'};
-    //rework enumeration sfml already has keys enumerated
-   // Move choice;
-    
-   
-     
-     
 
 private:
-    sf::Clock c_clock; 
-    sf::Time c_elapsed; 
-   // sf::Vector2f pos;
+ 
 
 };
 Game::Game(sf::RectangleShape snake){
      snek = snake;
 }
-//sf::Vector2f Game::currLocation(sf::Vector2f s){ //receiving x and y successfully
-    
-//}
 
-sf::Time Game::GetElapsed() { return c_elapsed; }
-void Game::RestartClock() { c_elapsed = c_clock.restart(); }
-sf::Vector2f Game::KeyIsPressed(sf::Event push, sf::RectangleShape snek){// , sf::Vector2f pos){
-   //switch (push.type == sf::Event::KeyPressed && push.key.code) {
-   switch (push.key.code) {
-   case sf::Keyboard::Left:
-   snek.getPosition() == pos;
-   pos.x -= 1;
-   pos.y = 0;
-   //set location here?
-   std::cout<< "left" <<std::endl;
-   std::cout<< std::to_string(pos.x) <<std::endl;
-   return (pos); //return new value?
-   break;
+void Game::KeyIsPressed(sf::RectangleShape snek, sf::Event evt){// , sf::Vector2f pos){
+    evt = snakes;
+   switch (snakes.key.code) {
    
+   case sf::Keyboard::Left:
+        snek.move(-1.0f,0.f);
+
+   break;
    case sf::Keyboard::Right:
-   std::cout<< "right" <<std::endl;
+        snek.move(1.0f,0.f);
+   
    break;
 
-   case sf::Keyboard::Up:
-   std::cout<< "up" <<std::endl;
-   break;
+//    switch (push.key.code) {
+//    case sf::Keyboard::Left:
 
-   case sf::Keyboard::Down:
-   std::cout<< "down" <<std::endl;
-   break;
+//    snek.getPosition() == pos;
+//    x = pos.x * e.asSeconds();
+//    y = pos.y;
+//    std::cout<< e.asSeconds();
+  
+   
+//    std::cout<< "left" <<std::endl;
+//    break;
+   
+//    case sf::Keyboard::Right:
+//    std::cout<< "right" <<std::endl;
+//    snek.getPosition() == pos;
+//    pos.x += speed * elapsed1.asSeconds(); 
+//   // x += 2;//speed * elapsed1.asSeconds(); 
+//   // y = 0;
+//    break;
+
+//    case sf::Keyboard::Up:
+//    std::cout<< "up" <<std::endl;
+//    snek.getPosition() == pos;
+//    pos.x = pos.x;
+//    pos.y -= 1;
+//    break;
+
+//    case sf::Keyboard::Down:
+//    std::cout<< "down" <<std::endl;
+//    snek.getPosition() == pos;
+//    pos.x = 0;
+//    pos.y += 1;
+//    break;
    
    }
 }
@@ -81,14 +88,12 @@ sf::Vector2f Game::KeyIsPressed(sf::Event push, sf::RectangleShape snek){// , sf
 int main(){
     
    
-    
-
+    sf::Time elapsed;
+    sf::Clock clock;
     
     // const float movementSpeed = 2.f;
     // float up,down,left,right = 0;
     
-    // sf::Time time;
-    // sf::Clock Clock;
 
     sf::RenderWindow window(sf::VideoMode(700, 700), "Snake");
     sf::RectangleShape rec1;
@@ -96,7 +101,7 @@ int main(){
     sf::RectangleShape rec3;
     //static
 
-    Game snk(rec3);
+    //Game snk(rec3);
 
     
 
@@ -143,16 +148,16 @@ int main(){
     //
 
     //player position
-    sf::Vector2f snakeHead = rec3.getPosition();
-    sf::Vector2f newSnakeHead;
+    sf::Vector2f SnakeHead = rec3.getPosition();
+    sf::Vector2f snakePath;
     //
 
     std::vector <sf::RectangleShape> myRecs;
-    myRecs.insert(myRecs.end(),{rec1,rec2});
+    myRecs.insert(myRecs.end(),{rec1,rec2,rec3});
 
     std::vector <sf::RectangleShape>::iterator recDis;
 
-    
+    int pressCount = 0;
 
     //title box
     sf::Font bars;
@@ -162,6 +167,7 @@ int main(){
     text.setPosition(sf::Vector2f(275,20));
     text.setOutlineColor(sf::Color::Red);
     text.setOutlineThickness(2);
+    
     //
     //text for visual testing
     
@@ -178,17 +184,17 @@ int main(){
     testText.setFont(def);
     testText.setCharacterSize(20);
     testText.setStyle(sf::Text::Regular);
-    testText.setString(std::to_string(snakeHead.x));
+    
     testText.setPosition(sf::Vector2f(275,120));
     testText.setColor(sf::Color::Black);
 
     testText1.setFont(def);
     testText1.setCharacterSize(20);
     testText1.setStyle(sf::Text::Regular);
-    testText1.setString(std::to_string(snakeHead.y));
+    
     testText1.setPosition(sf::Vector2f(275,140));
     testText1.setColor(sf::Color::Black);
-    
+   
 
     while (window.isOpen())
     {
@@ -202,37 +208,86 @@ int main(){
              sf::FloatRect visibleArea(-600, -200, event.size.width, event.size.height);
              window.setView(sf::View(visibleArea));
     }
-            // 
-            
-            // window.draw(testText);
-            // window.draw(testText1);
-            //std::cout << std::to_string(snakeHead.x);
             //added event trigger
-        while(event.type == sf::Event::KeyPressed)
-        {
-             window.clear();
-            
-            snk.KeyIsPressed(event, rec3);
-            //window.clear();
-            //rec3.move(-2.0f,0);
-            // window.draw(rec1);
-            // window.draw(rec2);
-            //window.draw(text);
-            // window.draw(rec1);
-            // window.draw(rec2);
-            //snk.snakeLocation = snakeHead;
-            rec3.move(snk.pos.x,snk.pos.y);
-            //rec3.setPosition(newSnakeHead);
-            std::cout<<"printed"; 
-            std::cout<<std::to_string(snk.pos.x);  
-             std::cout<<std::to_string(snk.pos.y);        
+           // snk.RestartClock();
+        //  for (recDis = myRecs.begin(); recDis != myRecs.end(); ++recDis) {  //will need to be called for redraw
+        //     window.draw(*recDis);  
+        //     std::cout << "fart";
+        //  }
+           // if(event.type == sf::Event::KeyPressed){
+            //snk.KeyIsPressed(rec3, event);
+            window.draw(rec1);
+            window.draw(rec2);
+            window.draw(rec3);
             window.draw(text);
             window.draw(testText);
             window.draw(testText1);
-            window.draw(rec3);
-            if(event.type == !sf::Event::KeyPressed);
-            break;
-        }
+            if (event.type == sf::Event::KeyPressed)
+            {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            {
+              sf::Clock clock;
+              snakePath.x -= 10;
+            pressCount++;
+            std::cout << pressCount;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            {
+              sf::Clock clock;
+              snakePath.x += 10;
+            pressCount++;
+            std::cout << pressCount;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            {
+              sf::Clock clock;
+              snakePath.y += 10;
+            pressCount++;
+            std::cout << pressCount;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            {
+              sf::Clock clock;
+              snakePath.y -= 10;
+            pressCount++;
+            std::cout << pressCount;
+            }
+            sf::Time elapsed = clock.getElapsedTime();
+            if(elapsed.asSeconds() > .5 && sf::Event::KeyReleased){
+            do{
+                snakePath.x -= 10 * elapsed.asSeconds();
+                window.clear();
+                window.draw(rec1);
+                window.draw(rec2);
+                window.draw(text);
+                window.draw(testText);
+                window.draw(testText1);
+                rec3.setPosition(SnakeHead + snakePath);
+                window.draw(rec3);
+                break;
+            }while(!pressCount++);
+            }
+            }
+            
+          
+
+            //rec3.move(snk.x,snk.y);
+            //rec3.setPosition(snk.x,snk.y);
+            //testText1.setString(std::to_string(snk.y));
+           // testText.setString(std::to_string(snk.x));
+           
+            //std::cout<<std::to_string(snk.pos.x);  
+            //std::cout<<std::to_string(snk.pos.y);        
+           
+            
+            
+            
+            
+
+            
+            
+        
+        
 
             //window.clear();
             
@@ -252,8 +307,7 @@ int main(){
          
         
         
-        // for (recDis = myRecs.begin(); recDis != myRecs.end(); ++recDis) {  //will need to be called for redraw
-        //     window.draw(*recDis);  
+        
         //     std::cout << "created\n";
         // }
             
@@ -282,7 +336,7 @@ int main(){
         //     window.clear();
         // }
         
-         
+    
         
             
          
