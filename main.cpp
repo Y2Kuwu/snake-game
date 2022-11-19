@@ -1,14 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
-#include "snakeBody.hpp";
-
+#include "snakeBody.h"
+#include "food.h"
     
-
-
-
-
-
 int main(){
    
     sf::Time elapsed;
@@ -18,12 +13,16 @@ int main(){
     // float up,down,left,right = 0;
     
 
-    sf::RenderWindow window(sf::VideoMode(700, 700), "Snake");
+    sf::RenderWindow app(sf::VideoMode(700, 700), "Snake");
     sf::RectangleShape rec1;
     sf::RectangleShape rec2;
     sf::RectangleShape rec3;
     //static
+    snakeBody snakeBody;
+    food food;
 
+    snakeBody.win = &app;
+    snakeBody.hungerPtr = &food;
     //Game snk(rec3);
 
     
@@ -100,36 +99,37 @@ int main(){
     // testY = snakeHead.y;
 
     ///sf::Text testText(std::to_string(snakeHead.x), sf::Text::, 20);
-    sf::Text testText;
-    sf::Text testText1;
-    sf::Font def;
-    def.loadFromFile("MG.ttf");
-    testText.setFont(def);
-    testText.setCharacterSize(20);
-    testText.setStyle(sf::Text::Regular);
     
-    testText.setPosition(sf::Vector2f(275,120));
-    testText.setColor(sf::Color::Black);
+    // sf::Text testText;
+    // sf::Text testText1;
+    // sf::Font def;
+    // def.loadFromFile("MG.ttf");
+    // testText.setFont(def);
+    // testText.setCharacterSize(20);
+    // testText.setStyle(sf::Text::Regular);
+    
+    // testText.setPosition(sf::Vector2f(275,120));
+    // testText.setColor(sf::Color::Black);
 
-    testText1.setFont(def);
-    testText1.setCharacterSize(20);
-    testText1.setStyle(sf::Text::Regular);
+    // testText1.setFont(def);
+    // testText1.setCharacterSize(20);
+    // testText1.setStyle(sf::Text::Regular);
     
-    testText1.setPosition(sf::Vector2f(275,140));
-    testText1.setColor(sf::Color::Black);
+    // testText1.setPosition(sf::Vector2f(275,140));
+    // testText1.setColor(sf::Color::Black);
    
 
-    while (window.isOpen())
+    while (app.isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while (app.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-                window.close();
+                app.close();
               if (event.type == sf::Event::Resized)
     {
              sf::FloatRect visibleArea(-600, -200, event.size.width, event.size.height);
-             window.setView(sf::View(visibleArea));
+             app.setView(sf::View(visibleArea));
     }
             //added event trigger
            // snk.RestartClock();
@@ -139,58 +139,66 @@ int main(){
         //  }
            // if(event.type == sf::Event::KeyPressed){
             //snk.KeyIsPressed(rec3, event);
-            window.draw(rec1);
-            window.draw(rec2);
-            window.draw(rec3);
-            window.draw(text);
-            window.draw(testText);
-            window.draw(testText1);
-            if (event.type == sf::Event::KeyPressed)
-            {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            {
-              sf::Clock clock;
-              snakePath.x -= 10;
-            pressCount++;
-            std::cout << pressCount;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            {
-              sf::Clock clock;
-              snakePath.x += 10;
-            pressCount++;
-            std::cout << pressCount;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            {
-              sf::Clock clock;
-              snakePath.y += 10;
-            pressCount++;
-            std::cout << pressCount;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            {
-              sf::Clock clock;
-              snakePath.y -= 10;
-            pressCount++;
-            std::cout << pressCount;
-            }
-            sf::Time elapsed = clock.getElapsedTime();
-            if(elapsed.asSeconds() > .5 && sf::Event::KeyReleased){
-            do{
-                snakePath.x -= 10 * elapsed.asSeconds();
-                window.clear();
-                window.draw(rec1);
-                window.draw(rec2);
-                window.draw(text);
-                window.draw(testText);
-                window.draw(testText1);
-                rec3.setPosition(SnakeHead + snakePath);
-                window.draw(rec3);
-                break;
-            }while(!pressCount++);
-            }
-            }
+            // window.draw(rec1);
+            // window.draw(rec2);
+            // window.draw(rec3);
+            // window.draw(text);
+            // window.draw(testText);
+            // window.draw(testText1);
+
+            snakeBody.move();
+            snakeBody.ouroboros();
+            app.clear();
+            app.draw(food);
+            app.draw(snakeBody);
+            app.display();
+
+            // if (event.type == sf::Event::KeyPressed)
+            // {
+            // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            // {
+            //   sf::Clock clock;
+            //   snakePath.x -= 10;
+            // pressCount++;
+            // std::cout << pressCount;
+            // }
+            // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            // {
+            //   sf::Clock clock;
+            //   snakePath.x += 10;
+            // pressCount++;
+            // std::cout << pressCount;
+            // }
+            // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            // {
+            //   sf::Clock clock;
+            //   snakePath.y += 10;
+            // pressCount++;
+            // std::cout << pressCount;
+            // }
+            // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            // {
+            //   sf::Clock clock;
+            //   snakePath.y -= 10;
+            // pressCount++;
+            // std::cout << pressCount;
+            // }
+            // sf::Time elapsed = clock.getElapsedTime();
+            // if(elapsed.asSeconds() > .5 && sf::Event::KeyReleased){
+            // do{
+            //     snakePath.x -= 10 * elapsed.asSeconds();
+            //     window.clear();
+            //     window.draw(rec1);
+            //     window.draw(rec2);
+            //     window.draw(text);
+            //     window.draw(testText);
+            //     window.draw(testText1);
+            //     rec3.setPosition(SnakeHead + snakePath);
+            //     window.draw(rec3);
+            //     break;
+            // }while(!pressCount++);
+            // }
+            // }
             
           
 
@@ -264,7 +272,7 @@ int main(){
             
          
 
-        window.display();
+        //window.display();
         
         }
     }
