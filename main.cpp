@@ -1,84 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
-#include "snakeBody.hpp"
-//put below into functions to be drawn repeatedly
+#include "snakeBody.hpp";
 
-class Game {
-public:
-    sf::RectangleShape snek;
-    //sf::Event push;
-    //sf::Vector2f pos;
-    Game(sf::RectangleShape snake);
-    sf::Time GetElapsed();
-    void RestartClock();
-    float x;
-    float y;
-    float speed = 20.0f;
-    sf::Vector2f snakeLocation;
-    sf::Event snakes;
-
-    sf::Vector2f pos;
-    void KeyIsPressed(sf::RectangleShape snek, sf::Event evt);//, sf::Vector2f pos);
-
-
-private:
- 
-
-};
-Game::Game(sf::RectangleShape snake){
-     snek = snake;
-}
-
-void Game::KeyIsPressed(sf::RectangleShape snek, sf::Event evt){// , sf::Vector2f pos){
-    evt = snakes;
-   switch (snakes.key.code) {
-   
-   case sf::Keyboard::Left:
-        snek.move(-1.0f,0.f);
-
-   break;
-   case sf::Keyboard::Right:
-        snek.move(1.0f,0.f);
-   
-   break;
-
-//    switch (push.key.code) {
-//    case sf::Keyboard::Left:
-
-//    snek.getPosition() == pos;
-//    x = pos.x * e.asSeconds();
-//    y = pos.y;
-//    std::cout<< e.asSeconds();
-  
-   
-//    std::cout<< "left" <<std::endl;
-//    break;
-   
-//    case sf::Keyboard::Right:
-//    std::cout<< "right" <<std::endl;
-//    snek.getPosition() == pos;
-//    pos.x += speed * elapsed1.asSeconds(); 
-//   // x += 2;//speed * elapsed1.asSeconds(); 
-//   // y = 0;
-//    break;
-
-//    case sf::Keyboard::Up:
-//    std::cout<< "up" <<std::endl;
-//    snek.getPosition() == pos;
-//    pos.x = pos.x;
-//    pos.y -= 1;
-//    break;
-
-//    case sf::Keyboard::Down:
-//    std::cout<< "down" <<std::endl;
-//    snek.getPosition() == pos;
-//    pos.x = 0;
-//    pos.y += 1;
-//    break;
-   
-   }
-}
     
 
 
@@ -86,7 +10,6 @@ void Game::KeyIsPressed(sf::RectangleShape snek, sf::Event evt){// , sf::Vector2
 
 
 int main(){
-    
    
     sf::Time elapsed;
     sf::Clock clock;
