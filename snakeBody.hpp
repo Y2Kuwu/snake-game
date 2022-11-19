@@ -14,11 +14,19 @@ class snakeBody : public ::sf::Drawable
     void addLength();
     void ouroboros();
     virtual void snakePaint(sf::RenderTarget& snkTarget, sf::RenderStates snkState) const; //virtual passed //render target address // draw or render to the target
+    sf::RectangleShape deadSnake;
+    sf::RenderWindow* win; //get previous pos and replace
+    
     //define elsewhere under snakeBody   
     private:
     int totLen;
-    sf::RectangleShape snkskin;
+    sf::RectangleShape snkskin; //replace prev
     sf::Time time;
+    
+    std::vector<sf::RectangleShape>::iterator tail;
+
+    sf::RectangleShape* curr;
+    sf::RectangleShape* prev;
 };
 
 class food : public ::sf::Drawable
