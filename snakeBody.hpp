@@ -17,6 +17,8 @@ class snakeBody : public ::sf::Drawable
     sf::RectangleShape deadSnake;
     sf::RenderWindow* win; //get previous pos and replace
     
+    food* hungerPtr;
+
     //define elsewhere under snakeBody   
     private:
     int totLen;
@@ -24,9 +26,11 @@ class snakeBody : public ::sf::Drawable
     sf::Time time;
     
     std::vector<sf::RectangleShape>::iterator tail;
-
+    float posX , posY;
+    float x , y;
     sf::RectangleShape* curr;
     sf::RectangleShape* prev;
+    
 };
 
 class food : public ::sf::Drawable
