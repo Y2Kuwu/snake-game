@@ -27,14 +27,15 @@ void snakeBody::draw(sf::RenderTarget& snkTarget, sf::RenderStates snkState) con
         head.front() = this->curr;
         head.front().setPosition(this->deadSnake.getPosition());
         snkTarget.draw(this->curr , snkState);
+        std::cout<<"line 30\n";
     }else if(totLen > 1){
         //head.front() = head.back(); // push current vector front to back
-        head.push_back(this->snkskin); //new head.front()
+        head.push_back(this->curr); //new head.front()
         head.front().setPosition(this->deadSnake.getPosition()); //set position of prior
         head.front().setFillColor(sf::Color::Red);
         head.front().setSize(dupSize);
         snkTarget.draw(head.front(), snkState);
-
+        std::cout<<"line 38\n";
         head.back().setFillColor(sf::Color::Red);
         head.back().setSize(dupSize);
         head.back().setPosition(this->deadSnake.getPosition());
@@ -45,9 +46,10 @@ void snakeBody::draw(sf::RenderTarget& snkTarget, sf::RenderStates snkState) con
  void snakeBody::move()
  {
     this->deadSnake.setPosition(this->snkskin.getPosition());
-
+    std::cout<<"line 49\n";
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
+        std::cout<<"line 52\n";
         this->posX = 0;
         this->posY -= 20.f;
     }
@@ -55,34 +57,38 @@ void snakeBody::draw(sf::RenderTarget& snkTarget, sf::RenderStates snkState) con
     {
         this->posX = 0;
         this->posY += 20.f;
+        std::cout<<"line 60\n";
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         this->posX -= 20.f;
         this->posY = 0;
+        std::cout<<"line 66\n";
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         this->posX += 20.f;
         this->posY = 0;
+        std::cout<<"line 72\n";
     }
         this->snkskin.move(posX, posY);
         sf::sleep(this->time);
+        std::cout<<"line 76\n";
  };
  
 
     void snakeBody::ouroboros()
-    {
-        if(this->snkskin.getGlobalBounds().intersects(head.front().getGlobalBounds())){
-        posX && posY == 0;
-
+    {   std::cout<<"line here\n";
+        if(this->snkskin.getGlobalBounds().intersects(curr.getGlobalBounds())){
+       // posX , posY == 0;
+        std::cout<<"line 84\n";
     }
     
-        if(this->snkskin.getGlobalBounds().intersects(this->hungerPtr->weNeedFood.getGlobalBounds())){
+        else if(this->snkskin.getGlobalBounds().intersects(this->hungerPtr->weNeedFood.getGlobalBounds())){
             float randX = std::rand();
             float randY = std::rand();
             sf::Vector2f setTheTable(randX,randY);
-            
+            std::cout<<"line 91\n";
             this->hungerPtr->weNeedFood.setPosition(setTheTable);
             this->addLength();
         }
@@ -91,6 +97,7 @@ void snakeBody::draw(sf::RenderTarget& snkTarget, sf::RenderStates snkState) con
     void snakeBody::addLength()
     {
         if(this->totLen == 1){
+            std::cout<<"line 100\n";
             this->totLen++;
             this->prev.setPosition(this->curr.getPosition());
             //this->curr = new sf::RectangleShape [this->totLen];
