@@ -99,7 +99,7 @@ int main(){
     // testY = snakeHead.y;
 
     ///sf::Text testText(std::to_string(snakeHead.x), sf::Text::, 20);
-    
+
     // sf::Text testText;
     // sf::Text testText1;
     // sf::Font def;
@@ -149,8 +149,9 @@ int main(){
             snakeBody.move();
             snakeBody.ouroboros();
             app.clear();
-            app.draw(food);
             app.draw(snakeBody);
+            //app.draw(food);
+            
             app.display();
 
             // if (event.type == sf::Event::KeyPressed)

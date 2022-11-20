@@ -25,15 +25,15 @@ class snakeBody : public ::sf::Drawable
     //define elsewhere under snakeBody   
     private:
     int totLen;
-    sf::RectangleShape snkskin; //replace prev
+    sf::RectangleShape snkSkin; //replace prev
     sf::CircleShape weNeedFood;
     sf::Time time;
     
     std::vector<sf::RectangleShape>::iterator tail;
     float posX , posY;
     float x , y;
-    sf::RectangleShape curr;
-    sf::RectangleShape prev;
+    sf::RectangleShape* curr;
+    sf::RectangleShape* copy;
     
 };
 
