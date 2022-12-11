@@ -14,15 +14,25 @@ sf::RectangleShape bodySegment;
 std::vector<sf::RectangleShape>snakeBody;
 
 public:
-
-void setLen(int lengthOf, int consumed)
+Snake() = default;
+Snake(sf::Vector2f size, sf::Vector2f firstPos)
 {
-    len = lengthOf;
+    bodySegment.setSize(size);
+    bodySegment.setFillColor(sf::Color::Green);
+    bodySegment.setOutlineColor(sf::Color::Black);
+    bodySegment.setOutlineThickness(2);
+    bodySegment.setPosition(firstPos);
+}
+
+
+void setLen(int consumed)
+{
+    //len = lengthOf;
     consumption = consumed;
 }
 int getLen()
 {
-    return len , consumption;
+    return consumption;
 }
 
 void setPos(float xPos , float yPos)
@@ -35,6 +45,11 @@ void setPos(float xPos , float yPos)
 sf::Vector2f getPos()
 {
     return pos;
+}
+
+void DrawBody(sf::RenderWindow &win)
+{
+    win.draw(bodySegment);
 }
 
 // void hungry()

@@ -14,24 +14,40 @@ std::vector<sf::CircleShape>snackSack;
 
 public:
 //Snacks() = default;
-Snacks(float sz)
+sf::Vector2f FoodLocation()
 {
-    this->snack.setRadius(sz);
-    this->snack.setPosition(snackX,snackY);
-    this->snack.setFillColor(sf::Color::Red);
-    this->snack.setOutlineColor(sf::Color::Black);
+    return snackPos;
 }
 
-void setSnackPos(float x , float y)
+void GetLocation(sf::Vector2f postion)
 {
-    snackX = x;
-    snackY = y;
-    totalRendered +=1;
+    postion = snackPos;
+    FoodLocation();
 }
-float getSnackPos()
+
+
+
+Snacks(float sz, sf::Vector2f pos)
 {
-    return snackX,snackY;
+    snack.setRadius(sz);
+    snack.setPosition(pos);
+    snack.setFillColor(sf::Color::Red);
+    snack.setOutlineColor(sf::Color::Black);
+    snack.setOutlineThickness(2);
 }
+
+
+
+// void setSnackPos(float x , float y)
+// {
+//     snackX = x;
+//     snackY = y;
+//     totalRendered +=1;
+// }
+// float getSnackPos()
+// {
+//     return snackX,snackY;
+// }
 
 void countSnacks()
 {
@@ -50,7 +66,7 @@ void countSnacks()
 
 void makeSnacks(sf::RenderWindow &win)
 {
-    win.draw(this->snack);
+    win.draw(snack);
     
 }
 
