@@ -22,13 +22,13 @@ sf::Event evt;
 
 public:
 Snake() = default;
-Snake(sf::Vector2f size, sf::Vector2f firstPos)
+Snake(sf::Vector2f size, sf::Vector2f currPos)
 {
     bodySegment.setSize(size);
     bodySegment.setFillColor(sf::Color::Green);
     bodySegment.setOutlineColor(sf::Color::Black);
-    bodySegment.setOutlineThickness(2);
-    bodySegment.setPosition(firstPos);
+    bodySegment.setOutlineThickness(6);
+    bodySegment.setPosition(currPos);
 }
 
 
@@ -42,12 +42,13 @@ int getLen()
     return consumption;
 }
 
-void setPos(float xPos , float yPos)
+void setPos(sf::Vector2f position)
 {
-    x = xPos;
-    y = yPos;
-    pos.x = x;
-    pos.y = y;
+    // x = position.x;
+    // y = position.y;
+    // pos.x = x;
+    // pos.y = y;
+    pos = position;
 }
 sf::Vector2f getPos()
 {
@@ -62,7 +63,7 @@ void direction(sf::Event e, float delta)
         vel.x = -4.0f;
         vel.y = 0.0f;
         pos += vel * delta;
-        setPos(pos.x , pos.y);
+        bodySegment.setPosition(pos);
         std::cout << "Left";
     }
 

@@ -22,7 +22,7 @@ sf::Time flashElap = sf::seconds(1.0f);
 Score score;
 Snake charmer;
 
-sf::Vector2f segment(20,20);
+sf::Vector2f segment(10,10);
 sf::Vector2f snakeStart(190,190);
 
 sf::RectangleShape bg;
@@ -58,9 +58,9 @@ sf::Vector2f winSz(400,400);
 
 srand(time(NULL));
 int randomPosX1 = rand() % 354 + 20;
-int randomPosY1 = rand() % 314 + 40;
+int randomPosY1 = rand() % 350 + 45;
 int randomPosX2 = rand() % 354 + 20;
-int randomPosY2 = rand() % 314 + 40;
+int randomPosY2 = rand() % 350 + 45;
 sf::Vector2f randPos1(randomPosX1, randomPosY1);
 sf::Vector2f randPos2(randomPosX2, randomPosY2);
 
@@ -84,14 +84,13 @@ while( win.isOpen() )
 		}
     win.clear();
     
-
-    if(event.type == (sf::Event::KeyPressed))
+    if(start == false)
     {
-      keyPress = true;
-      charmer.direction(event, del);
-      charmer.DrawBody(win);
+    charmer.setPos(snakeStart);
     }
-    Snake snake(segment, snakeStart); 
+    Snake snake(segment, charmer.getPos()); 
+    
+    //snake.getPos();
     snakeSkin.push_back(snake);
         //static location until time and button input
     
@@ -120,6 +119,13 @@ while( win.isOpen() )
    
     score.SetPrompt();
 
+     if(event.type == (sf::Event::KeyPressed))
+    {
+      keyPress = true;
+      charmer.direction(event, del);
+    }
+
+
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
   
@@ -142,6 +148,7 @@ while( win.isOpen() )
     }
     if(start == false)//.asSeconds() - flash.asSeconds() >= flashElap.asSeconds() && start == false)
     {
+      
       sf::sleep(sf::seconds(.5));
       win.draw(block);
       score.DrawPrompt(win, cycle);
