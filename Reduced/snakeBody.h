@@ -16,11 +16,18 @@ float x , y;
 sf::RectangleShape bodySegment;
 std::vector<sf::RectangleShape>snakeBody;
 
+bool left;
+bool right;
+bool up;
+bool down;
 
+int add = 0;
 
 sf::Event evt;
 
 public:
+
+
 Snake() = default;
 Snake(sf::Vector2f size, sf::Vector2f currPos)
 {
@@ -28,7 +35,7 @@ Snake(sf::Vector2f size, sf::Vector2f currPos)
     bodySegment.setFillColor(sf::Color::Green);
     bodySegment.setOutlineColor(sf::Color::Black);
     bodySegment.setOutlineThickness(6);
-    bodySegment.setPosition(currPos);
+    bodySegment.move(currPos);
 }
 
 
@@ -58,16 +65,39 @@ sf::Vector2f getPos()
 void direction(sf::Event e, float delta)
 {
     evt = e;
-    if(evt.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
+    if(e.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
     {
-        vel.x = -4.0f;
+        left = true;
+        vel.x = -10.0f;
         vel.y = 0.0f;
-        pos += vel * delta;
-        bodySegment.setPosition(pos);
-        std::cout << "Left";
+      
+        
     }
-
+    else if(e.key.code == sf::Keyboard::Right && evt.KeyReleased|| evt.key.code == sf::Keyboard::D)
+    {
+        right = true;
+        vel.x = 10.0f;
+        vel.y = 0.0f;
+       
+        
+    }
+    else if(e.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
+    {
+        up = true;
+        vel.x = 0.0f;
+        vel.y = -10.0f;
+    }
+    else if(e.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::D)
+    {
+        down = true;
+        vel.x = 0.0f;
+        vel.y = 10.0f;
+        
+        
+    }
+    pos += vel * delta;
 }
+
 
 void DrawBody(sf::RenderWindow &win)
 {

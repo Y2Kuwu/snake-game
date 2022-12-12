@@ -65,7 +65,7 @@ sf::Vector2f randPos1(randomPosX1, randomPosY1);
 sf::Vector2f randPos2(randomPosX2, randomPosY2);
 
 sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
-win.setKeyRepeatEnabled(false);
+//win.setKeyRepeatEnabled(true);
 
 while( win.isOpen() )
 	{
@@ -119,11 +119,11 @@ while( win.isOpen() )
    
     score.SetPrompt();
 
-     if(event.type == (sf::Event::KeyPressed))
-    {
-      keyPress = true;
+    // if(event.type == (sf::Event::KeyPressed))
+    //{
+     // keyPress = true;
       charmer.direction(event, del);
-    }
+    //}
 
 
     for(int snek = 0; snek < snakeSkin.size(); snek++)
