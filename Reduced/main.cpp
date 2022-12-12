@@ -9,16 +9,38 @@
 
 int main()
 {
+
+bool start = false;
+int cycle = 0;
 //Snacks snack;
+sf::Clock init;
+sf::Time flash = sf::seconds(1.0f);
+sf::Time flashElap;
 Score score;
 
 sf::Vector2f segment(20,20);
+sf::Vector2f snakeStart(190,190);
+
 sf::RectangleShape bg;
 bg.setSize(sf::Vector2f(360,360));
 bg.setPosition(sf::Vector2f(20,20));
 bg.setFillColor(sf::Color::White);
 bg.setOutlineColor(sf::Color::Red);
 bg.setOutlineThickness(6);
+
+sf::RectangleShape bgBorder;
+bgBorder.setSize(sf::Vector2f(360,40));
+bgBorder.setPosition(sf::Vector2f(20,20));
+bgBorder.setFillColor(sf::Color::Red);
+
+
+sf::RectangleShape block;
+block.setSize(sf::Vector2f(360,320));
+block.setPosition(sf::Vector2f(20,60));
+block.setFillColor(sf::Color(255,255,255,128));
+block.setOutlineColor(sf::Color::Black);
+block.setOutlineThickness(4);
+
 
 std::vector<Snake>snakeSkin;
 
@@ -31,10 +53,10 @@ std::vector<sf::Vector2f>snackPos;
 sf::Vector2f winSz(400,400);
 
 srand(time(NULL));
-int randomPosX1 = rand() % 360 + 20;
-int randomPosY1 = rand() % 360 + 20;
-int randomPosX2 = rand() % 360 + 20;
-int randomPosY2 = rand() % 360 + 20;
+int randomPosX1 = rand() % 354 + 20;
+int randomPosY1 = rand() % 314 + 40;
+int randomPosX2 = rand() % 354 + 20;
+int randomPosY2 = rand() % 314 + 40;
 sf::Vector2f randPos1(randomPosX1, randomPosY1);
 sf::Vector2f randPos2(randomPosX2, randomPosY2);
 
@@ -52,10 +74,13 @@ while( win.isOpen() )
 		}
     win.clear();
 
-    Snake snake(segment, randPos1); 
+    Snake snake(segment, snakeStart); 
     snakeSkin.push_back(snake);
         //static location until time and button input
+    
     win.draw(bg);
+    win.draw(bgBorder);
+   
     //snack.countSnacks();
    
     score.SetTitle();
@@ -72,6 +97,12 @@ while( win.isOpen() )
     snacks.push_back(food1);
     snacks.push_back(food2);
    
+    score.SetScore();
+    score.DrawScore(win);
+
+    score.SetPrompt();
+    
+
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
   
@@ -86,6 +117,21 @@ while( win.isOpen() )
     } 
     }
     }
+    }
+
+     if(init.getElapsedTime().asSeconds() >= flash.asSeconds() && start == false)
+    {
+      
+      win.draw(block);
+      score.DrawPrompt(win, cycle);
+      //init.restart();
+      cycle+=1;
+    }
+    
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+      start = true;
     }
 
     win.display();
