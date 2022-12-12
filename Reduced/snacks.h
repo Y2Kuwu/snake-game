@@ -13,7 +13,7 @@ sf::CircleShape snack;
 std::vector<sf::CircleShape>snackSack;
 
 public:
-//Snacks() = default;
+Snacks() = default;
 sf::Vector2f FoodLocation()
 {
     return snackPos;
@@ -22,7 +22,6 @@ sf::Vector2f FoodLocation()
 void GetLocation(sf::Vector2f postion)
 {
     postion = snackPos;
-    FoodLocation();
 }
 
 

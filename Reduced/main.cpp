@@ -69,12 +69,9 @@ sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
 
 while( win.isOpen() )
 	{
-		// Process events
-    //sf::Time t = init.getElapsedTime();
-    //flash += init.getElapsedTime();
-    //float secs = t.asSeconds();
+
     float del = init.restart().asSeconds();
-   // t = init.restart();
+
 		sf::Event event;
 		while( win.pollEvent( event ) )
 		{
@@ -90,34 +87,42 @@ while( win.isOpen() )
     }
     Snake snake(segment, charmer.getPos()); 
     
-    //snake.getPos();
     snakeSkin.push_back(snake);
-        //static location until time and button input
-    //std::cout << charmer.getPos().x;
+
 
     win.draw(bg);
     win.draw(bgBorder);
    
-    //snack.countSnacks();
    
     score.SetTitle();
     score.DrawTitle(win);
 
     snake.DrawBody(win);
 
+  //stop pushing location or erase just use getPostion()
+
     Snacks food1(6 , randPos1);
     snackPos.push_back(randPos1);
     Snacks food2(6, randPos2);
     snackPos.push_back(randPos2);
-  
+    
+   
 
     snacks.push_back(food1);
     snacks.push_back(food2);
+
+    std::cout << snackPos.front().x;
+    std::cout << snackPos.size();
+
+    //
    
     score.SetScore();
     score.DrawScore(win);
 
-   
+  
+
+
+
     score.SetPrompt();
 
     // if(event.type == (sf::Event::KeyPressed))
@@ -137,12 +142,14 @@ while( win.isOpen() )
       }
     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
     {
-    snacks[nutrients].makeSnacks(win);
+      snacks[nutrients].makeSnacks(win);
     for(int pos = 0; pos < snackPos.size(); pos++)
     {
-    if(snackPos[pos] == snakeSkin[snek].getPos())//snake head location == snacks[nutrients].getlocation()
+
+    if(snackPos[pos].x == snakeSkin[snek].getPos().x || (snackPos[pos].y == snakeSkin[snek].getPos().y))//snake head location == snacks[nutrients].getlocation()
     {
       snacks.erase(snacks.begin());
+      std::cout << "yum";
     } 
     }
     }
