@@ -93,7 +93,8 @@ while( win.isOpen() )
     //snake.getPos();
     snakeSkin.push_back(snake);
         //static location until time and button input
-    
+    //std::cout << charmer.getPos().x;
+
     win.draw(bg);
     win.draw(bgBorder);
    
@@ -124,11 +125,16 @@ while( win.isOpen() )
      // keyPress = true;
       charmer.direction(event, del);
     //}
-
+    //std::cout << snakeSkin.size();
 
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
-  
+      //if(snakeSkin[snek].getPos().x)
+      if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
+      {
+        std::cout << snakeSkin.size();
+        snakeSkin.erase(snakeSkin.begin());
+      }
     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
     {
     snacks[nutrients].makeSnacks(win);
