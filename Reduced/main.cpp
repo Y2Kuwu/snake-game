@@ -11,12 +11,16 @@ int main()
 {
 
 bool start = false;
+bool keyPress = false;
+
 int cycle = 0;
 //Snacks snack;
 sf::Clock init;
-sf::Time flash = sf::seconds(1.0f);
-sf::Time flashElap;
+
+
+sf::Time flashElap = sf::seconds(1.0f);
 Score score;
+Snake charmer;
 
 sf::Vector2f segment(20,20);
 sf::Vector2f snakeStart(190,190);
@@ -61,10 +65,16 @@ sf::Vector2f randPos1(randomPosX1, randomPosY1);
 sf::Vector2f randPos2(randomPosX2, randomPosY2);
 
 sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
+win.setKeyRepeatEnabled(false);
 
 while( win.isOpen() )
 	{
 		// Process events
+    //sf::Time t = init.getElapsedTime();
+    //flash += init.getElapsedTime();
+    //float secs = t.asSeconds();
+    float del = init.restart().asSeconds();
+   // t = init.restart();
 		sf::Event event;
 		while( win.pollEvent( event ) )
 		{
@@ -73,7 +83,14 @@ while( win.isOpen() )
 				win.close();
 		}
     win.clear();
+    
 
+    if(event.type == (sf::Event::KeyPressed))
+    {
+      keyPress = true;
+      charmer.direction(event, del);
+      charmer.DrawBody(win);
+    }
     Snake snake(segment, snakeStart); 
     snakeSkin.push_back(snake);
         //static location until time and button input
@@ -100,8 +117,8 @@ while( win.isOpen() )
     score.SetScore();
     score.DrawScore(win);
 
+   
     score.SetPrompt();
-    
 
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
@@ -119,20 +136,20 @@ while( win.isOpen() )
     }
     }
 
-     if(init.getElapsedTime().asSeconds() >= flash.asSeconds() && start == false)
-    {
-      
-      win.draw(block);
-      score.DrawPrompt(win, cycle);
-      //init.restart();
-      cycle+=1;
-    }
-    
-
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
       start = true;
     }
+    if(start == false)//.asSeconds() - flash.asSeconds() >= flashElap.asSeconds() && start == false)
+    {
+      sf::sleep(sf::seconds(.5));
+      win.draw(block);
+      score.DrawPrompt(win, cycle);
+      
+      cycle+=1;
+    }
+    
+   
 
     win.display();
     }
