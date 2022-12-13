@@ -8,20 +8,21 @@ private:
 int points;
 int totalRendered;
 float snackX , snackY;
-sf::Vector2f snackPos;
+sf::Vector2f snackBounds;
 sf::CircleShape snack;
 std::vector<sf::CircleShape>snackSack;
+//sf::FloatRect bounds;
 
 public:
 Snacks() = default;
-sf::Vector2f FoodLocation()
+sf::Vector2f GetBounds() 
 {
-    return snackPos;
+    return snackBounds;
 }
 
-void GetLocation(sf::Vector2f postion)
+void SetBounds(sf::Vector2f pos)
 {
-    postion = snackPos;
+    snackBounds = pos;
 }
 
 
@@ -70,6 +71,47 @@ void makeSnacks(sf::RenderWindow &win)
 }
 
 
+};
+
+class Collision : private Snacks
+
+{
+sf::RectangleShape collide;
+sf::Vector2f snackBack;
+sf::Vector2f backSz;
+
+public:
+
+Collision() = default;
+
+sf::FloatRect globals;
+
+sf::Vector2f GetBack() 
+{
+    return snackBack;
+}
+
+void SetBack(sf::Vector2f back)
+{
+    snackBack = back;
+}
+
+
+Collision(sf::Vector2f backSz , sf::Vector2f backPos)
+{
+    collide.setSize(backSz);
+    collide.setPosition(backPos);
+    collide.setOutlineColor(sf::Color::Black);
+    collide.setOutlineThickness(2);
+    collide.setFillColor(sf::Color::Black);
+    globals = collide.getGlobalBounds();
+}
+
+void bgTest(sf::RenderWindow &win)
+{
+    win.draw(collide);
+    
+}
 
 
 };

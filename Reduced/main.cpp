@@ -21,6 +21,7 @@ sf::Clock init;
 sf::Time flashElap = sf::seconds(1.0f);
 Score score;
 Snake charmer;
+Collision impact;
 
 sf::Vector2f segment(10,10);
 sf::Vector2f snakeStart(190,190);
@@ -51,6 +52,8 @@ std::vector<Snake>snakeSkin;
 std::vector<Snacks>snacks;
 std::vector<Snacks>::iterator snx;
 std::vector<sf::Vector2f>snackPos;
+
+sf::Vector2f collisionBox(12,12);
 
 //int nutrients = 0;
 
@@ -102,57 +105,60 @@ while( win.isOpen() )
   //stop pushing location or erase just use getPostion()
 
     Snacks food1(6 , randPos1);
-    snackPos.push_back(randPos1);
+    //snackPos.push_back(randPos1);
+    Collision snack1(collisionBox, randPos1);
     Snacks food2(6, randPos2);
-    snackPos.push_back(randPos2);
-    
+    //snackPos.push_back(randPos2);
+    Collision snack2(collisionBox, randPos2);
+    //food1.SetBounds(randPos1);
    
 
     snacks.push_back(food1);
     snacks.push_back(food2);
 
-    std::cout << snackPos.front().x;
-    std::cout << snackPos.size();
+    // sf::Vector2f frontSnack;
+    // sf::Vector2f backSnack;
+
+    // std::cout << snackPos.front().x;
+    // std::cout << "here";
+    // std::cout << snackPos.back().x;
 
     //
-   
     score.SetScore();
     score.DrawScore(win);
-
-  
-
-
-
     score.SetPrompt();
-
+    //snack1.bgTest(win);
+    
     // if(event.type == (sf::Event::KeyPressed))
     //{
      // keyPress = true;
       charmer.direction(event, del);
     //}
     //std::cout << snakeSkin.size();
-
+     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
+    {
+      snacks[nutrients].makeSnacks(win);
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
       //if(snakeSkin[snek].getPos().x)
       if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
       {
-        std::cout << snakeSkin.size();
+        //std::cout << charmer.getPos().x;
+        //std::cout << snake.getPos().x;
         snakeSkin.erase(snakeSkin.begin());
       }
-    for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
-    {
-      snacks[nutrients].makeSnacks(win);
-    for(int pos = 0; pos < snackPos.size(); pos++)
-    {
-
-    if(snackPos[pos].x == snakeSkin[snek].getPos().x || (snackPos[pos].y == snakeSkin[snek].getPos().y))//snake head location == snacks[nutrients].getlocation()
-    {
-      snacks.erase(snacks.begin());
-      std::cout << "yum";
-    } 
+      // if(charmer.getPos() == snacks[nutrients].getGlobalBounds())
+      // {
+      //   std::cout << "yum";
+      // }
+   
+      
+    // if(randPos1.x == snake.getPos().x && randPos1.y == snake.getPos().y || randPos2.x == snake.getPos().x && randPos2.y == snake.getPos().y)
+    // {
+    //     std::cout << "food";
+    // }
     }
-    }
+    
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
@@ -175,3 +181,19 @@ while( win.isOpen() )
     }
     return EXIT_SUCCESS;
 }
+
+
+
+
+
+//  for(int pos = 0; pos < snackPos.size(); pos++)
+//     {
+
+   
+//     }
+
+//  if(snackPos[pos].x == snakeSkin[snek].getPos().x || (snackPos[pos].y == snakeSkin[snek].getPos().y))//snake head location == snacks[nutrients].getlocation()
+//     {
+//       snacks.erase(snacks.begin());
+//       std::cout << "yum";
+//     } 
