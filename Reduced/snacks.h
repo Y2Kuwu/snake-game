@@ -96,6 +96,11 @@ void SetBack(sf::Vector2f back)
     snackBack = back;
 }
 
+sf::FloatRect GetBox()
+{
+    return globals;
+}
+
 
 Collision(sf::Vector2f backSz , sf::Vector2f backPos)
 {

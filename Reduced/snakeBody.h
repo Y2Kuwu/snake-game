@@ -68,7 +68,7 @@ void direction(sf::Event e, float delta)
     if(e.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
     {
         left = true;
-        vel.x = -30.0f;
+        vel.x = -50.0f;
         vel.y = 0.0f;
       
         
@@ -76,7 +76,7 @@ void direction(sf::Event e, float delta)
     else if(e.key.code == sf::Keyboard::Right && evt.KeyReleased|| evt.key.code == sf::Keyboard::D)
     {
         right = true;
-        vel.x = 30.0f;
+        vel.x = 50.0f;
         vel.y = 0.0f;
        
         
@@ -85,13 +85,13 @@ void direction(sf::Event e, float delta)
     {
         up = true;
         vel.x = 0.0f;
-        vel.y = -30.0f;
+        vel.y = -50.0f;
     }
     else if(e.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::D)
     {
         down = true;
         vel.x = 0.0f;
-        vel.y = 30.0f;
+        vel.y = 50.0f;
         
         
     }
