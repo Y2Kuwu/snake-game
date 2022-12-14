@@ -2,35 +2,56 @@
 #define SNACKS_H
 #include<SFML/Graphics.hpp>
 #include<iostream>
+#include <stdlib.h>
 
 class Snacks{
 private:
 int points;
 int totalRendered;
 float snackX , snackY;
-sf::Vector2f snackBounds;
+sf::Vector2f snackBounds1;
+sf::Vector2f snackBounds2;
 sf::CircleShape snack;
 std::vector<sf::CircleShape>snackSack;
 //sf::FloatRect bounds;
 
 public:
 Snacks() = default;
-sf::Vector2f GetBounds() 
+sf::Vector2f GetBounds1() 
 {
-    return snackBounds;
+    return snackBounds1;
 }
 
-void SetBounds(sf::Vector2f pos)
+void SetBounds1(sf::Vector2f pos1)
 {
-    snackBounds = pos;
+    snackBounds1 = pos1;
+}
+
+sf::Vector2f GetBounds2() 
+{
+    return snackBounds1;
+}
+
+void SetBounds2(sf::Vector2f pos2)
+{
+    snackBounds2 = pos2;
+}
+
+void SetPos1()
+{
+    snack.setPosition(snackBounds1);
+}
+
+void SetPos2()
+{
+    snack.setPosition(snackBounds2);
 }
 
 
-
-Snacks(float sz, sf::Vector2f pos)
+Snacks(float sz, sf::Vector2f spos)
 {
     snack.setRadius(sz);
-    snack.setPosition(pos);
+    snack.setPosition(spos);
     snack.setFillColor(sf::Color::Red);
     snack.setOutlineColor(sf::Color::Black);
     snack.setOutlineThickness(2);
@@ -66,6 +87,7 @@ void countSnacks()
 
 void makeSnacks(sf::RenderWindow &win)
 {
+    //snack.setPosition(snackBounds1);
     win.draw(snack);
     
 }
@@ -101,8 +123,13 @@ sf::FloatRect GetBox()
     return globals;
 }
 
+void RandSnackLoc()
+{
+    srand(time(NULL));
+}
 
-Collision(sf::Vector2f backSz , sf::Vector2f backPos)
+
+Collision(sf::Vector2f backSz, sf::Vector2f backPos)
 {
     collide.setSize(backSz);
     collide.setPosition(backPos);

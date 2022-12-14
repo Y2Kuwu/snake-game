@@ -7,13 +7,20 @@
 #include <time.h>   
 #include <iostream>
 
+
+
 int main()
 {
 
+sf::Time snackEaten;
+
+srand(time(NULL));
 bool start = false;
 bool keyPress = false;
+bool drawFood;
 
 int cycle = 0;
+int lifeCycle = 0;
 //Snacks snack;
 sf::Clock init;
 
@@ -22,6 +29,7 @@ sf::Time flashElap = sf::seconds(1.0f);
 Score score;
 Snake charmer;
 Collision impact;
+Snacks snax;
 
 sf::Vector2f segment(10,10);
 sf::Vector2f snakeStart(190,190);
@@ -50,19 +58,17 @@ block.setOutlineThickness(4);
 std::vector<Snake>snakeSkin;
 
 std::vector<Snacks>snacks;
-std::vector<Snacks>::iterator snxFront;
-std::vector<Snacks>::iterator snxBack;
 std::vector<sf::Vector2f>snackOrder;
 
-sf::Vector2f collisionBox(12,12);
+sf::Vector2f collisionBox(15,15);
 
 //int nutrients = 0;
 
 sf::Vector2f winSz(400,400);
 
-int *newx1l = new int(rand() % 354 + 20);
 
-srand(time(NULL));
+
+
 // int *randomPosX1 = NULL; 
 // int *randomPosY1 = NULL; 
 // int *randomPosX2 = NULL; 
@@ -73,12 +79,7 @@ srand(time(NULL));
 // randomPosY1 = new int(rand() % 350 + 45);
 // randomPosX2 = new int(rand() % 354 + 20);
 // randomPosY2 = new int(rand() % 350 + 45);
-int randomPosX1 = (rand() % 354 + 20);
-int randomPosY1 = (rand() % 350 + 45);
-int randomPosX2 = (rand() % 354 + 20);
-int randomPosY2 = (rand() % 350 + 45);
-sf::Vector2f randPos1(randomPosX1, randomPosY1);
-sf::Vector2f randPos2(randomPosX2, randomPosY2);
+
 
 sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
 //win.setKeyRepeatEnabled(true);
@@ -102,8 +103,55 @@ while( win.isOpen() )
     charmer.setPos(snakeStart);
     }
     Snake snake(segment, charmer.getPos()); 
-    
-    snakeSkin.push_back(snake);
+    //was push back
+    snakeSkin.insert(snakeSkin.begin(),snake);
+
+
+int randomPosX1 = (rand() % 340 + 20);
+int randomPosY1 = (rand() % 310 + 60);
+int randomPosX2 = (rand() % 340 + 20);
+int randomPosY2 = (rand() % 310 + 60);
+
+
+
+sf::Vector2f randPos1(randomPosX1, randomPosY1);
+sf::Vector2f randPos2(randomPosX2, randomPosY2);
+std::vector<sf::Vector2f>randSize;
+//randSize.insert(randSize.begin(),randPos1);
+//randSize.insert(randSize.begin()+1,randPos2);
+//snax.SetBounds1(randPos1);
+//snax.GetBounds1();
+//snax.SetPos1();
+
+Snacks food1(6, randPos1);
+//snackPos.push_back(randPos1);
+//snacks.insert(snacks.begin(), food1);
+Collision snack1(collisionBox, randPos1);
+//Snacks food2(6);
+//snackPos.push_back(randPos2);
+
+//Collision snack2(collisionBox);
+
+//food1.SetBounds(randPos1);
+//snacks.insert(snacks.begin(), food1);
+//snacks.insert(snacks.begin()+1, food1);
+
+
+
+//if(snacks.size() <= 2 && randSize.size() <= 2)
+//{
+  // food1.SetBounds1(randSize.front());
+  // snax.SetBounds2(randSize.back());
+  // food1.GetBounds1();
+  // food1.SetPos1();
+
+  //food1.SetBounds1(randPos1);
+  //snax.SetBounds2(randPos1);
+  //food1.GetBounds1();
+  //food1.SetPos1();
+  
+//}
+
 
 
     win.draw(bg);
@@ -117,40 +165,23 @@ while( win.isOpen() )
 
   //stop pushing location or erase just use getPostion()
 
-    Snacks food1(6 , randPos1);
-    //snackPos.push_back(randPos1);
-    Collision snack1(collisionBox, randPos1);
-    Snacks food2(6, randPos2);
-    //snackPos.push_back(randPos2);
-    Collision snack2(collisionBox, randPos2);
-    //food1.SetBounds(randPos1);
-   
-
-    //snxFront = snacks.begin();
-    //snacks.insert(snxFront, food1);
-    //snxBack = snacks.end();
-    snacks.push_back(food1);
-    snacks.push_back(food2);
-
-    // sf::Vector2f frontSnack;
-    // sf::Vector2f backSnack;
-
-    // std::cout << snackPos.front().x;
-    // std::cout << "here";
-    // std::cout << snackPos.back().x;
 
     //
     score.SetScore();
     score.DrawScore(win);
     score.SetPrompt();
-    //snack1.bgTest(win);
-    // if(event.type == (sf::Event::KeyPressed))
-    //{
-     // keyPress = true;
-      charmer.direction(event, del);
-    //}
-    //std::cout << snakeSkin.size();
-    
+    charmer.direction(event, del);
+   
+  // for(int s  = 0; s < snacks.size(); s++)
+  // {
+  //   snacks[s].makeSnacks(win);
+  // }
+    // if(lifeCycle!= 0)
+    // {
+    // food1.makeSnacks(win);
+    // snack1.bgTest(win);
+    // }
+
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
       //if(snakeSkin[snek].getPos().x)
@@ -159,35 +190,49 @@ while( win.isOpen() )
         //std::cout << charmer.getPos().x;
         //std::cout << snake.getPos().x;
         snakeSkin.erase(snakeSkin.begin());
+       
       }
-      for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
-    {
-      snacks[nutrients].makeSnacks(win);
-      if(snack1.GetBox().contains(charmer.getPos().x , charmer.getPos().y))
-      // if(charmer.getPos() == snacks[nutrients].getGlobalBounds())
-       {
-         std::cout << "1";
-         //snacks.pop_back();
-         snacks.erase(snacks.begin()+1);
-         //delete randomPosX1;
-
-       }
-      else if(snack2.GetBox().contains(charmer.getPos().x , charmer.getPos().y))
-       {
-         std::cout << "2";
-         snacks.erase(snacks.begin());
-       }
+ 
+      //for(int n = 0; n < randSize.size(); n++)
+     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
+    //{
+      if(snacks.size() <= 2)
+      {
+      
+         impact.bgTest(win);
+         food1.makeSnacks(win);
+         //food2.makeSnacks(win);
+      }
+      //std::cout << randSize.size();  //inserting reads as two maxed out at a time
+      //if(randSize[n].x == charmer.getPos().x && randSize[n].y == charmer.getPos().y)
+      //if(randPos1.x  == charmer.getPos().x && randPos1.y == charmer.getPos().y)
+ 
+    //    if(snack1.GetBox().contains(charmer.getPos().x , charmer.getPos().y))
+    // //   //if(charmer.getPos() == snacks[nutrients].getGlobalBounds())
+    // //    {
+    //       std::cout << "1";
+         
+    //      snacks.erase(snacks.begin());
+         
+    //    }
+    // }
+    //    if(snack2.GetBox().contains(charmer.getPos().x , charmer.getPos().y))
+    //    {
+    //      std::cout << "2";
+    //      snacks.erase(snacks.begin()+1);
+    //    }
+    
     //{
     //   std::cout << "yum";
-    }
+    
       
     // if(randPos1.x == snake.getPos().x && randPos1.y == snake.getPos().y || randPos2.x == snake.getPos().x && randPos2.y == snake.getPos().y)
     // {
     //     std::cout << "food";
-    // }
+  
     }
     
-    
+   
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
