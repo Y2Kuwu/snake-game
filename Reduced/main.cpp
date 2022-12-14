@@ -11,10 +11,11 @@
 
 int main()
 {
+bool callRand = false;;
 
-sf::Time snackEaten;
+srand ((unsigned) time(0));
 
-srand(time(NULL));
+
 bool start = false;
 bool keyPress = false;
 bool drawFood;
@@ -61,7 +62,7 @@ std::vector<Snacks>snacks;
 std::vector<sf::Vector2f>snackOrder;
 
 sf::Vector2f collisionBox(15,15);
-
+sf::Vector2f collisionBox1(15,80);
 //int nutrients = 0;
 
 sf::Vector2f winSz(400,400);
@@ -79,6 +80,11 @@ sf::Vector2f winSz(400,400);
 // randomPosY1 = new int(rand() % 350 + 45);
 // randomPosX2 = new int(rand() % 354 + 20);
 // randomPosY2 = new int(rand() % 350 + 45);
+
+int randomPosX1 = (rand() % 340 + 20);
+int randomPosY1 = (rand() % 310 + 60);
+int randomPosX2 = (rand() % 340 + 20);
+int randomPosY2 = (rand() % 310 + 60);
 
 
 sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
@@ -107,53 +113,23 @@ while( win.isOpen() )
     snakeSkin.insert(snakeSkin.begin(),snake);
 
 
-int randomPosX1 = (rand() % 340 + 20);
-int randomPosY1 = (rand() % 310 + 60);
-int randomPosX2 = (rand() % 340 + 20);
-int randomPosY2 = (rand() % 310 + 60);
-
-
-
-sf::Vector2f randPos1(randomPosX1, randomPosY1);
-sf::Vector2f randPos2(randomPosX2, randomPosY2);
-std::vector<sf::Vector2f>randSize;
-//randSize.insert(randSize.begin(),randPos1);
-//randSize.insert(randSize.begin()+1,randPos2);
-//snax.SetBounds1(randPos1);
-//snax.GetBounds1();
-//snax.SetPos1();
-
-Snacks food1(6, randPos1);
-//snackPos.push_back(randPos1);
-//snacks.insert(snacks.begin(), food1);
-Collision snack1(collisionBox, randPos1);
-//Snacks food2(6);
-//snackPos.push_back(randPos2);
-
-//Collision snack2(collisionBox);
-
-//food1.SetBounds(randPos1);
-//snacks.insert(snacks.begin(), food1);
-//snacks.insert(snacks.begin()+1, food1);
-
-
-
-//if(snacks.size() <= 2 && randSize.size() <= 2)
-//{
-  // food1.SetBounds1(randSize.front());
-  // snax.SetBounds2(randSize.back());
-  // food1.GetBounds1();
-  // food1.SetPos1();
-
-  //food1.SetBounds1(randPos1);
-  //snax.SetBounds2(randPos1);
-  //food1.GetBounds1();
-  //food1.SetPos1();
-  
-//}
-
-
-
+     std::vector<sf::Vector2f>randSize;
+     sf::Vector2f randPos1(randomPosX1, randomPosY1);
+     sf::Vector2f randPos2(randomPosX2, randomPosY2);
+     if(callRand == false)
+     {
+     randSize.insert(randSize.begin(),randPos1);
+     randSize.insert(randSize.begin()+1,randPos2);
+     }
+    Snacks food(6);
+    Snacks food2(6);
+    food.SetBounds1(randSize.front());
+    food.SetPos1();
+    food2.SetBounds2(randSize.back());
+    food2.SetPos2();
+    snacks.insert(snacks.begin(), food);
+    snacks.insert(snacks.begin()+1, food2);
+ 
     win.draw(bg);
     win.draw(bgBorder);
    
@@ -163,46 +139,34 @@ Collision snack1(collisionBox, randPos1);
 
     snake.DrawBody(win);
 
-  //stop pushing location or erase just use getPostion()
 
-
-    //
     score.SetScore();
     score.DrawScore(win);
     score.SetPrompt();
     charmer.direction(event, del);
    
-  // for(int s  = 0; s < snacks.size(); s++)
-  // {
-  //   snacks[s].makeSnacks(win);
-  // }
-    // if(lifeCycle!= 0)
-    // {
-    // food1.makeSnacks(win);
-    // snack1.bgTest(win);
-    // }
 
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
       //if(snakeSkin[snek].getPos().x)
       if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
       {
-        //std::cout << charmer.getPos().x;
-        //std::cout << snake.getPos().x;
         snakeSkin.erase(snakeSkin.begin());
        
       }
  
-      //for(int n = 0; n < randSize.size(); n++)
-     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
+     //for(int n = 0; n < randSize.size(); n++)
+     //{
+     
     //{
-      if(snacks.size() <= 2)
-      {
-      
-         impact.bgTest(win);
-         food1.makeSnacks(win);
-         //food2.makeSnacks(win);
-      }
+    
+     
+    }
+    for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
+     //for(auto f : snacks)
+    {
+      snacks[nutrients].makeSnacks(win);
+    }
       //std::cout << randSize.size();  //inserting reads as two maxed out at a time
       //if(randSize[n].x == charmer.getPos().x && randSize[n].y == charmer.getPos().y)
       //if(randPos1.x  == charmer.getPos().x && randPos1.y == charmer.getPos().y)
@@ -230,7 +194,7 @@ Collision snack1(collisionBox, randPos1);
     // {
     //     std::cout << "food";
   
-    }
+    
     
    
 

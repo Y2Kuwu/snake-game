@@ -48,10 +48,10 @@ void SetPos2()
 }
 
 
-Snacks(float sz, sf::Vector2f spos)
+Snacks(float sz)
 {
     snack.setRadius(sz);
-    snack.setPosition(spos);
+    //snack.setPosition(spos);
     snack.setFillColor(sf::Color::Red);
     snack.setOutlineColor(sf::Color::Black);
     snack.setOutlineThickness(2);
@@ -129,10 +129,10 @@ void RandSnackLoc()
 }
 
 
-Collision(sf::Vector2f backSz, sf::Vector2f backPos)
+Collision(sf::Vector2f backSz)
 {
     collide.setSize(backSz);
-    collide.setPosition(backPos);
+    //collide.setPosition(backPos);
     collide.setOutlineColor(sf::Color::Black);
     collide.setOutlineThickness(2);
     collide.setFillColor(sf::Color::Black);
