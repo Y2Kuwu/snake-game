@@ -109,7 +109,10 @@ Collision() = default;
 
 sf::FloatRect globals;
 
-
+sf::Vector2f GetImpact1() 
+{
+    return impactBounds1;
+}
 
 void SetImpactBounds1(sf::Vector2f impact1)
 {
@@ -121,26 +124,21 @@ void SetImpact1()
     collide.setPosition(impactBounds1);
 }
 
-
+sf::Vector2f GetImpact2() 
+{
+    return impactBounds2;
+}
 
 void SetImpactBounds2(sf::Vector2f impact2)
 {
     impactBounds2 = impact2;
 }
+
 void SetImpact2()
 {
     collide.setPosition(impactBounds2);
 }
 
-sf::Vector2f GetImpact1() 
-{
-    return impactBounds1;
-}
-
-sf::Vector2f GetImpact2() 
-{
-    return impactBounds2;
-}
 // sf::FloatRect GetBox()
 // {
 //     return globals;
