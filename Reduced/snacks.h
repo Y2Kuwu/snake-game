@@ -17,6 +17,7 @@ std::vector<sf::CircleShape>snackSack;
 
 public:
 Snacks() = default;
+~Snacks(){};
 sf::Vector2f GetBounds1() 
 {
     return snackBounds1;
@@ -46,6 +47,7 @@ void SetPos2()
 {
     snack.setPosition(snackBounds2);
 }
+
 
 
 Snacks(float sz)
@@ -106,7 +108,7 @@ sf::Vector2f backSz;
 public:
 
 Collision() = default;
-
+~Collision(){};
 sf::FloatRect globals;
 
 sf::Vector2f GetImpact1() 
@@ -138,6 +140,7 @@ void SetImpact2()
 {
     collide.setPosition(impactBounds2);
 }
+
 
 // sf::FloatRect GetBox()
 // {
