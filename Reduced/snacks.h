@@ -99,7 +99,8 @@ class Collision : private Snacks
 
 {
 sf::RectangleShape collide;
-sf::Vector2f snackBack;
+sf::Vector2f impactBounds1;
+sf::Vector2f impactBounds2;
 sf::Vector2f backSz;
 
 public:
@@ -108,25 +109,47 @@ Collision() = default;
 
 sf::FloatRect globals;
 
-sf::Vector2f GetBack() 
+
+
+void SetImpactBounds1(sf::Vector2f impact1)
 {
-    return snackBack;
+    impactBounds1 = impact1;
 }
 
-void SetBack(sf::Vector2f back)
+void SetImpact1()
 {
-    snackBack = back;
+    collide.setPosition(impactBounds1);
 }
 
-sf::FloatRect GetBox()
+
+
+void SetImpactBounds2(sf::Vector2f impact2)
 {
-    return globals;
+    impactBounds2 = impact2;
+}
+void SetImpact2()
+{
+    collide.setPosition(impactBounds2);
 }
 
-void RandSnackLoc()
+sf::Vector2f GetImpact1() 
 {
-    srand(time(NULL));
+    return impactBounds1;
 }
+
+sf::Vector2f GetImpact2() 
+{
+    return impactBounds2;
+}
+// sf::FloatRect GetBox()
+// {
+//     return globals;
+// }
+
+// void RandSnackLoc()
+// {
+//     srand(time(NULL));
+// }
 
 
 Collision(sf::Vector2f backSz)

@@ -33,6 +33,7 @@ Collision impact;
 Snacks snax;
 
 sf::Vector2f segment(10,10);
+sf::Vector2i segRect(10,10);
 sf::Vector2f snakeStart(190,190);
 
 sf::RectangleShape bg;
@@ -61,8 +62,10 @@ std::vector<Snake>snakeSkin;
 std::vector<Snacks>snacks;
 std::vector<sf::Vector2f>snackOrder;
 
+std::vector<Collision>collide;
+
 sf::Vector2f collisionBox(15,15);
-sf::Vector2f collisionBox1(15,80);
+sf::Vector2i collisionRect(15,15);
 //int nutrients = 0;
 
 sf::Vector2f winSz(400,400);
@@ -121,15 +124,25 @@ while( win.isOpen() )
      randSize.insert(randSize.begin(),randPos1);
      randSize.insert(randSize.begin()+1,randPos2);
      }
-    Snacks food(6);
+
+     //lump in with above bool?? //erase all at same time??
+    Snacks food1(6);
     Snacks food2(6);
-    food.SetBounds1(randSize.front());
-    food.SetPos1();
+    Collision impact1(collisionBox);
+    Collision impact2(collisionBox);
+    food1.SetBounds1(randSize.front());
+    food1.SetPos1();
+    impact1.SetImpactBounds1(randSize.front());
+    impact1.SetImpact1();
     food2.SetBounds2(randSize.back());
     food2.SetPos2();
-    snacks.insert(snacks.begin(), food);
+    impact2.SetImpactBounds2(randSize.back());
+    impact2.SetImpact2();
+    snacks.insert(snacks.begin(), food1);
     snacks.insert(snacks.begin()+1, food2);
- 
+    collide.insert(collide.begin(),impact1);
+    collide.insert(collide.begin()+1,impact2);
+
     win.draw(bg);
     win.draw(bgBorder);
    
@@ -144,28 +157,65 @@ while( win.isOpen() )
     score.DrawScore(win);
     score.SetPrompt();
     charmer.direction(event, del);
-   
+    sf::Vector2i snkPos;
+    sf::IntRect snakeRect(snkPos,segRect);
+
+    sf::Vector2i boxPos1;
+    sf::IntRect boxRect1(boxPos1, collisionRect);
+
+     sf::Vector2i boxPos2;
+    sf::IntRect boxRect2(boxPos2, collisionRect);
 
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
       //if(snakeSkin[snek].getPos().x)
       if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
       {
+        //std::cout << charmer.getPos().x;
+       // std::cout << "______";
+        //charmer.getPos();
+        snkPos.x = charmer.getPos().x; 
+        snkPos.y = charmer.getPos().y;
+        std::cout << snkPos.x;
+        //snakeRect(snakeSkin[snek].getPos().x, snakeSkin[snek].getPos().y, segment.x, segment.y);
+        
+
         snakeSkin.erase(snakeSkin.begin());
-       
       }
  
-     //for(int n = 0; n < randSize.size(); n++)
-     //{
-     
-    //{
-    
-     
     }
     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
      //for(auto f : snacks)
     {
       snacks[nutrients].makeSnacks(win);
+      //collide[nutrients].bgTest(win);
+    }
+    for(int box = 0; box < collide.size(); box++)
+    {
+        // boxPos.x = collide[box].GetImpact1().x;
+        boxPos1.x = impact1.GetImpact1().x;
+        boxPos1.y = impact1.GetImpact1().y;
+
+        boxPos2.x = impact1.GetImpact2().x;
+        boxPos2.y = impact1.GetImpact2().y;
+
+        bool intersection1 = snakeRect.contains(boxPos1.x, boxPos1.y);
+        bool inter1 = boxRect1.contains(boxPos1.x, boxPos1.y);
+        //set up false?
+        bool intersection2 = snakeRect.contains(boxPos2.x, boxPos2.y);
+        bool inter2 = boxRect2.contains(boxPos2.x, boxPos2.y);
+        sf::IntRect phase;
+        bool majorCollision1 = snakeRect.intersects(boxRect1 , phase);
+        bool majorCollision2 = snakeRect.intersects(boxRect2 , phase);
+        
+
+        //std::cout << boxPos1.x;
+        //collide[box].bgTest(win);
+       if(majorCollision1 || majorCollision2)
+       //if( snakeRect.contains(boxPos1) || snakeRect.contains(boxPos2))
+       {
+          std::cout << "collision";
+       }
     }
       //std::cout << randSize.size();  //inserting reads as two maxed out at a time
       //if(randSize[n].x == charmer.getPos().x && randSize[n].y == charmer.getPos().y)
