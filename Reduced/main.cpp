@@ -15,6 +15,8 @@ int main()
 bool callRand;
 bool callFood;
 
+bool plump = false;
+
 srand (time(0));
 
 
@@ -23,12 +25,16 @@ bool keyPress = false;
 bool drawFood;
 
 int cycle = 0;
+int consumed = 0;
 sf::Clock init;
 
 
 sf::Time flashElap = sf::seconds(1.0f);
 Score score;
 Snake charmer;
+
+Snake *newSnake;
+
 Collision impact;
 // Snacks* snack1 = new Snacks;
 // Snacks* snack2 = new Snacks;
@@ -108,21 +114,27 @@ while( win.isOpen() )
     snakeSkin.insert(snakeSkin.begin(),snake);
     sf::Vector2f randPos1;
     sf::Vector2f randPos2;
-
+      //insert again if true??
     if(callRand == true)
 {
-   randomPosX1 = 0;
-   randomPosX2 = 0;
-   randomPosY1 = 0;
-   randomPosY2 = 0;
-   std::cout << "reset";
+  
+   //Snake snakeSegment(segment, charmer.getPos().x - 50);
+   //make new segment here
+   
+  //  randomPosX1 = 0;
+  //  randomPosX2 = 0;
+  //  randomPosY1 = 0;
+  //  randomPosY2 = 0;
+   //std::cout << "reset";
+
+   
 randomPosX1 = (rand() % 340 + 20);
 randomPosY1 = (rand() % 310 + 60);
 randomPosX2 = (rand() % 340 + 20);
 randomPosY2 = (rand() % 310 + 60);
+
 callRand = false;
 }
-    
     win.draw(bg);
     win.draw(bgBorder);
    
@@ -131,15 +143,20 @@ callRand = false;
 
     snake.DrawBody(win);
 
+    if(plump == true)
+    {
+    newSnake->DrawBody(win);
+    }
+
     if(callRand == false)
      {
     sf::Vector2f randPos1(randomPosX1, randomPosY1);
     sf::Vector2f randPos2(randomPosX2, randomPosY2);
-
+    
     Snacks snack1;
     Snacks snack2;
-    Snacks food1; //= new Snacks(6);
-    Snacks food2; //= new Snacks(6);
+    Snacks food1(6); //= new Snacks(6);
+    Snacks food2(6); //= new Snacks(6);
     Collision impact1(collisionBox);
     Collision impact2(collisionBox);
 
@@ -157,12 +174,13 @@ callRand = false;
     food2.SetBounds2(randSize.back());
     food2.SetPos2();
 
+
     impact2.SetImpactBounds2(randSize.back());
     impact2.SetImpact2();
 
     snacks.insert(snacks.begin(), food1);
     snacks.insert(snacks.begin()+1, food2);
-
+    //std::cout << snacks.size();
     collide.insert(collide.begin(),impact1);
     collide.insert(collide.begin()+1,impact2);
     }
@@ -173,7 +191,7 @@ callRand = false;
     score.DrawScore(win);
     score.SetPrompt();
     charmer.direction(event, del);
-
+    
 
     //collision rects
     sf::Vector2f snkPos;
@@ -197,27 +215,36 @@ callRand = false;
       
       if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
       {
+       // std::cout << charmer.setSegPos().x;
        // std::cout << charmer.getPos().x;
        // std::cout << "______";
         //charmer.getPos();
-       
+        //std::cout << consumed;
         //std::cout << snkPos.x;
         //snakeRect(snakeSkin[snek].getPos().x, snakeSkin[snek].getPos().y, segment.x, segment.y);
         snakeSkin.erase(snakeSkin.begin());
-      }
-    
-     
+     }
+
+
+     sf::Vector2f test(80,80);
  
     
     //keep simple
     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
     {
       snacks[nutrients].makeSnacks(win);
-      collide[nutrients].bgTest(win);
+      //collide[nutrients].bgTest(win);
       if( snakeRect.intersects(boxRect1) || snakeRect.intersects(boxRect2))
       {
         std::cout << "hit";
-      
+        consumed +=1;
+        score.EatFood(consumed);
+        charmer.setLen(consumed);
+        
+        newSnake = new Snake(segment, charmer.setSegPos());
+        snakeSkin.insert(snakeSkin.begin(), *newSnake);
+        
+        
 
         collide.clear();
         snacks.clear();
@@ -230,18 +257,18 @@ callRand = false;
     //sf::Vector2f randPos1(randomPosX1, randomPosY1);
     //sf::Vector2f randPos2(randomPosX2, randomPosY2);
 
-    Snacks snack1;
-    Snacks snack2;
-    Snacks food1; //= new Snacks(6);
-    Snacks food2; //= new Snacks(6);
-    Collision impact1(collisionBox);
-    Collision impact2(collisionBox);
+    // Snacks snack1;
+    // Snacks snack2;
+    // Snacks food1; //= new Snacks(6);
+    // Snacks food2; //= new Snacks(6);
+    // Collision impact1(collisionBox);
+    // Collision impact2(collisionBox);
 
 
 
         
      callRand = true;
-
+     plump = true;
     
 
      //callFood = true;

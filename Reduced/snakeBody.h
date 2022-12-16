@@ -5,11 +5,15 @@
 class Snake
 {
 private:
-int len = 3;
-int consumption = 0;
+//int len = 3;
+//
+//length == consumption
+float consumption = 0; // 
+//
 int speed;
 
 sf::Vector2f pos;
+sf::Vector2f segPos;
 sf::Vector2f vel;
 
 float x , y;
@@ -20,6 +24,8 @@ bool left;
 bool right;
 bool up;
 bool down;
+
+bool traj;
 
 int add = 0;
 
@@ -62,6 +68,54 @@ sf::Vector2f getPos()
     return pos;
 }
 
+sf::Vector2f setSegPos()
+{
+    return segPos;
+}
+
+void setSegXY(float newX , float newY)
+{
+    x = newX;
+    y = newY;
+    segPos.x = x;
+    segPos.y = y;
+}
+
+float getSegXY()
+{
+    return x && y;
+}
+
+void setDir(bool dir) //change to int or float 
+//instead of bool make pos absolute
+{
+    if(left == dir)
+    {
+        //dir == left;
+        dir = traj;
+    }
+     if(right == dir)
+    {
+        //dir == right;
+        dir = traj;
+    }
+     if(up == dir)
+    {
+        //dir == up;
+        dir = traj;
+    }
+     if(down == dir)
+    {
+        //dir == down;
+        dir = traj;
+    }
+}
+
+bool getDir()
+{
+    return traj;
+}
+
 void direction(sf::Event e, float delta)
 {
     evt = e;
@@ -70,28 +124,30 @@ void direction(sf::Event e, float delta)
         left = true;
         vel.x = -50.0f;
         vel.y = 0.0f;
-      
+        setSegXY(pos.x/2*consumption+1 , pos.y);
         
     }
-    else if(e.key.code == sf::Keyboard::Right && evt.KeyReleased|| evt.key.code == sf::Keyboard::D)
+    if(e.key.code == sf::Keyboard::Right && evt.KeyReleased|| evt.key.code == sf::Keyboard::D)
     {
         right = true;
         vel.x = 50.0f;
         vel.y = 0.0f;
-       
+        setSegXY(pos.x/2*consumption+1 , pos.y);
         
     }
-    else if(e.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
+    if(e.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
     {
         up = true;
         vel.x = 0.0f;
         vel.y = -50.0f;
+        setSegXY(pos.x , pos.y/2*consumption+1);
     }
-    else if(e.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::D)
+    if(e.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::D)
     {
         down = true;
         vel.x = 0.0f;
         vel.y = 50.0f;
+        setSegXY(pos.x , pos.y/2*consumption+1);
         
         
     }
