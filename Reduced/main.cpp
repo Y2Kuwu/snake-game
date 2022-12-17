@@ -15,7 +15,7 @@ int main()
 bool callRand;
 bool callFood;
 
-bool plump = false;
+int plump = 0;
 
 srand (time(0));
 
@@ -33,7 +33,7 @@ sf::Time flashElap = sf::seconds(1.0f);
 Score score;
 Snake charmer;
 
-Snake *newSnake;
+sf::Vector2f dir = {0.0f , 0.0f};
 
 Collision impact;
 // Snacks* snack1 = new Snacks;
@@ -66,12 +66,16 @@ block.setOutlineThickness(4);
 
 
 std::vector<Snake>snakeSkin;
+std::vector<Snake>snk;
 
 std::vector<Snacks>snacks;
 
 std::vector<Collision>collide;
 
 std::vector<sf::Vector2f>randSize;
+
+std::vector<sf::Vector2f>newPos;
+std::vector<sf::Vector2f>prevPos;
 
 sf::Vector2f collisionBox(15,15);
 
@@ -110,10 +114,17 @@ while( win.isOpen() )
     callRand = false;
     }
     Snake snake(segment, charmer.getPos()); 
+    prevPos.insert(prevPos.begin(), charmer.getPos());
+    //Snake snakeSeg(segment, charmer.setSegPos());
     //was push back
     snakeSkin.insert(snakeSkin.begin(),snake);
+
+
+
     sf::Vector2f randPos1;
     sf::Vector2f randPos2;
+
+   
       //insert again if true??
     if(callRand == true)
 {
@@ -141,15 +152,12 @@ callRand = false;
     score.SetTitle();
     score.DrawTitle(win);
 
-    snake.DrawBody(win);
-
-    if(plump == true)
-    {
-    newSnake->DrawBody(win);
-    }
+    snake.DrawHead(win);
+    
+   
 
     if(callRand == false)
-     {
+    {
     sf::Vector2f randPos1(randomPosX1, randomPosY1);
     sf::Vector2f randPos2(randomPosX2, randomPosY2);
     
@@ -192,6 +200,36 @@ callRand = false;
     score.SetPrompt();
     charmer.direction(event, del);
     
+    ////
+   // snake.DrawBody(win);
+
+    if(plump>=1)
+    {
+     
+       
+       //newPos.insert(newPos.begin(), charmer.getPos());
+       Snake snakeSeg(segment, charmer.setSegPos());
+       //Snake snakeSeg(segment, newPos.front());
+       //newS = new Snake(segment, newPos.back());
+       snk.insert(snk.begin(), snakeSeg);
+       
+    for(auto& newSnake : snk)
+    {
+       //snk[plump-1].DrawBody(win);
+       //snakeSeg.DrawBody(win);
+       newSnake.DrawHead(win);
+       //newSnake.DrawBody(win);
+        if(snake.getPos().x != charmer.setSegPos().x || snake.getPos().y != charmer.setSegPos().y)
+       {
+         snk.erase(snk.begin());
+       }
+    }
+    }
+    
+
+
+    ///
+
 
     //collision rects
     sf::Vector2f snkPos;
@@ -206,13 +244,42 @@ callRand = false;
     sf::FloatRect boxRect2(boxPos2, collisionBox);
     sf::FloatRect boxRect1(boxPos1, collisionBox);
     //
+    //Snake *newSnake;
+    //if(plump > 0)  // use for loop for adding segPos needs to be incremented as well ++ per plump++
+       
+    //newPos.insert(newPos.begin(), *newSnake.setSegPos());
+    // newSnake = new Snake(segment, charmer.setSegPos());
+    
+    //snk[sn].DrawBody(win);
+    // snk.insert(snk.begin(), *newSnake);
+    //newSnake->setSegPos();
+    //snk.insert(snk.begin(), *newSnake);
+   // snk[plump-1].DrawBody(win);
+    // for (int s = 0; s < snk.size(); s++)
+    // {
+    //   snk[s].setSegPos();
+    //   //multiple pointers??
+    //   snk[s].DrawBody(win);
+    //   if(snk[s].setSegPos() == snakeSkin[s].getPos())
+    //   {snk.erase(snk.begin());
+     
+    
 
+    // snakeSkin.back().setSegPos();
+    // snakeSkin.back().DrawBody(win);
+    //for(auto s : *snk)
+   // {
+   // s.DrawBody(win);
+   // }
+    
 
     
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
          // if(charmer.getPos().x == randSize.front().x || charmer.getPos().y == randSize.front().y)
-      
+    
+
+
       if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
       {
        // std::cout << charmer.setSegPos().x;
@@ -224,6 +291,8 @@ callRand = false;
         //snakeRect(snakeSkin[snek].getPos().x, snakeSkin[snek].getPos().y, segment.x, segment.y);
         snakeSkin.erase(snakeSkin.begin());
      }
+     // plump >= 1 && 
+     
 
 
      sf::Vector2f test(80,80);
@@ -236,14 +305,12 @@ callRand = false;
       //collide[nutrients].bgTest(win);
       if( snakeRect.intersects(boxRect1) || snakeRect.intersects(boxRect2))
       {
+
         std::cout << "hit";
         consumed +=1;
         score.EatFood(consumed);
         charmer.setLen(consumed);
-        
-        newSnake = new Snake(segment, charmer.setSegPos());
-        snakeSkin.insert(snakeSkin.begin(), *newSnake);
-        
+        //snk.insert(snk.begin(), snakeSeg);
         
 
         collide.clear();
@@ -268,8 +335,9 @@ callRand = false;
 
         
      callRand = true;
-     plump = true;
-    
+     plump +=1;
+
+   
 
      //callFood = true;
      

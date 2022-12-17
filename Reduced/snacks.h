@@ -3,6 +3,7 @@
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include <stdlib.h>
+#include "snakeBody.h"
 
 class Snacks{
 private:
