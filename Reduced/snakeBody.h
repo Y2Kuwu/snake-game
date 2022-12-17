@@ -11,9 +11,10 @@ private:
 
 int consumption = 1; // 
 //
+int count = 0;
 int speed;
 
-
+sf::Vector2f rectsize;
 sf::Vector2f pos;
 
 sf::Vector2f prevPos;
@@ -25,6 +26,7 @@ sf::Vector2f velDelay;
 float x , y;
 sf::RectangleShape bodySegment;
 std::vector<sf::RectangleShape>snakeBody;
+std::vector<sf::Vector2f>prevLocation;
 
 bool left;
 bool right;
@@ -39,6 +41,7 @@ int add = 0;
 sf::Event evt;
 
 sf::Vector2f sz;
+sf::RenderWindow *r;
 
 public:
 
@@ -52,8 +55,9 @@ Snake(sf::Vector2f size, sf::Vector2f currPos)
     bodySegment.setOutlineColor(sf::Color::Black);
     bodySegment.setOutlineThickness(6);
     bodySegment.move(currPos);
-    sz = size;
+    
 }
+
 
 sf::RectangleShape createBody(sf::Vector2f size , sf::Vector2f currPos)
 {
@@ -169,6 +173,7 @@ bool getDir()
             //for additional segments multiply delta??
 void direction(sf::Event e, float delta)
 {
+
     evt = e;
     if(e.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
     {
@@ -179,8 +184,8 @@ void direction(sf::Event e, float delta)
         velDelay.x = -45.0f;
         velDelay.y = 0.0f;
         //setSegXY(pos.x/2*consumption+1 , pos.y);
-        setSegXY(pos.x+10*consumption+1 , pos.y);
-        
+       // setSegXY(pos.x+10*consumption+1 , pos.y);
+        count +=1;
     }
     if(e.key.code == sf::Keyboard::Right && evt.KeyReleased|| evt.key.code == sf::Keyboard::D)
     {
@@ -191,7 +196,8 @@ void direction(sf::Event e, float delta)
         velDelay.x = 45.0f;
         velDelay.y = 0.0f;
         //setSegXY(pos.x/2*consumption+1 , pos.y);
-        setSegXY(pos.x-10*consumption+1 , pos.y);
+       // setSegXY(pos.x-10*consumption+1 , pos.y);
+       count +=1;
         
     }
     if(e.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
@@ -203,7 +209,8 @@ void direction(sf::Event e, float delta)
         velDelay.x = 0.0f;
         velDelay.y = -45.0f;
         //setSegXY(pos.x , pos.y/2*consumption+1);
-        setSegXY(pos.x , pos.y+10*consumption+1);
+       // setSegXY(pos.x , pos.y+10*consumption+1);
+       count +=1;
     }
     if(e.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::D)
     {
@@ -213,12 +220,23 @@ void direction(sf::Event e, float delta)
 
         velDelay.x = 0.0f;
         velDelay.y = 45.0f;
+        count +=1;
         //setSegXY(pos.x , pos.y/2*consumption+1);
-        setSegXY(pos.x , pos.y-10*consumption+1);
+        //setSegXY(pos.x , pos.y-10*consumption+1);
         
         
     }
     pos += vel * delta;
+    prevLocation.push_back(pos);
+    rectsize.x = 20;
+    rectsize.y = 20;
+
+    setSegXY(prevLocation[count-1].x , prevLocation[count-1].y);
+            //currently needs to create new only creating one instance and reusing 
+    //snakeBody.push_back(createBody(sz, prevLocation[count-1]));
+    snakeBody.resize(consumption+1);
+    snakeBody.push_back(createBody(rectsize, prevLocation[consumption]));
+
     //segPos += velDelay * delta;
     //setSegXY(segPos);
 }
@@ -232,11 +250,12 @@ void DrawHead(sf::RenderWindow &win)
 }
 
 void DrawBody(sf::RenderWindow &win)
-{
-    for(int snk = 1; snk < consumption; snk++)
+{   //for(auto s : )
+    for(int snk = 1; snk < snakeBody.size(); snk++)
     {
         win.draw(snakeBody[snk]);
     }
+    //r->draw(snakeBody[0]);
 }
 
 // void hungry()

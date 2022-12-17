@@ -15,7 +15,7 @@ int main()
 bool callRand;
 bool callFood;
 
-bool plump = 0;
+int plump = 0;
 
 srand (time(0));
 
@@ -33,7 +33,7 @@ sf::Time flashElap = sf::seconds(1.0f);
 Score score;
 Snake charmer;
 
-
+sf::Vector2f dir = {0.0f , 0.0f};
 
 Collision impact;
 // Snacks* snack1 = new Snacks;
@@ -206,17 +206,19 @@ callRand = false;
     if(plump>=1)
     {
      
-
-       newPos.insert(newPos.begin(), charmer.setSegPos());
-       Snake snakeSeg(segment, newPos.front());
+       
+       //newPos.insert(newPos.begin(), charmer.getPos());
+       Snake snakeSeg(segment, charmer.setSegPos());
+       //Snake snakeSeg(segment, newPos.front());
        //newS = new Snake(segment, newPos.back());
        snk.insert(snk.begin(), snakeSeg);
-    
+       
     for(auto& newSnake : snk)
     {
        //snk[plump-1].DrawBody(win);
        //snakeSeg.DrawBody(win);
        newSnake.DrawHead(win);
+       //newSnake.DrawBody(win);
         if(snake.getPos().x != charmer.setSegPos().x || snake.getPos().y != charmer.setSegPos().y)
        {
          snk.erase(snk.begin());
