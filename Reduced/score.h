@@ -24,6 +24,7 @@ class Score
         title.setOutlineColor(sf::Color::Red);
         title.setOutlineThickness(3);
         title.setPosition(140,5);
+        
     }
 
     void SetPrompt()

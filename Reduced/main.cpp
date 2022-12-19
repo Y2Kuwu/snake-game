@@ -36,6 +36,7 @@ Snake charmer;
 sf::Vector2f dir = {0.0f , 0.0f};
 
 Collision impact;
+
 // Snacks* snack1 = new Snacks;
 // Snacks* snack2 = new Snacks;
 
@@ -114,8 +115,9 @@ while( win.isOpen() )
     callRand = false;
     }
     Snake snake(segment, charmer.getPos()); 
+    
     prevPos.insert(prevPos.begin(), charmer.getPos());
-    //Snake snakeSeg(segment, charmer.setSegPos());
+    
     //was push back
     snakeSkin.insert(snakeSkin.begin(),snake);
 
@@ -154,7 +156,7 @@ callRand = false;
 
     snake.DrawHead(win);
     
-   
+
 
     if(callRand == false)
     {
@@ -205,25 +207,28 @@ callRand = false;
 
     if(plump>=1)
     {
-     
+       SnakeSegments a;
+       a.getBody(charmer.setSegPos());
+       SnakeSegments s(win);
        
        //newPos.insert(newPos.begin(), charmer.getPos());
-       Snake snakeSeg(segment, charmer.setSegPos());
+      
+       //(segment, charmer.setSegPos());
        //Snake snakeSeg(segment, newPos.front());
        //newS = new Snake(segment, newPos.back());
-       snk.insert(snk.begin(), snakeSeg);
-       
-    for(auto& newSnake : snk)
-    {
-       //snk[plump-1].DrawBody(win);
-       //snakeSeg.DrawBody(win);
-       newSnake.DrawHead(win);
-       //newSnake.DrawBody(win);
-        if(snake.getPos().x != charmer.setSegPos().x || snake.getPos().y != charmer.setSegPos().y)
-       {
-         snk.erase(snk.begin());
-       }
-    }
+       //snk.insert(snk.begin(), snakeSeg);
+    
+    // for(auto& newSnake : snk)
+    // {
+    //    //snk[plump-1].DrawBody(win);
+    //    //snakeSeg.DrawBody(win);
+    //    newSnake.DrawHead(win);
+    //    //newSnake.DrawBody(win);
+    //     if(snake.getPos().x != charmer.setSegPos().x || snake.getPos().y != charmer.setSegPos().y)
+    //    {
+    //      snk.erase(snk.begin());
+    //    }
+   // }
     }
     
 
@@ -294,8 +299,6 @@ callRand = false;
      // plump >= 1 && 
      
 
-
-     sf::Vector2f test(80,80);
  
     
     //keep simple
