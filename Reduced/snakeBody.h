@@ -4,7 +4,6 @@
 #include"snacks.h"
 #include<list>
 
-#define BODY 10
 class Snake
 {
 private:
@@ -13,15 +12,14 @@ int count = 0;
 int speed;
 
 sf::Vector2f pos;
-
 sf::Vector2f segPos;
 sf::Vector2f vel;
 
 float x , y;
-sf::RectangleShape bodySegment;
 
+
+std::vector<sf::Vector2f>previous;
 std::vector<sf::Vector2f>prevLocation;
-
 std::vector<sf::RectangleShape>snakeBody;
 
 
@@ -31,34 +29,32 @@ bool up;
 bool down;
 
 bool traj;
-
-
-int add = 0;
-
 sf::Event evt;
-
-sf::Vector2f sz;
-
+sf::RectangleShape bodySegment;
 
 
-  std::list<sf::Sprite> body;
-  std::list<sf::Sprite>::iterator head;
-  std::list<sf::Sprite>::iterator tail;
-
-
+  std::list<sf::RectangleShape> body;
+  std::list<sf::RectangleShape>::iterator head;
+  std::list<sf::RectangleShape>::iterator tail;
 public:
 //was 1
+sf::Vector2f sz;
 int consumption = 0;
+
+
+
+
 
 Snake() = default;
 
-Snake(sf::Vector2f size, sf::Vector2f location)
+Snake(sf::Vector2f location, sf::RectangleShape bodySegment, sf::Vector2f size)
 {
+    bodySegment.setPosition(location);
     bodySegment.setSize(size);
     bodySegment.setFillColor(sf::Color::Green);
     bodySegment.setOutlineColor(sf::Color::Black);
     bodySegment.setOutlineThickness(6);
-    bodySegment.setPosition(location);
+    snakeBody.push_back(bodySegment);
 }
 
 
@@ -66,9 +62,6 @@ bool collision(const sf::RectangleShape& head, const sf::RectangleShape& body)
 {
     return head.getGlobalBounds().intersects(body.getGlobalBounds() );
 }
-
-
-
 
 int getLen()
 {
@@ -104,13 +97,6 @@ float getSegXY()
     return x && y;
 }
 
-
-
-// bool getDir()
-// {
-//     return traj;
-// }
-            //for additional segments multiply delta??
 void direction(sf::Event e, float delta)
 {
 
@@ -170,6 +156,7 @@ void direction(sf::Event e, float delta)
     prevLocation.push_back(pos);
 
     setSegXY(prevLocation[count-1].x , prevLocation[count-1].y);
+    
 }
 
 // void setLen(int consumed)
@@ -188,17 +175,46 @@ void direction(sf::Event e, float delta)
 
 void DrawHead(sf::RenderWindow &win)
 {
-    win.draw(bodySegment);
+    for(auto s : snakeBody)
+    {
+    win.draw(s);
+}
+}
+
+void newBody(sf::Vector2f location, sf::RectangleShape bodySegment, sf::Vector2f size)
+{
+     if(consumption+=1)
+    {
+          bodySegment.setSize(size);
+          bodySegment.setFillColor(sf::Color::Red);
+          bodySegment.setOutlineColor(sf::Color::Black);
+          bodySegment.setOutlineThickness(6);
+         // bodySegment.setPosition(location);
+         // snakeBody.push_back(bodySegment);
+    }
+  
+}
+
+void setNewPos(sf::Vector2f newPos, sf::RectangleShape bodySegment)
+{
+for(auto s : snakeBody)
+    {
+    s.setPosition(newPos);
+    
+    
+    }
 }
 
 void DrawBody(sf::RenderWindow &win)
 {   
-    for(int snk = 0; snk < snakeBody.size(); snk++)
+   
+    for(auto snk : snakeBody)
     {
-        bodySegment.setPosition(prevLocation[snk]);
         //std::cout << snakeBody.size();
-        //snakeBody[snk].setPosition(setSegPos());
-        win.draw(snakeBody[snk]);
+       // std::cout << " gap ";
+       // std::cout << consumption;
+       //snk.setPosition(setSegPos());
+        win.draw(snk);
     }
     //r->draw(snakeBody[0]);
 }
@@ -209,7 +225,6 @@ void DrawBody(sf::RenderWindow &win)
 
 
 #endif
-
 
 
 

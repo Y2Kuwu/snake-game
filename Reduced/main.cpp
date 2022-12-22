@@ -58,15 +58,8 @@ block.setOutlineThickness(4);
 std::vector<sf::RectangleShape>recSnake;
 sf::RectangleShape snkshape;
 
-snkshape.setSize(segment);
-snkshape.setFillColor(sf::Color::Green);
-snkshape.setOutlineColor(sf::Color::Black);
-snkshape.setOutlineThickness(6);
 
-std::vector<sf::RectangleShape>rec;
-rec.reserve(consumed+1);
 std::vector<Snake>snakeSkin;
-std::vector<Snake>snkskn;
 
 std::vector<Snacks>snacks;
 
@@ -86,13 +79,9 @@ int randomPosX1 = (rand() % 340 + 20);
 int randomPosY1 = (rand() % 310 + 60);
 int randomPosX2 = (rand() % 340 + 20);
 int randomPosY2 = (rand() % 310 + 60);
- //sf::Vector2f randPos1(randomPosX1, randomPosY1);
- //sf::Vector2f randPos2(randomPosX2, randomPosY2);
-
-
 
 sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
-//win.setKeyRepeatEnabled(true);
+
 
 while( win.isOpen() )
 	{
@@ -113,15 +102,20 @@ while( win.isOpen() )
     charmer.setPos(snakeStart);
     callRand = false;
     }
-    Snake snake(segment, charmer.getPos()); 
+
+
+    Snake snake(charmer.getPos(), snkshape, segment); 
 
     snakeSkin.insert(snakeSkin.begin(),snake);
-  
 
-
+    score.EatFood(consumed);
     sf::Vector2f randPos1;
     sf::Vector2f randPos2;
-    std::unique_ptr<Snake> snakeName(new Snake(segment , charmer.setSegPos()));
+
+
+    
+     
+    
    
       //insert again if true??
     if(callRand == true)
@@ -139,7 +133,9 @@ callRand = false;
     score.DrawTitle(win);
 
     snake.DrawHead(win);
-    
+    charmer.DrawBody(win);
+    //snake.DrawBody(win);
+
     if(callRand == false)
     {
     sf::Vector2f randPos1(randomPosX1, randomPosY1);
@@ -155,22 +151,16 @@ callRand = false;
 
     randSize.insert(randSize.begin(),randPos1);
     randSize.insert(randSize.begin()+1,randPos2);
-
     food1.SetBounds1(randSize.front());
     food1.SetPos1();
-
     impact1.SetImpactBounds1(randSize.front());
     impact1.SetImpact1();
-
     food2.SetBounds2(randSize.back());
     food2.SetPos2();
-
     impact2.SetImpactBounds2(randSize.back());
     impact2.SetImpact2();
-
     snacks.insert(snacks.begin(), food1);
     snacks.insert(snacks.begin()+1, food2);
-    //std::cout << snacks.size();
     collide.insert(collide.begin(),impact1);
     collide.insert(collide.begin()+1,impact2);
     }
@@ -185,6 +175,7 @@ callRand = false;
     snkPos = charmer.getPos();
     sf::FloatRect snakeRect(snkPos, segment);
 
+    prevPos.push_back(charmer.setSegPos());
     sf::Vector2f boxPos1;
     boxPos1 = randSize.front();
     sf::Vector2f boxPos2;
@@ -192,44 +183,29 @@ callRand = false;
 
     sf::FloatRect boxRect2(boxPos2, collisionBox);
     sf::FloatRect boxRect1(boxPos1, collisionBox);
-    
-    for(int i = 0; i < consumed; i++)
-        {
-          rec[i].setPosition(charmer.setSegPos());
-          win.draw(rec[i]);
-        }
+  
     
     for(int snek = 0; snek < snakeSkin.size(); snek++)
     {
-      if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
-      {
+      //if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
+      //{
         snakeSkin.erase(snakeSkin.begin());
-      }
+      
+  
 
     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
     {
       snacks[nutrients].makeSnacks(win);
-      //collide[nutrients].bgTest(win);
       if( snakeRect.intersects(boxRect1) || snakeRect.intersects(boxRect2))
       {
         
-        
-        std::cout << "hit";
+        //charmer.newBody(charmer.setSegPos(), snkshape, segment);
         consumed +=1;
-
-        //std::string snakeName = 'S'
-        
-         
-
-        score.EatFood(consumed);
-        // snakeName.(segment);
-        // r->setFillColor(sf::Color::Green);
-        // r->setOutlineColor(sf::Color::Black);
-        // r->setOutlineThickness(6);
-        // r->setPosition(charmer.setSegPos());
-        //snkshape.setPosition(charmer.setSegPos());
-        rec.push_back(snkshape);
-        
+        Snake s(charmer.setSegPos(), snkshape, segment);
+        snakeSkin.push_back(s);
+        // std::cout << charmer.getPos().x;
+        // std::cout << "GAP";
+        // std::cout << charmer.setSegPos().x;
           callRand = true;
         }
 
@@ -240,7 +216,7 @@ callRand = false;
         randPos2.x = 0; 
         randPos1.y= 0;
         randPos2.y = 0; 
-
+        
      //callRand = true;
         
      //keep here update in main
