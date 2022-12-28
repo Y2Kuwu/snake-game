@@ -7,6 +7,17 @@ namespace start
         win = window;
     }
 
+        sf::RectangleShape getSegment(sf::Vector2f pos)
+    {
+		sf::RectangleShape seg;
+		seg.setSize(sf::Vector2f(10,10));
+		seg.setPosition(pos);
+		seg.setFillColor(sf::Color::Green);
+        seg.setOutlineColor(sf::Color::Black);
+        seg.setOutlineThickness(6);
+		return seg;
+    }
+
     void Get::init()
     {
         load();
@@ -18,22 +29,22 @@ namespace start
 
     }
 
+    void Get::load()
+    {
+
+    }
+
     void Get::set()
     {
         win->clear();
         snk.drawSnk();
     }
 
+    bool impact(const sf::RectangleShape& head, const sf::RectangleShape& body)
+    {
+    return head.getGlobalBounds().intersects(body.getGlobalBounds() );
+    }
 
 
-    sf::RectangleShape getSegment(sf::Vector2f pos)
-{
-		sf::RectangleShape seg;
-		seg.setSize(sf::Vector2f(10,10));
-		seg.setPosition(pos);
-		seg.setFillColor(sf::Color::Green);
-        seg.setOutlineColor(sf::Color::Black);
-        seg.setOutlineThickness(6);
-		return seg;
-}
+
 }

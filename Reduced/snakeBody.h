@@ -4,7 +4,8 @@
 #include"snacks.h"
 #include<list>
 
-
+namespace start
+{
 class Snake
 {
 private:
@@ -58,13 +59,16 @@ Snacks s;
 
 
 
-Snake() = default;
+//Snake() = default;
 Snake(sf::RenderWindow *);
 
 
 
 void drawSnk(); //draw
 void slither(sf::Vector2<int> dir); //move
+
+void dir(sf::Event e , float delta);
+
 bool isDead(); //check if game playing
 int eat(int food);
 
@@ -80,10 +84,7 @@ int eat(int food);
 
 
 
-// bool collision(const sf::RectangleShape& head, const sf::RectangleShape& body)
-// {
-//     return head.getGlobalBounds().intersects(body.getGlobalBounds() );
-// }
+
 
 // int getLen()
 // {
@@ -230,7 +231,7 @@ int eat(int food);
 // };
 
 };
-
+}
 
 // #endif
 
