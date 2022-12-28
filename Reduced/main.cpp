@@ -14,7 +14,7 @@
 int main()
 {
 bool callRand;
-
+std::vector<Snake>snakeSkin;
 srand (time(0));
 
 bool start = false;
@@ -22,18 +22,17 @@ bool start = false;
 int cycle = 0;
 int consumed = 0;
 sf::Clock init;
+sf::Vector2f segment(10,10);
+sf::Vector2f snakeStart(190,190);
 
+//Snake snakeHead(segment, snakeStart);
 
 Score score;
-Snake charmer;
+std::vector<Snake>snakeLoader;
 
 sf::Vector2f dir = {0.0f , 0.0f};
 
 Collision impact;
-
-sf::Vector2f segment(10,10);
-sf::Vector2f segRect(10,10);
-sf::Vector2f snakeStart(190,190);
 
 sf::RectangleShape bg;
 bg.setSize(sf::Vector2f(360,360));
@@ -55,20 +54,12 @@ block.setFillColor(sf::Color(255,255,255,128));
 block.setOutlineColor(sf::Color::Black);
 block.setOutlineThickness(4);
 
-std::vector<sf::RectangleShape>recSnake;
-sf::RectangleShape snkshape;
-
-
-std::vector<Snake>snakeSkin;
-
 std::vector<Snacks>snacks;
 
 std::vector<Collision>collide;
 
 std::vector<sf::Vector2f>randSize;
 
-std::vector<sf::Vector2f>newPos;
-std::vector<sf::Vector2f>prevPos;
 
 sf::Vector2f collisionBox(15,15);
 
@@ -99,25 +90,16 @@ while( win.isOpen() )
     
     if(start == false)
     {
-    charmer.setPos(snakeStart);
+    //snakeLoader.push_back(snakeHead);
     callRand = false;
+    
     }
-
-
-    Snake snake(charmer.getPos(), snkshape, segment); 
-
-    snakeSkin.insert(snakeSkin.begin(),snake);
+    
 
     score.EatFood(consumed);
     sf::Vector2f randPos1;
     sf::Vector2f randPos2;
 
-
-    
-     
-    
-   
-      //insert again if true??
     if(callRand == true)
 {
 randomPosX1 = (rand() % 340 + 20);
@@ -131,10 +113,10 @@ callRand = false;
    
     score.SetTitle();
     score.DrawTitle(win);
-
-    snake.DrawHead(win);
-    charmer.DrawBody(win);
-    //snake.DrawBody(win);
+    // for(auto s : snakeLoader)
+    // {
+    // snakeHead.DrawHead(win);
+    // }
 
     if(callRand == false)
     {
@@ -147,7 +129,7 @@ callRand = false;
     Snacks food2(6); //= new Snacks(6);
     Collision impact1(collisionBox);
     Collision impact2(collisionBox);
-
+    Snake(*win);
 
     randSize.insert(randSize.begin(),randPos1);
     randSize.insert(randSize.begin()+1,randPos2);
@@ -168,14 +150,14 @@ callRand = false;
     score.SetScore();
     score.DrawScore(win);
     score.SetPrompt();
-    charmer.direction(event, del);
+    
+    // snakeHead.direction(event, del);
 
     //collision rects
     sf::Vector2f snkPos;
-    snkPos = charmer.getPos();
+    //snkPos =  snakeHead.getPos();
     sf::FloatRect snakeRect(snkPos, segment);
 
-    prevPos.push_back(charmer.setSegPos());
     sf::Vector2f boxPos1;
     boxPos1 = randSize.front();
     sf::Vector2f boxPos2;
@@ -184,14 +166,16 @@ callRand = false;
     sf::FloatRect boxRect2(boxPos2, collisionBox);
     sf::FloatRect boxRect1(boxPos1, collisionBox);
   
-    
-    for(int snek = 0; snek < snakeSkin.size(); snek++)
-    {
+    // for(int snek = 0; snek < snakeSkin.size(); snek++)
+    // {
       //if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
       //{
-        snakeSkin.erase(snakeSkin.begin());
-      
-  
+       // snakeSkin.erase(snakeSkin.begin());
+      // for(int snakes = 0; snakes < snakeLoader.size(); snakes++)
+      // {
+      //   snakeLoader[snakes].DrawHead(win);
+      // }
+    //snake.DrawHead(win);
 
     for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
     {
@@ -201,8 +185,7 @@ callRand = false;
         
         //charmer.newBody(charmer.setSegPos(), snkshape, segment);
         consumed +=1;
-        Snake s(charmer.setSegPos(), snkshape, segment);
-        snakeSkin.push_back(s);
+        
         // std::cout << charmer.getPos().x;
         // std::cout << "GAP";
         // std::cout << charmer.setSegPos().x;
@@ -223,7 +206,7 @@ callRand = false;
    
      
       
-    }
+   // }
     }
   
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
