@@ -58,19 +58,10 @@ Snacks s;
 
 
 
-//Snake() = default;
+Snake() = default;
 Snake(sf::RenderWindow *);
 
-sf::RectangleShape getSegment(sf::Vector2f pos)
-{
-		sf::RectangleShape seg;
-		seg.setSize(sf::Vector2f(10,10));
-		seg.setPosition(pos);
-		seg.setFillColor(sf::Color::Green);
-        seg.setOutlineColor(sf::Color::Black);
-        seg.setOutlineThickness(6);
-		return seg;
-}
+
 
 void drawSnk(); //draw
 void slither(sf::Vector2<int> dir); //move

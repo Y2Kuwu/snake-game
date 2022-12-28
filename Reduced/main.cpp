@@ -26,6 +26,9 @@ sf::Vector2f segment(10,10);
 sf::Vector2f snakeStart(190,190);
 
 //Snake snakeHead(segment, snakeStart);
+//Snake snk;
+
+
 
 Score score;
 std::vector<Snake>snakeLoader;
@@ -72,7 +75,8 @@ int randomPosX2 = (rand() % 340 + 20);
 int randomPosY2 = (rand() % 310 + 60);
 
 sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
-
+Snake(win);
+Snake snk;
 
 while( win.isOpen() )
 	{
@@ -91,6 +95,9 @@ while( win.isOpen() )
     if(start == false)
     {
     //snakeLoader.push_back(snakeHead);
+    //snk.getSegment(snakeStart);
+    snk.getSegment(snakeStart);
+    snk.drawSnk();
     callRand = false;
     
     }
@@ -129,7 +136,9 @@ callRand = false;
     Snacks food2(6); //= new Snacks(6);
     Collision impact1(collisionBox);
     Collision impact2(collisionBox);
-    Snake(*win);
+    
+
+  
 
     randSize.insert(randSize.begin(),randPos1);
     randSize.insert(randSize.begin()+1,randPos2);
@@ -165,7 +174,6 @@ callRand = false;
 
     sf::FloatRect boxRect2(boxPos2, collisionBox);
     sf::FloatRect boxRect1(boxPos1, collisionBox);
-  
     // for(int snek = 0; snek < snakeSkin.size(); snek++)
     // {
       //if(snake.getPos().x != charmer.getPos().x || snake.getPos().y != charmer.getPos().y)
@@ -204,7 +212,7 @@ callRand = false;
         
      //keep here update in main
    
-     
+     //win.draw(snk.getSegment(snakeStart));
       
    // }
     }
