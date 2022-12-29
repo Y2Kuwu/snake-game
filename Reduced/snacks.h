@@ -49,6 +49,10 @@ void SetPos2()
     snack.setPosition(snackBounds2);
 }
 
+sf::Vector2f SnackPos()
+{
+   return snack.getPosition();
+}
 
 
 Snacks(float sz)

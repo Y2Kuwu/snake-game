@@ -3,12 +3,14 @@
 
 start::Snake::Snake(sf::RenderWindow *window)
 {
-    speed = 4;
+    //speed = 4;
     win = window;
     consumption = 1;
 
-    int x = win->getSize().x; 
-    int y = win->getSize().y; 
+    //int x = win->getSize().x; 
+    //int y = win->getSize().y; 
+    int x = vel.x;
+    int y = vel.y;
             //vel instead?
     {
         snakeBody.push_back(getSegment( sf::Vector2f(x,y)));
@@ -17,12 +19,14 @@ start::Snake::Snake(sf::RenderWindow *window)
     stretch = false;
 }
 
+
 void start::Snake::drawSnk()
 {
     for (int snk = 1; snk < consumption; snk++) {
 		win->draw( snakeBody[snk]);
 	}
 	win->draw( snakeBody[0] );
+    
 }
 
 bool start::Snake::isDead()
@@ -36,15 +40,22 @@ bool start::Snake::isDead()
     }
 }
 
-int start::Snake::eat(int food)
+sf::Vector2f start::Snake::headPos()
 {
-    if(food+=1)
+    return headLocation;
+}
+
+
+void start::Snake::eat()
+{
+    if(foodIn+=1)
     {
-        consumption == food+1;
+        consumption == foodIn+1;
         stretch == true;
         sf::Vector2f newPos = snakeBody[consumption-1].getPosition();
         snakeBody.push_back( getSegment(newPos));
         posList.push_back(prevDir);
+        stretch == false;
     }
 }
 
@@ -55,10 +66,11 @@ void start::Snake::slither(sf::Vector2<int> dir)
     std::list<sf::Vector2<int>>::iterator snke = posList.begin();
     int idx = 0;
     while (snke != posList.end() && idx < consumption) {
-		snakeBody[idx].move( speed*(*snke).x, speed*(*snke).y );
+		snakeBody[idx].move( pos );
         //snakeBody[idx].move( pos );
 		idx++;
 		snke++;
+        snakeBody[0].getPosition() == headLocation;
 }
 }
 
@@ -70,32 +82,24 @@ void start::Snake::dir(sf::Event e , float delta)
         left = true;
         vel.x = -50.0f;
         vel.y = 0.0f;
-
-
     }
-    if(e.key.code == sf::Keyboard::Right && evt.KeyReleased|| evt.key.code == sf::Keyboard::D)
+    if(e.key.code == sf::Keyboard::Right || evt.key.code == sf::Keyboard::D)
     {
         right = true;
         vel.x = 50.0f;
         vel.y = 0.0f;
-
-        
     }
     if(e.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
     {
         up = true;
         vel.x = 0.0f;
         vel.y = -50.0f;
-
     }
     if(e.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::D)
     {
         down = true;
         vel.x = 0.0f;
         vel.y = 50.0f;
-
-        
-        
     }
     pos += vel * delta;
     //pos = dir// next

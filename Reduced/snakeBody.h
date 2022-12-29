@@ -70,7 +70,8 @@ void slither(sf::Vector2<int> dir); //move
 void dir(sf::Event e , float delta);
 
 bool isDead(); //check if game playing
-int eat(int food);
+void eat();
+sf::Vector2f headPos();
 
 // Snake(sf::Vector2f size, sf::Vector2f pos)
 // {

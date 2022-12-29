@@ -2,6 +2,7 @@
 #include "snakeBody.h"
 #include "snacks.h"
 #include "score.h"
+#include "get.h"
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <time.h>   
@@ -14,10 +15,11 @@
 int main()
 {
 bool callRand;
-std::vector<Snake>snakeSkin;
+//std::vector<Snake>snakeSkin;
 srand (time(0));
 
-bool start = false;
+bool starter = false;
+
 
 int cycle = 0;
 int consumed = 0;
@@ -31,7 +33,7 @@ sf::Vector2f snakeStart(190,190);
 
 
 Score score;
-std::vector<Snake>snakeLoader;
+//std::vector<Snake>snakeLoader;
 
 sf::Vector2f dir = {0.0f , 0.0f};
 
@@ -75,8 +77,8 @@ int randomPosX2 = (rand() % 340 + 20);
 int randomPosY2 = (rand() % 310 + 60);
 
 sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
-Snake(win);
-Snake snk;
+//Snake(win);
+//Snake snk;
 
 while( win.isOpen() )
 	{
@@ -92,16 +94,23 @@ while( win.isOpen() )
 		}
     win.clear();
     
-    if(start == false)
+    if(starter == false)
     {
     //snakeLoader.push_back(snakeHead);
     //snk.getSegment(snakeStart);
-    snk.getSegment(snakeStart);
-    snk.drawSnk();
+    //snk.getSegment(snakeStart);
+    //snk.drawSnk();
     callRand = false;
     
     }
-    
+    start::deltaTime = del;
+    start::evt = event;
+    start::foodIn = consumed;
+   
+    //start::init();
+    //get.init();
+
+
 
     score.EatFood(consumed);
     sf::Vector2f randPos1;
@@ -164,8 +173,11 @@ callRand = false;
 
     //collision rects
     sf::Vector2f snkPos;
+    snkPos = start::headLocation;
     //snkPos =  snakeHead.getPos();
+    //start::headLocation = snkPos;
     sf::FloatRect snakeRect(snkPos, segment);
+    start::headBox = snakeRect;
 
     sf::Vector2f boxPos1;
     boxPos1 = randSize.front();
@@ -219,9 +231,9 @@ callRand = false;
   
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-      start = true;
+      starter = true;
     }
-    if(start == false)//.asSeconds() - flash.asSeconds() >= flashElap.asSeconds() && start == false)
+    if(starter == false)//.asSeconds() - flash.asSeconds() >= flashElap.asSeconds() && start == false)
     {
       
       sf::sleep(sf::seconds(.5));

@@ -2,10 +2,21 @@
 
 namespace start
 {
+   
+
+    // void start::Give::startGame(sf::RenderWindow *window)
+    // {
+    //     win = window;
+    // }
+
     Get::Get(sf::RenderWindow *window) : snk(window)
     {
         win = window;
+       
     }
+
+    
+
 
         sf::RectangleShape getSegment(sf::Vector2f pos)
     {
@@ -18,14 +29,32 @@ namespace start
 		return seg;
     }
 
+    // void Get::delta(float del)
+    // {
+    //     deltaTime = del;
+    // }
+
     void Get::init()
     {
         load();
         loop();
     }
 
+
     void Get::loop()
     {
+        bool starter = true;
+        while(starter)
+        {
+            set();
+            snk.dir(evt, deltaTime);
+        }
+
+        if(snk.isDead())
+        {
+            starter = false;
+        }
+        
 
     }
 
