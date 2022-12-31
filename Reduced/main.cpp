@@ -2,7 +2,7 @@
 #include "snakeBody.h"
 #include "snacks.h"
 #include "score.h"
-#include "get.h"
+#include "getEng.h"
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <time.h>   
@@ -31,8 +31,8 @@ sf::Vector2f snakeStart(190,190);
 //Snake snk;
 
 
-
 Score score;
+GetEng get;
 //std::vector<Snake>snakeLoader;
 
 sf::Vector2f dir = {0.0f , 0.0f};
@@ -103,16 +103,18 @@ while( win.isOpen() )
     callRand = false;
     
     }
-    start::deltaTime = del;
-    start::evt = event;
-    start::foodIn = consumed;
-   
+
+    
+    // start::deltaTime = del;
+    // start::evt = event;
+    // start::foodIn = consumed;
+    //start::Get(*window);
     //start::init();
     //get.init();
-
-
-
-    score.EatFood(consumed);
+    //start::Get* newGet = new start::Get(&win);
+    
+  //remove??
+    //score.EatFood(consumed);
     sf::Vector2f randPos1;
     sf::Vector2f randPos2;
 
@@ -173,11 +175,11 @@ callRand = false;
 
     //collision rects
     sf::Vector2f snkPos;
-    snkPos = start::headLocation;
+    //snkPos = start::headLocation;
     //snkPos =  snakeHead.getPos();
     //start::headLocation = snkPos;
     sf::FloatRect snakeRect(snkPos, segment);
-    start::headBox = snakeRect;
+    //start::headBox = snakeRect;
 
     sf::Vector2f boxPos1;
     boxPos1 = randSize.front();
@@ -202,16 +204,10 @@ callRand = false;
       snacks[nutrients].makeSnacks(win);
       if( snakeRect.intersects(boxRect1) || snakeRect.intersects(boxRect2))
       {
-        
+        get.foodLocations(boxRect1 , boxRect2);
         //charmer.newBody(charmer.setSegPos(), snkshape, segment);
         consumed +=1;
         
-        // std::cout << charmer.getPos().x;
-        // std::cout << "GAP";
-        // std::cout << charmer.setSegPos().x;
-          callRand = true;
-        }
-
         collide.clear();
         snacks.clear();
         randSize.clear();
@@ -219,7 +215,19 @@ callRand = false;
         randPos2.x = 0; 
         randPos1.y= 0;
         randPos2.y = 0; 
+
+        // std::cout << charmer.getPos().x;
+        // std::cout << "GAP";
+        // std::cout << charmer.setSegPos().x;
+          callRand = true;
+       }
+
+      //
+
+       
         
+
+      //
      //callRand = true;
         
      //keep here update in main

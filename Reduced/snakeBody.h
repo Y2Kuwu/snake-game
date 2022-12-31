@@ -4,74 +4,55 @@
 #include"snacks.h"
 #include<list>
 
-namespace start
-{
 class Snake
 {
 private:
-
-
 bool stretch;
 int consumption; //length
-sf::RenderWindow *win;
-std::list<sf::Vector2<int>>posList;
-sf::Vector2<int>prevDir;
-std::vector<sf::RectangleShape>snakeBody;
 
-//bool updateLen
-//float speed;
-
-
-int count = 0;
-int speed;
 
 sf::Vector2f pos;
+sf::RectangleShape bodySegment;
+
 sf::Vector2f segPos;
 sf::Vector2f vel;
-
 float x , y;
-
-
 //std::vector<sf::Vector2f>previous;
-
-
-
 bool left;
 bool right;
 bool up;
 bool down;
 
-
-sf::Event evt;
-sf::RectangleShape bodySegment;
-
-
-//   std::list<sf::RectangleShape> body;
-//   std::list<sf::RectangleShape>::iterator head;
-//   std::list<sf::RectangleShape>::iterator tail;
 public:
 //was 1
-sf::Vector2f sz;
- //length
-sf::Vector2f foodPos;
-Snacks s;
+explicit Snake(sf::Vector2f startPos);
+sf::Vector2f headPos();
+sf::Vector2f getPos();
+void setPos(sf::Vector2f newPos);
+sf::RectangleShape getSeg();
+void slither();
+
+// sf::Vector2f sz;
+//  //length
+// sf::Vector2f foodPos;
+// Snacks s;
 
 
 
 
 //Snake() = default;
-Snake(sf::RenderWindow *);
+//Snake(sf::RenderWindow *window);
+//Snake() = default;
 
 
+// void drawSnk(); //draw
+// void slither(sf::Vector2<int> dir); //move
 
-void drawSnk(); //draw
-void slither(sf::Vector2<int> dir); //move
+// void dir(sf::Event e , float delta);
 
-void dir(sf::Event e , float delta);
+// bool isDead(); //check if game playing
+// void eat();
 
-bool isDead(); //check if game playing
-void eat();
-sf::Vector2f headPos();
 
 // Snake(sf::Vector2f size, sf::Vector2f pos)
 // {
@@ -83,7 +64,8 @@ sf::Vector2f headPos();
 //     //snakeBody.push_back(bodySegment);
 // }
 
-
+// public: 
+// sf::Event evt;
 
 
 
@@ -232,11 +214,17 @@ sf::Vector2f headPos();
 // };
 
 };
-}
+//}
 
 // #endif
 
 #endif
+
+
+//   std::list<sf::RectangleShape> body;
+//   std::list<sf::RectangleShape>::iterator head;
+//   std::list<sf::RectangleShape>::iterator tail;
+
 
 
 // void setDir(bool dir) //change to int or float 
@@ -266,7 +254,16 @@ sf::Vector2f headPos();
 
 
 
+//sf::RenderWindow *win;
+// std::list<sf::Vector2<int>>posList;
+// sf::Vector2<int>prevDir;
+// std::vector<sf::RectangleShape>snakeBody;
+//bool updateLen
+//float speed;
 
+
+//int count = 0;
+//int speed;
 
 
 

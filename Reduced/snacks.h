@@ -18,7 +18,7 @@ std::vector<sf::CircleShape>snackSack;
 
 public:
 Snacks() = default;
-~Snacks(){};
+
 sf::Vector2f GetBounds1() 
 {
     return snackBounds1;
