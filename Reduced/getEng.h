@@ -1,5 +1,5 @@
-#ifndef GET_H
-#define GET_H
+#ifndef GETENG_H
+#define GETENG_H
 #include <SFML/Graphics.hpp>
 #include "snakeBody.h"
 #include "snacks.h"
@@ -27,24 +27,35 @@ sf::Vector2f winSz;
 sf::FloatRect food1;
 sf::FloatRect food2;
 
+sf::Vector2f vel;
+
+sf::Vector2f prevPos;
+
 public:
-    
+    sf::Vector2f pos;
     GetEng();
     //Get(sf::RenderWindow *window);
-    
+
     void getInit();
 
-    void inpListener();
-    void newDir(int newDir);
+    //void inpListener();
+    //void newDir(int newDir);
+    //void newDir(sf::Vector2f newDir);
+    void newDir();
+
     void newSnk();
     void add();
     void eat();
     void foodLocations(sf::FloatRect snack1, sf::FloatRect snack2);
 
-    void pushDir();
-    void updateSnake();
+    void slither(sf::Event evt , float delta);
     void drawSnake();
 
+    void pushDir();
+    void updateSnake();
+   
+
+    
 
     private:
     // void loop(); //game loop

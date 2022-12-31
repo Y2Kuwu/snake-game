@@ -11,11 +11,12 @@ bool stretch;
 int consumption; //length
 
 
-sf::Vector2f pos;
+
+
 sf::RectangleShape bodySegment;
 
 sf::Vector2f segPos;
-sf::Vector2f vel;
+
 float x , y;
 //std::vector<sf::Vector2f>previous;
 bool left;
@@ -30,7 +31,7 @@ sf::Vector2f headPos();
 sf::Vector2f getPos();
 void setPos(sf::Vector2f newPos);
 sf::RectangleShape getSeg();
-void slither();
+
 
 // sf::Vector2f sz;
 //  //length

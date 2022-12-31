@@ -4,16 +4,17 @@
 
     GetEng::GetEng()
     {
-        winSz = sf::Vector2f(400,400);
-        win.create(sf::VideoMode(winSz.x , winSz.y), "Snake");
-        getInit();
+        //winSz = sf::Vector2f(400,400);
+        //win.create(sf::VideoMode(winSz.x , winSz.y), "Snake");
+        //getInit();
         score.SetTitle();
         score.SetScore();
-        score.DrawPrompt(win , countCycle);
+        score.DrawScore(win);
+        //score.DrawPrompt(win , countCycle);
 
     }
 
-    void GetEng::getInit()
+     void GetEng::getInit()
     {
         foodIn = 0;
         speed = 2;
@@ -21,6 +22,7 @@
         //add snacks
 
     }
+   
 
     void GetEng::newSnk()
     {
@@ -51,10 +53,74 @@
                snk.getSeg().getGlobalBounds().intersects(food2))
                foodIn+=1;
                score.EatFood(foodIn);
-
         }
     }
 
+
+    // void GetEng::newDir()
+    // {   
+        
+    // }
+
+
+     void GetEng::drawSnake()
+    {
+        for(auto &snk : snake)
+        {
+            win.draw(snk.getSeg());
+        }
+    }
+
+
+    void GetEng::slither(sf::Event evt , float delta)
+{
+    //e = evt;
+    if(evt.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
+    {
+        //left = true;
+        vel.x = -50.0f;
+        vel.y = 0.0f;
+    }
+    if(evt.key.code == sf::Keyboard::Right || evt.key.code == sf::Keyboard::D)
+    {
+        //right = true;
+        vel.x = 50.0f;
+        vel.y = 0.0f;
+    }
+    if(evt.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
+    {
+        //up = true;
+        vel.x = 0.0f;
+        vel.y = -50.0f;
+    }
+    if(evt.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::D)
+    {
+        //down = true;
+        vel.x = 0.0f;
+        vel.y = 50.0f;
+    }
+    pos += vel * delta;
+    snake[0].setPos(pos);
+    prevPos = pos;
+
+    for(int snk = 1; snk < snake.size(); snk++)
+    {
+        pos = snake[snk].getPos();
+        snake[snk].setPos(prevPos);
+        prevPos = pos;
+        //snake[snk].slither();
+    }
+    if(foodIn += snake.size())
+    {
+        add();
+    }
+    
+    drawSnake();
+
+}
+
+
+   
 
     //     sf::RectangleShape getSegment(sf::Vector2f pos)
     // {

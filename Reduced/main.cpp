@@ -101,9 +101,11 @@ while( win.isOpen() )
     //snk.getSegment(snakeStart);
     //snk.drawSnk();
     callRand = false;
-    
     }
-
+    get.pos = snakeStart;
+    get.getInit();
+    
+    get.slither(event, del);
     
     // start::deltaTime = del;
     // start::evt = event;
@@ -128,7 +130,7 @@ callRand = false;
 }
     win.draw(bg);
     win.draw(bgBorder);
-   
+
     score.SetTitle();
     score.DrawTitle(win);
     // for(auto s : snakeLoader)
@@ -166,9 +168,9 @@ callRand = false;
     collide.insert(collide.begin(),impact1);
     collide.insert(collide.begin()+1,impact2);
     }
-    
-    score.SetScore();
-    score.DrawScore(win);
+        //added to eng
+    //score.SetScore();
+    //score.DrawScore(win);
     score.SetPrompt();
     
     // snakeHead.direction(event, del);
@@ -204,7 +206,7 @@ callRand = false;
       snacks[nutrients].makeSnacks(win);
       if( snakeRect.intersects(boxRect1) || snakeRect.intersects(boxRect2))
       {
-        get.foodLocations(boxRect1 , boxRect2);
+        //get.foodLocations(boxRect1 , boxRect2);
         //charmer.newBody(charmer.setSegPos(), snkshape, segment);
         consumed +=1;
         
