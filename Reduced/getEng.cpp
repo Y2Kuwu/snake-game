@@ -4,20 +4,24 @@
 
     GetEng::GetEng()
     {
-        //winSz = sf::Vector2f(400,400);
-        //win.create(sf::VideoMode(winSz.x , winSz.y), "Snake");
+        winSz = sf::Vector2f(400,400);
+        win.create(sf::VideoMode(winSz.x , winSz.y), "Snake", sf::Style::Default);
         //getInit();
         score.SetTitle();
         score.SetScore();
+        score.DrawTitle(win);
         score.DrawScore(win);
+        //dead = false;
+        getInit();
         //score.DrawPrompt(win , countCycle);
-
+        
     }
 
      void GetEng::getInit()
     {
         foodIn = 0;
-        speed = 2;
+        
+        //speed = 2;
         newSnk();
         //add snacks
 
@@ -37,6 +41,7 @@
     {
         food1 = snack1;
         food2 = snack2;
+        eat();
     }
 
     void GetEng::add() 
@@ -51,29 +56,73 @@
         {
             if(snk.getSeg().getGlobalBounds().intersects(food1) ||
                snk.getSeg().getGlobalBounds().intersects(food2))
+               {
                foodIn+=1;
                score.EatFood(foodIn);
+               }
+          
+            
         }
     }
 
-
-    // void GetEng::newDir()
-    // {   
+    void GetEng::death()
+    {
+        for(auto &snk : snake)
+        {
+          if(snake[0].getSeg().getGlobalBounds().intersects(snk.getSeg().getGlobalBounds()))
+            {
+                dead = true;
+                score.DrawDead(win);
+                //run end cycle
+            }
         
-    // }
+        else
+        {
+            dead = false;
+        }
+    }
+    }
+
+    void GetEng::drawPrompt(int cycle)
+    {
+         if(cycle % 2 == 0)
+        {
+            score.promptStart.setFillColor(sf::Color::Red);
+            score.promptStart.setOutlineColor(sf::Color::Black);
+            win.draw(prompt);
+            win.draw(score.promptStart);
+        }
+        else
+        {
+        win.draw(score.promptStart);
+        }
+        win.display();
+    }
 
 
      void GetEng::drawSnake()
     {
+        win.clear();
         for(auto &snk : snake)
         {
             win.draw(snk.getSeg());
         }
+        win.display();
     }
 
 
-    void GetEng::slither(sf::Event evt , float delta)
-{
+    void GetEng::slither()
+{   
+    sf::Event evt{};
+
+     while (win.pollEvent(evt)) {
+        
+    if (evt.type == sf::Event::Closed) {
+      win.close();
+    }
+    
+   
+
     //e = evt;
     if(evt.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
     {
@@ -99,9 +148,9 @@
         vel.x = 0.0f;
         vel.y = 50.0f;
     }
-    pos += vel * delta;
+    pos += vel * deltaTime;
     snake[0].setPos(pos);
-    prevPos = pos;
+    //prevPos = pos;
 
     for(int snk = 1; snk < snake.size(); snk++)
     {
@@ -110,16 +159,32 @@
         prevPos = pos;
         //snake[snk].slither();
     }
-    if(foodIn += snake.size())
+    if(foodIn += snake.size()+2)////////////////
     {
         add();
     }
-    
-    drawSnake();
+    deltaTime = init.restart().asSeconds();
+
+    }
 
 }
 
+    void GetEng::runSnake()
+    {
+        init.restart();
+        while(win.isOpen())
+        {
+        
+        if(dead == false)
+        {
+        slither();
+        drawSnake();
+        }
+        deltaTime += init;
+        }
+    }
 
+    
    
 
     //     sf::RectangleShape getSegment(sf::Vector2f pos)
