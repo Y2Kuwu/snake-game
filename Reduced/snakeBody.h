@@ -15,7 +15,7 @@ int consumption; //length
 
 sf::RectangleShape bodySegment;
 
-sf::Vector2f segPos;
+sf::Vector2f pos;
 
 float x , y;
 //std::vector<sf::Vector2f>previous;
@@ -27,9 +27,9 @@ bool down;
 public:
 //was 1
 explicit Snake(sf::Vector2f startPos);
-sf::Vector2f headPos();
 sf::Vector2f getPos();
 void setPos(sf::Vector2f newPos);
+void slither();
 sf::RectangleShape getSeg();
 
 

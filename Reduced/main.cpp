@@ -13,6 +13,9 @@
 
 int main()
 {
+ GetEng getEng;
+ getEng.runSnake();
+
 bool callRand;
 
 srand (time(0));
@@ -23,24 +26,29 @@ bool starter = false;
 
 int cycle = 0;
 int consumed = 0;
-sf::Clock init;
+//sf::Clock init;
 sf::Vector2f segment(10,10);
 sf::Vector2f snakeStart(190,190);
 
-GetEng getEng;
 
-//float del = init.restart().asSeconds();
-//getEng.deltaTime = del;
-
-getEng.runSnake();
-
-
-Score score;
-
-
+// sf::Time dt;
+// dt = getEng.deltaTime;
+// if(dt >= sf::seconds(1))
+// {
+//   cycle +=1;
+// }
+// //float del = init.restart().asSeconds();
+// //getEng.deltaTime = del;
 
 
-sf::Vector2f dir = {0.0f , 0.0f};
+
+
+// Score score;
+
+
+
+
+// sf::Vector2f dir = {0.0f , 0.0f};
 
 Collision impact;
 
@@ -74,7 +82,7 @@ std::vector<sf::Vector2f>randSize;
 
 sf::Vector2f collisionBox(15,15);
 
-//sf::Vector2f winSz(400,400);
+// //sf::Vector2f winSz(400,400);
 
 
 int randomPosX1 = (rand() % 340 + 20);
@@ -82,43 +90,43 @@ int randomPosY1 = (rand() % 310 + 60);
 int randomPosX2 = (rand() % 340 + 20);
 int randomPosY2 = (rand() % 310 + 60);
 
-//sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
+// // sf::RenderWindow win(sf::VideoMode(winSz.x , winSz.y), "Snake");
 
-// while( win.isOpen() )
-// 	{
+// // while( win.isOpen() )
+// // 	{
 
     
-		// sf::Event event;
-		// while( win.pollEvent( event ) )
-		// {
-		// 	if( event.type == sf::Event::Closed )
-		// 		win.close();
-		// }
-    // win.clear();
+// // 		sf::Event event;
+// // 		while( win.pollEvent( event ) )
+// // 		{
+// // 			if( event.type == sf::Event::Closed )
+// // 				win.close();
+// // 		}
+// //     win.clear();
     
     if(starter == false)
     {
     callRand = false;
     }
-    //GetEng();
+//     //GetEng();
 
-  // score.SetPrompt();
-  // score.SetScore();
-  // score.SetTitle();
+//   // score.SetPrompt();
+//   // score.SetScore();
+//   // score.SetTitle();
 
-  //   score.DrawScore(win);
-  //   score.DrawTitle(win);
+//   //   score.DrawScore(win);
+//   //   score.DrawTitle(win);
   
-  //get.slither(del);
-  //get.pos = snakeStart; 
-  //get.deltaTime = del;
+//   //get.slither(del);
+//   //get.pos = snakeStart; 
+//   //get.deltaTime = del;
  
 
   
 
 
-  //remove??
-    score.EatFood(consumed);
+//   //remove??
+//     score.EatFood(consumed);
     sf::Vector2f randPos1;
     sf::Vector2f randPos2;
 
@@ -130,9 +138,9 @@ randomPosX2 = (rand() % 340 + 20);
 randomPosY2 = (rand() % 310 + 60);
 callRand = false;
 }
-    //win.draw(bg);
-    //win.draw(bgBorder);
-    //get.getInit();
+//     //win.draw(bg);
+//     //win.draw(bgBorder);
+
 
    
 
@@ -185,32 +193,32 @@ callRand = false;
     sf::FloatRect boxRect1(boxPos1, collisionBox);
     
     //
-    //get.foodLocations(boxRect1, boxRect2);
-    for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
-    {
-      //snacks[nutrients].makeSnacks(win);
+    getEng.food1 = boxRect1;
+    getEng.food2 = boxRect2;
+    // for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
+    // {
+    //   //snacks[nutrients].makeSnacks(win);
       
-      if( snakeRect.intersects(boxRect1) || snakeRect.intersects(boxRect2))
-      {
-        consumed +=1;
+    //   if( snakeRect.intersects(boxRect1) || snakeRect.intersects(boxRect2))
+    //   {
+    //     consumed +=1;
         
-        collide.clear();
-        snacks.clear();
-        randSize.clear();
-        randPos1.x = 0;
-        randPos2.x = 0; 
-        randPos1.y= 0;
-        randPos2.y = 0; 
+    //     collide.clear();
+    //     snacks.clear();
+    //     randSize.clear();
+    //     randPos1.x = 0;
+    //     randPos2.x = 0; 
+    //     randPos1.y= 0;
+    //     randPos2.y = 0; 
 
-          callRand = true;
-       }
-    }
-   
+    //       callRand = true;
+    //    }
+    // }
+
 
          if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
       starter = true;
-      //get.getInit();
       // get.runSnake();
       
     }
@@ -219,13 +227,15 @@ callRand = false;
       sf::sleep(sf::seconds(.5));
       //win.draw(block);
       getEng.countCycle = cycle;
-      getEng.drawPrompt(getEng.countCycle);
+      //getEng.drawPrompt(getEng.countCycle);
       
       cycle+=1;
     }
-   //get.drawSnake();
-  return EXIT_SUCCESS;
-    //win.display();
-    }
+}
+//    //get.drawSnake();
+//   return EXIT_SUCCESS;
+//   //return 0;
+//     //win.display();
+//     }
    
-//}
+

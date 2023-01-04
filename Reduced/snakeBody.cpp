@@ -1,5 +1,5 @@
-// #include"snakeBody.h"
-#include"getEng.h"
+#include"snakeBody.h"
+
 // using namespace start;
 
 // //start::Snake::Snake(sf::RenderWindow *window)
@@ -131,23 +131,29 @@ Snake::Snake(sf::Vector2f startPos)
    bodySegment.setOutlineColor(sf::Color::Black);
    bodySegment.setOutlineThickness(6); 
    
-   GetEng().pos = startPos;
+   pos = startPos;
 }
 
 sf::Vector2f Snake::getPos()
 
 {
-    return GetEng().pos;
+    return pos;
 }
 
 void Snake::setPos(sf::Vector2f newPos)
 {
-    GetEng().pos = newPos;
+    //GetEng().pos = newPos;
+    pos = newPos;
 }
 
 sf::RectangleShape Snake::getSeg()
 {
     return bodySegment;
+}
+
+void Snake::slither()
+{
+    bodySegment.setPosition(pos);
 }
 
 // void Snake::slither()
