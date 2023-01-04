@@ -19,8 +19,10 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         dirQue.clear();
         dead = false;
         
-        getInit();
         
+        //background();
+        drawPrompt(countCycle);
+        getInit();
         
     }
     void GetEng::background()
@@ -39,13 +41,12 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
 
      void GetEng::getInit()
     {
-        foodIn = 0;
         last = sf::Time::Zero;
-        //speed = 2;
+        speed = 2;
         newSnk();
         
         
-        pushDir(dirPush::UP);
+        //pushDir(dirPush::UP);
         //add snacks here
     }
    
@@ -54,8 +55,8 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
     {
         snake.clear();
         snake.emplace_back(sf::Vector2f(190,190));
-        snake.emplace_back(sf::Vector2f(200,190));
-        snake.emplace_back(sf::Vector2f(210,190));
+        snake.emplace_back(sf::Vector2f(190,200));
+        snake.emplace_back(sf::Vector2f(190,210));
     }
     
 
@@ -81,6 +82,7 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
                {
                foodIn++;
                score.EatFood(foodIn);
+               add();
                }
           
             
@@ -114,30 +116,27 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         prompt.setOutlineThickness(4);
 
 
-         if(cycle % 2 == 0)
+        if(cycle % 2 == 0)
         {
             score.promptStart.setFillColor(sf::Color::Red);
             score.promptStart.setOutlineColor(sf::Color::Black);
-            //win.draw(prompt);
-            //win.draw(score.promptStart);
         }
         else
         {
         score.promptStart.setFillColor(sf::Color::Black);
         score.promptStart.setOutlineColor(sf::Color::Red);
-        //win.draw(prompt);
-        //win.draw(score.promptStart);
         }
-        win.display();
     }
 
 
      void GetEng::drawSnake()
     {
         win.clear();
+
+      
         for(auto &snk : snake)
         {
-            background();
+            
             
             win.draw(back);
             win.draw(backOutline);
@@ -147,9 +146,11 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
 
             win.draw(snk.getSeg());
         }
-
+        
         if(start == false)
         {
+            win.draw(back);
+            win.draw(backOutline);
             win.draw(prompt);
             win.draw(score.promptStart);
         }
@@ -172,7 +173,17 @@ void GetEng::slither()
       win.close();
     }
 
-    if(evt.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
+   
+
+    if(evt.key.code ==sf::Keyboard::Space)
+    {
+        //countCycle = NULL;
+        start = true;
+    }
+
+    
+
+    else if(evt.key.code == sf::Keyboard::Left)// || evt.key.code == sf::Keyboard::A)
     {
         //left = true;
         // vel.x = -50.0f;
@@ -183,7 +194,7 @@ void GetEng::slither()
         // snake[0].setPos(sf::Vector2f(currPos.x,currPos.y));
         pushDir(dirPush::LEFT);
     }
-    if(evt.key.code == sf::Keyboard::Right || evt.key.code == sf::Keyboard::D)
+    else if(evt.key.code == sf::Keyboard::Right)// || evt.key.code == sf::Keyboard::D)
     {
         //right = true;
         // vel.x = 50.0f;
@@ -194,7 +205,7 @@ void GetEng::slither()
         // snake[0].setPos(sf::Vector2f(currPos.x,currPos.y));
        pushDir(dirPush::RIGHT);
     }
-    if(evt.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
+    else if(evt.key.code == sf::Keyboard::Up)// || evt.key.code == sf::Keyboard::W)
     {
         //up = true;
         //  vel.x = 50.0f;
@@ -205,8 +216,9 @@ void GetEng::slither()
         // snake[0].setPos(sf::Vector2f(currPos.x,currPos.y));
         pushDir(dirPush::UP);
     }
-    if(evt.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::S)
+    else if(evt.key.code == sf::Keyboard::Down) //|| evt.key.code == sf::Keyboard::S)
     {
+        
         //down = true;
         // vel.x = 0.0f;
         // vel.y = 50.0f;
@@ -217,16 +229,12 @@ void GetEng::slither()
         pushDir(dirPush::DOWN);
     }
 
-    if(evt.key.code ==sf::Keyboard::Space)
-    {
-        //countCycle = NULL;
-        start = true;
     }
     
     }
     
    
-    }
+    
 
 
 
@@ -247,7 +255,7 @@ void GetEng::slither()
     {
     
 
-    
+   
          if(last.asSeconds() >= sf::seconds(1.f / float(speed)).asSeconds())
     {   
         currPos = snake[0].getPos();
@@ -258,48 +266,63 @@ void GetEng::slither()
             switch (dir)
             {
                 case dirPush::UP:
+                //snake[0].setPos(sf::Vector2f(currPos.x,currPos.y+30));
                 if (dirQue.front() != dirPush::DOWN) {
                 dir = dirQue.front();
-                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y+30));
                 }
           break;
-
-             switch (dir)
-            {
                 case dirPush::DOWN:
+                //snake[0].setPos(sf::Vector2f(currPos.x,currPos.y-30));
                 if (dirQue.front() != dirPush::UP) {
                 dir = dirQue.front();
-                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y-30));
                 }
           break;
-
-             switch (dir)
-            {
                 case dirPush::LEFT:
+                //snake[0].setPos(sf::Vector2f(currPos.x-30,currPos.y));
                 if (dirQue.front() != dirPush::RIGHT) {
                 dir = dirQue.front();
-                snake[0].setPos(sf::Vector2f(currPos.x-30,currPos.y));
+                }
+          break;
+                case dirPush::RIGHT:
+                //snake[0].setPos(sf::Vector2f(currPos.x+30,currPos.y));
+                if (dirQue.front() != dirPush::LEFT) {
+                dir = dirQue.front();
                 }
           break;
 
-             switch (dir)
-            {
-                case dirPush::RIGHT:
-                if (dirQue.front() != dirPush::LEFT) {
-                dir = dirQue.front();
-                 snake[0].setPos(sf::Vector2f(currPos.x+30,currPos.y));
-                }
-          break;
 
             }
             dirQue.pop_front();
             }
-        }
-        if(foodIn++)
+
+    
+
+        if(dirPush::RIGHT)
         {
-            add();
+            snake[0].setPos(sf::Vector2f(currPos.x+30,currPos.y));
+        }
+        else if(dirPush::LEFT)
+        {
+            snake[0].setPos(sf::Vector2f(currPos.x-30,currPos.y));
         }
 
+         else if(dirPush::UP)
+        {
+            snake[0].setPos(sf::Vector2f(currPos.x,currPos.y+30));
+        }
+
+        else if(dirPush::DOWN)
+        {
+            snake[0].setPos(sf::Vector2f(currPos.x,currPos.y-30));
+        }
+        
+
+        // if(foodIn++)
+        // {
+        //     add();
+        // }
+    //add();
+        eat();
 
         for(int snk = 1; snk < snake.size(); snk++)
     {
@@ -313,12 +336,13 @@ void GetEng::slither()
     {
         snk.update();
     }
-        death();
+       // death();
     }
+    
          last = sf::Time::Zero;
     }
-    }
-    }
+    
+    
 
 
 
@@ -329,19 +353,25 @@ void GetEng::slither()
         while(win.isOpen())
         {
         sf::Time deltaTime = init.restart();
-        if(dead == false)
-        {
-        drawSnake();
-        
-        //continue;
-        }
+        // if(dead == false)
+        // {
+        // slither();
+        // drawSnake();
+        // }
+       
         if(start == false)
         {
-        
         countCycle += 1;
         sf::sleep(sf::seconds(.5));
         drawPrompt(countCycle);
+        // snake[0].setPos(sf::Vector2f(190,190));
+        // snake[1].setPos(sf::Vector2f(190,200));
+        // snake[2].setPos(sf::Vector2f(190,210));
         }
+      
+           
+        
+        
         //sf::sleep(sf::milliseconds(2)); 
 
         last += deltaTime;
@@ -349,7 +379,7 @@ void GetEng::slither()
         slither();
         upd();
         drawSnake();
-
+        
         }
     }
 

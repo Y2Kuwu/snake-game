@@ -28,7 +28,7 @@ sf::RenderWindow win;
 
 int foodIn;
 
-int speed = 3;
+int speed;
 
 
 

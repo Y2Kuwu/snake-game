@@ -20,14 +20,9 @@ bool callRand;
 
 srand (time(0));
 
-
-
-bool starter = false;
-
-int cycle = 0;
 int consumed = 0;
-sf::Vector2f segment(10,10);
-sf::Vector2f snakeStart(190,190);
+// sf::Vector2f segment(10,10);
+// sf::Vector2f snakeStart(190,190);
 
 
 // sf::Time dt;
@@ -84,10 +79,10 @@ int randomPosY2 = (rand() % 310 + 60);
 // // 		}
 // //     win.clear();
     
-    if(starter == false)
-    {
-    callRand = false;
-    }
+    // if(starter == false)
+    // {
+    // callRand = false;
+    // }
 
 
 //   //remove??
@@ -137,11 +132,11 @@ callRand = false;
     //score.SetPrompt();
    
   
-    sf::Vector2f snkPos;
+    //sf::Vector2f snkPos;
     //snkPos = start::headLocation;
     //snkPos =  snakeHead.getPos();
     //start::headLocation = snkPos;
-    sf::FloatRect snakeRect(snkPos, segment);
+    //sf::FloatRect snakeRect(snkPos, segment);
    
     sf::Vector2f boxPos1;
     boxPos1 = randSize.front();
@@ -152,8 +147,9 @@ callRand = false;
     sf::FloatRect boxRect1(boxPos1, collisionBox);
     
     //
-    getEng.food1 = boxRect1;
-    getEng.food2 = boxRect2;
+    //getEng.food1 = boxRect1;
+    //getEng.food2 = boxRect2;
+    getEng.foodLocations(boxRect1, boxRect2);
     // for(int nutrients = 0; nutrients < snacks.size(); nutrients++)
     // {
     //   //snacks[nutrients].makeSnacks(win);
