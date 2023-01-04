@@ -9,22 +9,33 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         winSz = sf::Vector2f(400,400);
         win.create(sf::VideoMode(winSz.x , winSz.y), "Snake", sf::Style::Default);
         win.setFramerateLimit(FPS);
-        //getInit();
-        //getInit();
+      
         foodIn = 0;
+
         score.SetPrompt();
-        score.SetTitle();
         score.SetScore();
-        score.DrawTitle(win);
-        score.DrawScore(win);
-       // drawPrompt(countCycle);
+        score.SetTitle();
+      
         dirQue.clear();
         dead = false;
+        
         getInit();
-        //newSnk();
-        //score.DrawPrompt(win , countCycle);
+        
         
     }
+    void GetEng::background()
+    {
+    back.setSize(sf::Vector2f(360,360));
+    back.setPosition(sf::Vector2f(20,20));
+    back.setFillColor(sf::Color::White);
+    back.setOutlineColor(sf::Color::Red);
+    back.setOutlineThickness(6);
+
+    backOutline.setSize(sf::Vector2f(360,40));
+    backOutline.setPosition(sf::Vector2f(20,20));
+    backOutline.setFillColor(sf::Color::Red);
+    }
+
 
      void GetEng::getInit()
     {
@@ -32,8 +43,10 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         last = sf::Time::Zero;
         //speed = 2;
         newSnk();
-        //add snacks
-
+        
+        
+        pushDir(dirPush::UP);
+        //add snacks here
     }
    
 
@@ -92,38 +105,59 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
     }
     }
 
-    // void GetEng::drawPrompt(int cycle)
-    // {
-    //      if(cycle % 2 == 0)
-    //     {
-    //         score.promptStart.setFillColor(sf::Color::Red);
-    //         score.promptStart.setOutlineColor(sf::Color::Black);
-    //         win.draw(prompt);
-    //         win.draw(score.promptStart);
-    //     }
-    //     else
-    //     {
-    //     win.draw(score.promptStart);
-    //     }
-    //     win.display();
-    // }
-
-
-     void GetEng::drawSnake()
+    void GetEng::drawPrompt(int cycle)
     {
+        prompt.setSize(sf::Vector2f(360,320));
+        prompt.setPosition(sf::Vector2f(20,60));
+        prompt.setFillColor(sf::Color(255,255,255,128));
+        prompt.setOutlineColor(sf::Color::Black);
+        prompt.setOutlineThickness(4);
 
-       
-        win.clear();
-        for(auto &snk : snake)
+
+         if(cycle % 2 == 0)
         {
-            win.draw(snk.getSeg());
+            score.promptStart.setFillColor(sf::Color::Red);
+            score.promptStart.setOutlineColor(sf::Color::Black);
+            //win.draw(prompt);
+            //win.draw(score.promptStart);
+        }
+        else
+        {
+        score.promptStart.setFillColor(sf::Color::Black);
+        score.promptStart.setOutlineColor(sf::Color::Red);
+        //win.draw(prompt);
+        //win.draw(score.promptStart);
         }
         win.display();
     }
 
 
+     void GetEng::drawSnake()
+    {
+        win.clear();
+        for(auto &snk : snake)
+        {
+            background();
+            
+            win.draw(back);
+            win.draw(backOutline);
 
+            score.DrawTitle(win);
+            score.DrawScore(win);
 
+            win.draw(snk.getSeg());
+        }
+
+        if(start == false)
+        {
+            win.draw(prompt);
+            win.draw(score.promptStart);
+        }
+
+       
+
+        win.display();
+    }
 
 
 
@@ -183,9 +217,11 @@ void GetEng::slither()
         pushDir(dirPush::DOWN);
     }
 
- 
-
-   
+    if(evt.key.code ==sf::Keyboard::Space)
+    {
+        //countCycle = NULL;
+        start = true;
+    }
     
     }
     
@@ -209,6 +245,9 @@ void GetEng::slither()
 
     void GetEng::upd()
     {
+    
+
+    
          if(last.asSeconds() >= sf::seconds(1.f / float(speed)).asSeconds())
     {   
         currPos = snake[0].getPos();
@@ -272,7 +311,7 @@ void GetEng::slither()
     }
         for(auto & snk : snake)
     {
-        snk.slither();
+        snk.update();
     }
         death();
     }
@@ -293,8 +332,15 @@ void GetEng::slither()
         if(dead == false)
         {
         drawSnake();
-         
+        
         //continue;
+        }
+        if(start == false)
+        {
+        
+        countCycle += 1;
+        sf::sleep(sf::seconds(.5));
+        drawPrompt(countCycle);
         }
         //sf::sleep(sf::milliseconds(2)); 
 

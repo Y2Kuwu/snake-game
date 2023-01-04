@@ -151,7 +151,7 @@ sf::RectangleShape Snake::getSeg()
     return bodySegment;
 }
 
-void Snake::slither()
+void Snake::update()
 {
     bodySegment.setPosition(pos);
 }

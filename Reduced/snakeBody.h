@@ -29,7 +29,7 @@ public:
 explicit Snake(sf::Vector2f startPos);
 sf::Vector2f getPos();
 void setPos(sf::Vector2f newPos);
-void slither();
+void update();
 sf::RectangleShape getSeg();
 
 

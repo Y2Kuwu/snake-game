@@ -26,7 +26,6 @@ bool starter = false;
 
 int cycle = 0;
 int consumed = 0;
-//sf::Clock init;
 sf::Vector2f segment(10,10);
 sf::Vector2f snakeStart(190,190);
 
@@ -44,34 +43,15 @@ sf::Vector2f snakeStart(190,190);
 
 
 // Score score;
-
-
-
-
 // sf::Vector2f dir = {0.0f , 0.0f};
 
 Collision impact;
 
-sf::RectangleShape bg;
-bg.setSize(sf::Vector2f(360,360));
-bg.setPosition(sf::Vector2f(20,20));
-bg.setFillColor(sf::Color::White);
-bg.setOutlineColor(sf::Color::Red);
-bg.setOutlineThickness(6);
-
-sf::RectangleShape bgBorder;
-bgBorder.setSize(sf::Vector2f(360,40));
-bgBorder.setPosition(sf::Vector2f(20,20));
-bgBorder.setFillColor(sf::Color::Red);
 
 
-sf::RectangleShape block;
-block.setSize(sf::Vector2f(360,320));
-block.setPosition(sf::Vector2f(20,60));
-block.setFillColor(sf::Color(255,255,255,128));
-block.setOutlineColor(sf::Color::Black);
-block.setOutlineThickness(4);
-getEng.prompt = block;
+
+
+
 
 std::vector<Snacks>snacks;
 
@@ -108,21 +88,6 @@ int randomPosY2 = (rand() % 310 + 60);
     {
     callRand = false;
     }
-//     //GetEng();
-
-//   // score.SetPrompt();
-//   // score.SetScore();
-//   // score.SetTitle();
-
-//   //   score.DrawScore(win);
-//   //   score.DrawTitle(win);
-  
-//   //get.slither(del);
-//   //get.pos = snakeStart; 
-//   //get.deltaTime = del;
- 
-
-  
 
 
 //   //remove??
@@ -138,13 +103,7 @@ randomPosX2 = (rand() % 340 + 20);
 randomPosY2 = (rand() % 310 + 60);
 callRand = false;
 }
-//     //win.draw(bg);
-//     //win.draw(bgBorder);
 
-
-   
-
-  
 
     if(callRand == false)
     {
@@ -216,21 +175,6 @@ callRand = false;
     // }
 
 
-         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-    {
-      starter = true;
-      // get.runSnake();
-      
-    }
-    if(starter == false)
-    {
-      sf::sleep(sf::seconds(.5));
-      //win.draw(block);
-      getEng.countCycle = cycle;
-      //getEng.drawPrompt(getEng.countCycle);
-      
-      cycle+=1;
-    }
 }
 //    //get.drawSnake();
 //   return EXIT_SUCCESS;

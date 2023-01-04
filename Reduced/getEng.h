@@ -45,6 +45,7 @@ int dir;
 sf::Vector2f currPos;
 sf::Vector2f prevPos;
 bool dead;
+bool start;
 
 public:
     sf::FloatRect food1;
@@ -52,6 +53,10 @@ public:
     //float deltaTime;
     //sf::Vector2f pos;
     sf::RectangleShape prompt;
+    sf::RectangleShape back;
+    sf::RectangleShape backOutline;
+
+
     int countCycle; // from main
 
     //sf::Time deltaTime;
@@ -75,6 +80,7 @@ public:
     void foodLocations(sf::FloatRect snack1, sf::FloatRect snack2);
     void upd();
     void runSnake();
+    void background();
 
     enum dirPush{UP,DOWN,LEFT,RIGHT};
     void pushDir(int dir);

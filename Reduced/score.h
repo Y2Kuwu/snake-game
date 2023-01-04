@@ -34,8 +34,7 @@ class Score
         promptStart.setFont(prompt);
         promptStart.setString("Press SPACE to start");
         promptStart.setCharacterSize(20);
-        promptStart.setFillColor(sf::Color::Black);
-        promptStart.setOutlineColor(sf::Color::Red);
+        
         promptStart.setOutlineThickness(3);
         promptStart.setPosition(100,140);
     }
