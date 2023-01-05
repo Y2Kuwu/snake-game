@@ -9,11 +9,12 @@ class Score
     sf::Font snake;
     sf::Font prompt;
     sf::Text title;
-    sf::Text promptStart;
+   
+    sf::Text promptEnd;
 
     
     public:
-
+     sf::Text promptStart;
     void SetTitle()
     {
         snake.loadFromFile("RockSalt-Regular.ttf");
@@ -33,11 +34,24 @@ class Score
         promptStart.setFont(prompt);
         promptStart.setString("Press SPACE to start");
         promptStart.setCharacterSize(20);
-        promptStart.setFillColor(sf::Color::Black);
-        promptStart.setOutlineColor(sf::Color::Red);
+        
         promptStart.setOutlineThickness(3);
         promptStart.setPosition(100,140);
     }
+
+
+      void SetDead()
+    {
+        prompt.loadFromFile("Inconsolata-Medium.ttf");
+        promptEnd.setFont(prompt);
+        promptEnd.setString("YOU DIED");
+        promptEnd.setCharacterSize(40);
+        promptEnd.setFillColor(sf::Color::Black);
+        promptEnd.setOutlineColor(sf::Color::Red);
+        promptEnd.setOutlineThickness(3);
+        promptEnd.setPosition(100,140);
+    }
+
 
     void SetScore()
     {
@@ -62,18 +76,14 @@ class Score
         return eat;
     }
 
-    void DrawPrompt(sf::RenderWindow &win , int cycle)
+    // void DrawPrompt(int cycle)//sf::RenderWindow &win 
+    // {
+       
+    // }
+
+    void DrawDead(sf::RenderWindow &win)
     {
-        if(cycle % 2 == 0)
-        {
-            promptStart.setFillColor(sf::Color::Red);
-            promptStart.setOutlineColor(sf::Color::Black);
-            win.draw(promptStart);
-        }
-        else
-        {
-        win.draw(promptStart);
-        }
+        win.draw(promptEnd);
     }
 
     void DrawScore(sf::RenderWindow &win)

@@ -18,7 +18,7 @@ std::vector<sf::CircleShape>snackSack;
 
 public:
 Snacks() = default;
-~Snacks(){};
+
 sf::Vector2f GetBounds1() 
 {
     return snackBounds1;
@@ -49,6 +49,10 @@ void SetPos2()
     snack.setPosition(snackBounds2);
 }
 
+sf::Vector2f SnackPos()
+{
+   return snack.getPosition();
+}
 
 
 Snacks(float sz)
