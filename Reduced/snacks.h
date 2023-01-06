@@ -1,5 +1,6 @@
 #ifndef SNACKS_H
-#define SNACKS_H
+#define SNACKS_H 
+
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include <stdlib.h>
@@ -10,59 +11,60 @@ private:
 int points;
 int totalRendered;
 float snackX , snackY;
-sf::Vector2f snackBounds1;
-sf::Vector2f snackBounds2;
+sf::Vector2f snackBounds;
 sf::CircleShape snack;
-std::vector<sf::CircleShape>snackSack;
+
+sf::RectangleShape collide;
+//std::vector<sf::CircleShape>snackSack;
 //sf::FloatRect bounds;
+float sz = 6;
+
+sf::FloatRect globals;
 
 public:
-Snacks() = default;
 
-sf::Vector2f GetBounds1() 
-{
-    return snackBounds1;
-}
+explicit Snacks(sf::Vector2f snackPos);
+//Snacks() = default;
+sf::CircleShape getSnack();
+sf::Vector2f getBounds(); 
+void upd();
+void setBounds(sf::Vector2f newPos);
+// {
+//     return snackBounds1;
+// }
 
-void SetBounds1(sf::Vector2f pos1)
-{
-    snackBounds1 = pos1;
-}
+// void SetBounds1(sf::Vector2f pos1);
+// // {
+// //     snackBounds1 = pos1;
+// // }
 
-sf::Vector2f GetBounds2() 
-{
-    return snackBounds1;
-}
+// sf::Vector2f GetBounds2(); 
+// // {
+// //     return snackBounds1;
+// // }
 
-void SetBounds2(sf::Vector2f pos2)
-{
-    snackBounds2 = pos2;
-}
+// void SetBounds2(sf::Vector2f pos2);
+// // {
+// //     snackBounds2 = pos2;
+// // }
 
-void SetPos1()
-{
-    snack.setPosition(snackBounds1);
-}
+// void SetPos1();
+// // {
+// //     snack.setPosition(snackBounds1);
+// // }
 
-void SetPos2()
-{
-    snack.setPosition(snackBounds2);
-}
+// void SetPos2();
+// // {
+// //     snack.setPosition(snackBounds2);
+// // }
 
-sf::Vector2f SnackPos()
-{
-   return snack.getPosition();
-}
+// sf::Vector2f SnackPos();
+// {
+//    return snack.getPosition();
+// }
 
 
-Snacks(float sz)
-{
-    snack.setRadius(sz);
-    //snack.setPosition(spos);
-    snack.setFillColor(sf::Color::Red);
-    snack.setOutlineColor(sf::Color::Black);
-    snack.setOutlineThickness(2);
-}
+
 
 
 
@@ -77,102 +79,73 @@ Snacks(float sz)
 //     return snackX,snackY;
 // }
 
-void countSnacks()
-{
-   
 
-    // if(totalRendered <= 3)
-    // {
-    //     snackSack.push_back(snack);
-    // }
-}
 
-// int snackCount()
+
+
+// class Collision 
+
 // {
-//     return totalRendered;
+// sf::RectangleShape collide;
+// sf::Vector2f impactBounds;
+// sf::Vector2f backSz;
+// sf::CircleShape snax;
+
+// public:
+
+// sf::FloatRect globals;
+// Collision(sf::Vector2f snackPos);
+// sf::RectangleShape getCollision();
+// void setImpact(sf::Vector2f newPos); 
+// void upd();
+// sf::Vector2f getImpact();
+// {
+//     return impactBounds1;
 // }
 
-void makeSnacks(sf::RenderWindow &win)
-{
-    //snack.setPosition(snackBounds1);
-    win.draw(snack);
-    
-}
+// void SetImpactBounds1(sf::Vector2f impact1);
+// // {
+// //     impactBounds1 = impact1;
+// // }
+
+// void SetImpact1();
+// // {
+// //     collide.setPosition(impactBounds1);
+// // }
+
+// sf::Vector2f GetImpact2(); 
+// // {
+// //     return impactBounds2;
+// // }
+
+// void SetImpactBounds2(sf::Vector2f impact2);
+// // {
+// //     impactBounds2 = impact2;
+// // }
+
+// void SetImpact2();
+// // {
+// //     collide.setPosition(impactBounds2);
+// // }
 
 
-};
+// // sf::FloatRect GetBox()
+// // {
+// //     return globals;
+// // }
 
-class Collision : private Snacks
-
-{
-sf::RectangleShape collide;
-sf::Vector2f impactBounds1;
-sf::Vector2f impactBounds2;
-sf::Vector2f backSz;
-
-public:
-
-Collision() = default;
-~Collision(){};
-sf::FloatRect globals;
-
-sf::Vector2f GetImpact1() 
-{
-    return impactBounds1;
-}
-
-void SetImpactBounds1(sf::Vector2f impact1)
-{
-    impactBounds1 = impact1;
-}
-
-void SetImpact1()
-{
-    collide.setPosition(impactBounds1);
-}
-
-sf::Vector2f GetImpact2() 
-{
-    return impactBounds2;
-}
-
-void SetImpactBounds2(sf::Vector2f impact2)
-{
-    impactBounds2 = impact2;
-}
-
-void SetImpact2()
-{
-    collide.setPosition(impactBounds2);
-}
+// // void RandSnackLoc()
+// // {
+// //     srand(time(NULL));
+// // }
 
 
-// sf::FloatRect GetBox()
+
+
+// void bgTest(sf::RenderWindow &win)
 // {
-//     return globals;
+//     win.draw(collide);
 // }
-
-// void RandSnackLoc()
-// {
-//     srand(time(NULL));
-// }
-
-
-Collision(sf::Vector2f backSz)
-{
-    collide.setSize(backSz);
-    //collide.setPosition(backPos);
-    collide.setOutlineColor(sf::Color::Black);
-    collide.setOutlineThickness(2);
-    collide.setFillColor(sf::Color::Black);
-    globals = collide.getGlobalBounds();
-}
-
-void bgTest(sf::RenderWindow &win)
-{
-    win.draw(collide);
-    
-}
 
 
 };

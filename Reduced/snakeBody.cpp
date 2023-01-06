@@ -1,4 +1,4 @@
-#include"snakeBody.h"
+
 
 // using namespace start;
 
@@ -151,7 +151,7 @@ sf::RectangleShape Snake::getSeg()
     return bodySegment;
 }
 
-void Snake::update()
+void Snake::upd()
 {
     bodySegment.setPosition(pos);
 }
