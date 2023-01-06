@@ -30,35 +30,43 @@ int foodIn;
 
 int speed;
 
+sf::Vector2f randPos1;
+sf::Vector2f randPos2;
+std::vector<Snacks>snackSack;
+//std::vector<Collision>impact;
 
 
 sf::Vector2f headLocation;
 sf::FloatRect headBox;
+sf::FloatRect bodyBox;
+
 sf::Vector2f winSz;
 
+int randomPosX1;
+int randomPosY1;
+int randomPosX2;
+int randomPosY2;
 
+sf::Vector2f collisionBox;
 
 //sf::Vector2f vel;
 std::deque<int> dirQue;
 int dir;
 
-sf::Vector2f currPos;
-sf::Vector2f prevPos;
+
 bool dead;
 bool start;
 
 public:
     sf::FloatRect food1;
     sf::FloatRect food2;
-    //float deltaTime;
-    //sf::Vector2f pos;
     sf::RectangleShape prompt;
     sf::RectangleShape back;
     sf::RectangleShape backOutline;
 
 
     int countCycle; // from main
-
+    bool callRand;
     //sf::Time deltaTime;
 
 
@@ -81,19 +89,23 @@ public:
     void upd();
     void runSnake();
     void background();
+    void checkStart();
+    void in();
+    //void drawFood(Snacks);
+    void setSnack();
 
     enum dirPush{UP,DOWN,LEFT,RIGHT};
     void pushDir(int dir);
 
     void drawSnake();
+    void drawSnack();
     void drawPrompt(int cycle);
 
 
     private:
    
     Score score;
-
-
+    //Collision collision;
 
 
 

@@ -1,7 +1,6 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 #include<SFML/Graphics.hpp>
-#include"snacks.h"
 #include<list>
 
 class Snake
@@ -29,7 +28,7 @@ public:
 explicit Snake(sf::Vector2f startPos);
 sf::Vector2f getPos();
 void setPos(sf::Vector2f newPos);
-void update();
+void upd();
 sf::RectangleShape getSeg();
 
 

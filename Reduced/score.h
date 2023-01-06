@@ -8,13 +8,16 @@ class Score
     int eat = 0;
     sf::Font snake;
     sf::Font prompt;
-    sf::Text title;
+    
    
-    sf::Text promptEnd;
+    
 
     
     public:
+     sf::Text title;
      sf::Text promptStart;
+     sf::Text promptEnd;
+     sf::Text score;
     void SetTitle()
     {
         snake.loadFromFile("RockSalt-Regular.ttf");
@@ -56,13 +59,13 @@ class Score
     void SetScore()
     {
         snake.loadFromFile("RockSalt-Regular.ttf");
-        title.setFont(snake);
-        title.setString("Consumed: " + std::to_string(eat));
-        title.setCharacterSize(12);
-        title.setFillColor(sf::Color::White);
-        title.setOutlineColor(sf::Color::Black);
-        title.setOutlineThickness(4);
-        title.setPosition(260,340);
+        score.setFont(snake);
+        score.setString("Consumed: " + std::to_string(eat));
+        score.setCharacterSize(12);
+        score.setFillColor(sf::Color::White);
+        score.setOutlineColor(sf::Color::Black);
+        score.setOutlineThickness(4);
+        score.setPosition(260,340);
     }
 
 
@@ -75,11 +78,6 @@ class Score
     {
         return eat;
     }
-
-    // void DrawPrompt(int cycle)//sf::RenderWindow &win 
-    // {
-       
-    // }
 
     void DrawDead(sf::RenderWindow &win)
     {
