@@ -11,7 +11,7 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         win.create(sf::VideoMode(winSz.x , winSz.y), "Snake", sf::Style::Default);
         win.setFramerateLimit(FPS);
       
-        foodIn = 0;
+        
 
         background();
         score.SetPrompt();
@@ -19,7 +19,7 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         score.SetTitle();
       
         
-        dirQue.clear();
+       
         dead = false;
         callRand = true;
         
@@ -45,11 +45,12 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
      void GetEng::getInit()
     {
         last = sf::Time::Zero;
-        speed = 2;
+        speed = 4;
+        foodIn = 0;
         newSnk();
-        
-        pushDir(dirPush::UP);
-        
+        dir = dirPush::UP;
+        //pushDir(dirPush::UP);
+        dirQue.clear();
         //callRand = false;
         //add snacks here
     }
@@ -134,12 +135,12 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
    
 
 
-    void GetEng::foodLocations(sf::FloatRect snack1, sf::FloatRect snack2)
-    {
-        food1 = snack1;
-        food2 = snack2;
-        //eat();
-    }
+    // void GetEng::foodLocations(sf::FloatRect snack1, sf::FloatRect snack2)
+    // {
+    //     food1 = snack1;
+    //     food2 = snack2;
+    //     //eat();
+    // }
 
     void GetEng::add() 
     {
@@ -154,8 +155,9 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
             if(snk.getSeg().getGlobalBounds().intersects(food1) ||
                snk.getSeg().getGlobalBounds().intersects(food2))
                {
+               foodIn+=1;
                score.EatFood(foodIn);
-               add();
+               //add();
                }
           
             
@@ -257,7 +259,7 @@ void GetEng::checkStart()
 void GetEng::slither()
 {
 
-    sf::Event evt;
+    sf::Event evt{};
 
  while (win.pollEvent(evt)) {
     // Window closed
@@ -336,11 +338,11 @@ void GetEng::slither()
 
     void GetEng::upd()
     {
-    
-
    
          if(last.asSeconds() >= sf::seconds(1.f / float(speed)).asSeconds())
     {   
+        sf::Vector2f currPos;
+        sf::Vector2f prevPos;
         currPos = snake[0].getPos();
         prevPos = currPos;
 
@@ -378,15 +380,19 @@ void GetEng::slither()
             dirQue.pop_front();
             }
             
-                eat();
+                //eat();
+                // if(foodIn)
+                // {
+                //     add();
+                // }
         switch (dir)
             {
                 case dirPush::UP:
-                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y+30));
+                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y-30));
                 
           break;
                 case dirPush::DOWN:
-                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y-30));
+                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y+30));
                 
           break;
                 case dirPush::LEFT:
@@ -439,7 +445,7 @@ void GetEng::slither()
     {
         snk.upd();
     }
-    
+        eat();
     
          last = sf::Time::Zero;
     }

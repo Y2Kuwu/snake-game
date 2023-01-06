@@ -51,8 +51,7 @@ sf::Vector2f collisionBox;
 std::deque<int> dirQue;
 int dir;
 
-sf::Vector2f currPos;
-sf::Vector2f prevPos;
+
 bool dead;
 bool start;
 
