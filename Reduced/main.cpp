@@ -17,11 +17,10 @@ GetEng getEng;
  //getEng.runSnake();
  //getEng.runSnake();
 
- //getEng.in();
+getEng.in();
 bool callRand;
-getEng.runSnake();
+//getEng.runSnake();
 
-std::cout <<(callRand ? true : false);
 
 srand (time(0));
 

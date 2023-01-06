@@ -1,7 +1,7 @@
 #include "getEng.h"
 #include "score.h"
 #include "snacks.h"
-
+#include <iostream>
 const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
 
     GetEng::GetEng()
@@ -45,7 +45,7 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
      void GetEng::getInit()
     {
         last = sf::Time::Zero;
-        speed = 4;
+        speed = 2;
         foodIn = 0;
         newSnk();
         dir = dirPush::UP;
@@ -71,9 +71,8 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
     {
         
         snackSack.clear();
-        
         //snackSack.reserve(2);
-        sf::Vector2f collisionBox(20,20);
+        sf::Vector2f collisionBox(15,15);
         int randomPosX1 = (rand() % 340 + 20);
         int randomPosY1 = (rand() % 310 + 60);
         int randomPosX2 = (rand() % 340 + 20);
@@ -130,6 +129,8 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         snake.emplace_back(sf::Vector2f(190,190));
         snake.emplace_back(sf::Vector2f(190,200));
         snake.emplace_back(sf::Vector2f(190,210));
+        
+        std::cout << snake.size();
     }
     
    
@@ -146,6 +147,7 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
     {
     sf::Vector2f newLoc = snake[snake.size() - 1].getPos();
     snake.emplace_back(newLoc);
+    setSnack();
     }
 
     void GetEng::eat()
@@ -157,7 +159,8 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
                {
                foodIn+=1;
                score.EatFood(foodIn);
-               //add();
+               score.SetScore();
+               add();
                }
           
             
@@ -167,21 +170,25 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
 
     void GetEng::death()
     {
-        for(auto &snk : snake)
+        for(int s = 1; s < snake.size(); s++)
         {
-          if(snake[0].getSeg().getGlobalBounds().intersects(snk.getSeg().getGlobalBounds()))
-            {
-                dead = true;
-                score.DrawDead(win);
-                //run end cycle
-            }
-        
-        else
+        if(snake[0].getSeg().getGlobalBounds().intersects(snake[s].getSeg().getGlobalBounds()))
+        {
+            //win.clear();
+            dead = true;
+        }
+        else 
         {
             dead = false;
         }
+        // if(!snake[0].getSeg().getGlobalBounds().intersects(snake[s].getSeg().getGlobalBounds()))
+        // {
+        //     dead = false;
+        // }
+
+        }
     }
-    }
+    
 
     void GetEng::drawPrompt(int cycle)
     {
@@ -202,7 +209,6 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         {
         score.promptStart.setFillColor(sf::Color::Black);
         score.promptStart.setOutlineColor(sf::Color::Red);
-       
         }
         
     }
@@ -213,29 +219,23 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
      void GetEng::drawSnake()
     {
         win.clear();
+        
+        if(dead == false)
+        {
+        win.draw(back);
+        win.draw(backOutline);
+        win.draw(score.score);
+        }
 
         for(auto &snk : snake)
         {
-            //win.draw(back);
-            //win.draw(backOutline);
-            //score.DrawTitle(win);
-            //score.DrawScore(win);
             win.draw(snk.getSeg());
-            
         }
         for(auto &snx : snackSack)
         {
             win.draw(snx.getSnack());
         }
-        // if(start == false)
-        // {
-        // //win.draw(back);
-        // //win.draw(backOutline);
-        // win.draw(prompt);
-        // win.draw(score.promptStart);
-      
-        // }
-       
+        win.draw(score.title);
 
         win.display();
     }
@@ -388,19 +388,19 @@ void GetEng::slither()
         switch (dir)
             {
                 case dirPush::UP:
-                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y-30));
+                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y-20));
                 
           break;
                 case dirPush::DOWN:
-                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y+30));
+                snake[0].setPos(sf::Vector2f(currPos.x,currPos.y+20));
                 
           break;
                 case dirPush::LEFT:
-                snake[0].setPos(sf::Vector2f(currPos.x-30,currPos.y));
+                snake[0].setPos(sf::Vector2f(currPos.x-20,currPos.y));
                 
           break;
                 case dirPush::RIGHT:
-                snake[0].setPos(sf::Vector2f(currPos.x+30,currPos.y));
+                snake[0].setPos(sf::Vector2f(currPos.x+20,currPos.y));
           break;
             }
         
@@ -440,46 +440,55 @@ void GetEng::slither()
         snake[snk].setPos(prevPos);
         prevPos = currPos;
         //snake[snk].slither();
+        //headBox = snake[0].getSeg().getGlobalBounds();
+        //bodyBox = snake[snk].getSeg().getGlobalBounds();
+       
     }
+    
+    
+
         for(auto & snk : snake)
     {
         snk.upd();
-    }
-        eat();
-    
-         last = sf::Time::Zero;
-    }
-    }
-    
-    // void GetEng::in()
-    // {
-    //      sf::Clock init;
-    //     while(win.isOpen())
-    //     {
-    //     sf::Time deltaTime = init.restart();
-
-    //     if(start == false)
-    //     {
-    //     countCycle += 1;
-    //     sf::sleep(sf::seconds(.5));
-    //     win.clear();
-    //     win.draw(back);
-    //     win.draw(backOutline);
-    //     score.DrawTitle(win);
-    //     score.DrawScore(win);
-    //     win.draw(prompt);
-    //     win.draw(score.promptStart);
-    //     win.display();
-    //     checkStart();
-    //     drawPrompt(countCycle);
-    //     }
-    //     else if(start == true)
-    //     {
-    //         runSnake();
-    //     }
         
-    //     }
-   // }
+    }
+
+        eat();
+        death();
+
+        last = sf::Time::Zero;
+    }
+    }
+    
+    void GetEng::in()
+    {
+         sf::Clock init;
+        while(win.isOpen())
+        {
+        sf::Time deltaTime = init.restart();
+
+        if(start == false)
+        {
+        countCycle += 1;
+        sf::sleep(sf::seconds(.5));
+        win.clear();
+        win.draw(back);
+        win.draw(backOutline);
+        score.DrawTitle(win);
+        score.DrawScore(win);
+        win.draw(prompt);
+        win.draw(score.promptStart);
+        win.display();
+        checkStart();
+        drawPrompt(countCycle);
+        }
+        else if(start == true)
+        {
+            runSnake();
+        }
+        
+        }
+   }
 
 
     void GetEng::runSnake()
@@ -490,6 +499,7 @@ void GetEng::slither()
         sf::Time deltaTime = init.restart();
         if(dead == false)
         {
+        
         slither();
         drawSnake();
         }
@@ -499,7 +509,6 @@ void GetEng::slither()
         }
         // if(start == false)
         // {
-        
         // countCycle += 1;
         // sf::sleep(sf::seconds(.5));
         // drawPrompt(countCycle);
@@ -508,6 +517,7 @@ void GetEng::slither()
         // win.display();
         // checkStart();
         // }
+        
         slither();
         upd();
         drawSnake();

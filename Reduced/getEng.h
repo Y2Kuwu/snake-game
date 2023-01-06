@@ -38,6 +38,8 @@ std::vector<Snacks>snackSack;
 
 sf::Vector2f headLocation;
 sf::FloatRect headBox;
+sf::FloatRect bodyBox;
+
 sf::Vector2f winSz;
 
 int randomPosX1;
