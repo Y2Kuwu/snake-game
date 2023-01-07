@@ -15,6 +15,7 @@ int consumption; //length
 sf::RectangleShape bodySegment;
 
 sf::Vector2f pos;
+int siz;
 
 float x , y;
 //std::vector<sf::Vector2f>previous;
@@ -28,6 +29,7 @@ public:
 explicit Snake(sf::Vector2f startPos);
 sf::Vector2f getPos();
 void setPos(sf::Vector2f newPos);
+void setColor(int sz);
 void upd();
 sf::RectangleShape getSeg();
 

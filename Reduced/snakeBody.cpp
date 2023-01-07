@@ -132,6 +132,12 @@ Snake::Snake(sf::Vector2f startPos)
    bodySegment.setOutlineThickness(6); 
    
    pos = startPos;
+
+   if(siz %2 == 0)
+   {
+     bodySegment.setFillColor(sf::Color::Red);
+   }
+
 }
 
 sf::Vector2f Snake::getPos()
@@ -144,6 +150,11 @@ void Snake::setPos(sf::Vector2f newPos)
 {
     //GetEng().pos = newPos;
     pos = newPos;
+}
+
+void Snake::setColor(int sz)
+{
+    siz = sz;
 }
 
 sf::RectangleShape Snake::getSeg()

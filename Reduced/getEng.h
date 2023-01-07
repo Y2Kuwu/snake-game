@@ -56,6 +56,7 @@ int dir;
 
 bool dead;
 bool start;
+bool flash;
 
 public:
     sf::FloatRect food1;
@@ -91,6 +92,7 @@ public:
     void background();
     void checkStart();
     void in();
+    void sleepAndEat();
     //void drawFood(Snacks);
     void setSnack();
 

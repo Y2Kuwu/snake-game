@@ -1,7 +1,7 @@
 #include "getEng.h"
 #include "score.h"
 #include "snacks.h"
-#include <iostream>
+
 const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
 
     GetEng::GetEng()
@@ -22,7 +22,7 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
        
         dead = false;
         callRand = true;
-        
+       
         
         //drawPrompt(countCycle);
         getInit();
@@ -48,6 +48,7 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         speed = 2;
         foodIn = 0;
         newSnk();
+        setSnack();
         dir = dirPush::UP;
         //pushDir(dirPush::UP);
         dirQue.clear();
@@ -129,29 +130,28 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         snake.emplace_back(sf::Vector2f(190,190));
         snake.emplace_back(sf::Vector2f(190,200));
         snake.emplace_back(sf::Vector2f(190,210));
-        
-        std::cout << snake.size();
+        for(auto &snk : snake)
+        {
+            snk.setColor(snake.size());
+        }
     }
     
-   
-
-
-    // void GetEng::foodLocations(sf::FloatRect snack1, sf::FloatRect snack2)
-    // {
-    //     food1 = snack1;
-    //     food2 = snack2;
-    //     //eat();
-    // }
 
     void GetEng::add() 
     {
     sf::Vector2f newLoc = snake[snake.size() - 1].getPos();
+    
+   
+        
     snake.emplace_back(newLoc);
+    
+
     setSnack();
     }
 
     void GetEng::eat()
     {
+        
         for(auto &snk : snake)
         {
             if(snk.getSeg().getGlobalBounds().intersects(food1) ||
@@ -161,6 +161,15 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
                score.EatFood(foodIn);
                score.SetScore();
                add();
+               snk.setColor(snake.size()-1);
+               score.title.setFillColor(sf::Color::Black);
+               score.title.setOutlineColor(sf::Color::White);
+               flash = true;
+               
+               if(foodIn %2 == 0 && foodIn >= 4)
+               {
+                speed = foodIn/2;
+               }
                }
           
             
@@ -172,20 +181,18 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
     {
         for(int s = 1; s < snake.size(); s++)
         {
-        if(snake[0].getSeg().getGlobalBounds().intersects(snake[s].getSeg().getGlobalBounds()))
+            headBox = snake[0].getSeg().getGlobalBounds();
+            bodyBox = snake[s].getSeg().getGlobalBounds();
+
+        if(headBox.intersects(bodyBox) )
         {
-            //win.clear();
             dead = true;
+            score.SetDead();
         }
-        else 
+        else
         {
             dead = false;
         }
-        // if(!snake[0].getSeg().getGlobalBounds().intersects(snake[s].getSeg().getGlobalBounds()))
-        // {
-        //     dead = false;
-        // }
-
         }
     }
     
@@ -224,7 +231,6 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         {
         win.draw(back);
         win.draw(backOutline);
-        win.draw(score.score);
         }
 
         for(auto &snk : snake)
@@ -235,9 +241,14 @@ const sf::Time GetEng::TPF = sf::seconds(1.f/60.f);
         {
             win.draw(snx.getSnack());
         }
+        
+
+        win.draw(score.score);
         win.draw(score.title);
 
         win.display();
+       
+        
     }
 
 void GetEng::checkStart()
@@ -268,7 +279,7 @@ void GetEng::slither()
     }
 
 
-    if(evt.key.code == sf::Keyboard::Left)// || evt.key.code == sf::Keyboard::A)
+    if(evt.key.code == sf::Keyboard::Left || evt.key.code == sf::Keyboard::A)
     {
         //left = true;
         // vel.x = -50.0f;
@@ -279,7 +290,7 @@ void GetEng::slither()
         // snake[0].setPos(sf::Vector2f(currPos.x,currPos.y));
         pushDir(dirPush::LEFT);
     }
-    else if(evt.key.code == sf::Keyboard::Right)// || evt.key.code == sf::Keyboard::D)
+    else if(evt.key.code == sf::Keyboard::Right || evt.key.code == sf::Keyboard::D)
     {
         //right = true;
         // vel.x = 50.0f;
@@ -290,7 +301,7 @@ void GetEng::slither()
         // snake[0].setPos(sf::Vector2f(currPos.x,currPos.y));
        pushDir(dirPush::RIGHT);
     }
-    else if(evt.key.code == sf::Keyboard::Up)// || evt.key.code == sf::Keyboard::W)
+    else if(evt.key.code == sf::Keyboard::Up || evt.key.code == sf::Keyboard::W)
     {
         //up = true;
         //  vel.x = 50.0f;
@@ -301,7 +312,7 @@ void GetEng::slither()
         // snake[0].setPos(sf::Vector2f(currPos.x,currPos.y));
         pushDir(dirPush::UP);
     }
-    else if(evt.key.code == sf::Keyboard::Down) //|| evt.key.code == sf::Keyboard::S)
+    else if(evt.key.code == sf::Keyboard::Down || evt.key.code == sf::Keyboard::S)
     {
         
         //down = true;
@@ -439,6 +450,7 @@ void GetEng::slither()
         currPos = snake[snk].getPos();
         snake[snk].setPos(prevPos);
         prevPos = currPos;
+        
         //snake[snk].slither();
         //headBox = snake[0].getSeg().getGlobalBounds();
         //bodyBox = snake[snk].getSeg().getGlobalBounds();
@@ -452,9 +464,12 @@ void GetEng::slither()
         snk.upd();
         
     }
-
-        eat();
+    if(snake.size() >= 4)
+    {
         death();
+    }
+        
+        eat();
 
         last = sf::Time::Zero;
     }
@@ -466,7 +481,7 @@ void GetEng::slither()
         while(win.isOpen())
         {
         sf::Time deltaTime = init.restart();
-
+        
         if(start == false)
         {
         countCycle += 1;
@@ -474,8 +489,6 @@ void GetEng::slither()
         win.clear();
         win.draw(back);
         win.draw(backOutline);
-        score.DrawTitle(win);
-        score.DrawScore(win);
         win.draw(prompt);
         win.draw(score.promptStart);
         win.display();
@@ -497,11 +510,15 @@ void GetEng::slither()
         while(win.isOpen())
         {
         sf::Time deltaTime = init.restart();
+        sf::Time wait = sf::seconds(.4);
+        //sf::Time res;
+        sf::Time elap;
+
         if(dead == false)
         {
-        
         slither();
         drawSnake();
+        upd();
         }
         if(callRand == true)
         {
@@ -518,86 +535,38 @@ void GetEng::slither()
         // checkStart();
         // }
         
-        slither();
-        upd();
-        drawSnake();
+        //slither();
+        
+        //drawSnake();
         // if(start == true)
         // {
         // slither();
         // upd();
         // drawSnake();
         // }
-      
-       
-        
+         if(dead == true)
+        {
+            win.clear();
+            win.draw(back);
+            win.draw(score.promptEnd);
+            win.display();
+            //init.restart();
+            //last+=deltaTime;
+        }
+        // if(flash == true)
+        // {///wait
+        //     //last -= deltaTime + wait;
+        //     //score.SetTitle();
+        // }
         
         //sf::sleep(sf::milliseconds(2)); 
 
         last += deltaTime;
-        
         }
         
         
     }
 
-    
-   
-
-    //     sf::RectangleShape getSegment(sf::Vector2f pos)
-    // {
-	// 	sf::RectangleShape seg;
-	// 	seg.setSize(sf::Vector2f(10,10));
-	// 	seg.setPosition(pos);
-	// 	seg.setFillColor(sf::Color::Green);
-    //     seg.setOutlineColor(sf::Color::Black);
-    //     seg.setOutlineThickness(6);
-	// 	return seg;
-    // }
-
-//     void Get::delta(float del)
-//     {
-//         deltaTime = del;
-//     }
-
-  
-    
-
-//     void Get::loop()
-//     {
-//         bool starter = true;
-//         while(starter)
-//         {
-//             set();
-//             Snake::dir(evt, deltaTime);
-//         }
-
-//         if(Snake::isDead())
-//         {
-//             starter = false;
-//         }
-        
-
-//     }
-//   void Get::ini()
-//     {
-//         //load();
-//         loop();
-//     }
-//     // void Get::load()
-//     // {
-
-//     // }
-
-//     void Get::set()
-//     {
-//         win->clear();
-//         Snake::drawSnk();
-//     }
-
-//     bool impact(const sf::RectangleShape& head, const sf::RectangleShape& body)
-//     {
-//     return head.getGlobalBounds().intersects(body.getGlobalBounds() );
-//     }
 
 
 

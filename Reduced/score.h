@@ -28,7 +28,6 @@ class Score
         title.setOutlineColor(sf::Color::Red);
         title.setOutlineThickness(3);
         title.setPosition(140,5);
-        
     }
 
     void SetPrompt()
@@ -52,7 +51,7 @@ class Score
         promptEnd.setFillColor(sf::Color::Black);
         promptEnd.setOutlineColor(sf::Color::Red);
         promptEnd.setOutlineThickness(3);
-        promptEnd.setPosition(100,140);
+        promptEnd.setPosition(120,100);
     }
 
 
@@ -79,20 +78,6 @@ class Score
         return eat;
     }
 
-    void DrawDead(sf::RenderWindow &win)
-    {
-        win.draw(promptEnd);
-    }
-
-    void DrawScore(sf::RenderWindow &win)
-    {
-        win.draw(title);
-    }
-
-    void DrawTitle(sf::RenderWindow &win)
-    {
-        win.draw(title);
-    }
 
 
 
