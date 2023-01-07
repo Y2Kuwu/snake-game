@@ -1,41 +1,25 @@
-#ifndef SNAKEBODY_H
-#define SNAKEBODY_H
-#include "food.h"
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
+#ifndef SNAKE_H
+#define SNAKE_H
+#include<SFML/Graphics.hpp>
+#include<list>
 
-
-class snakeBody : public ::sf::Drawable
+class Snake
 {
-    public: 
-    snakeBody(); //default
-    //
-    virtual ~snakeBody() {}; // making virutal to pass
-    void move();
-    void addLength();
-    void ouroboros();
-    virtual void draw(sf::RenderTarget& snkTarget, sf::RenderStates snkState) const; //virtual passed //render target address // draw or render to the target
-    
-    sf::RectangleShape deadSnake;
-    sf::RenderWindow* win; //get previous pos and replace
-    food* hungerPtr;
-    
+private:
+sf::RectangleShape bodySegment;
+sf::Vector2f pos;
+int siz;
 
-    //define elsewhere under snakeBody   
-    private:
-    int totLen;
-    sf::RectangleShape snkSkin; //replace prev
-    sf::CircleShape weNeedFood;
-    sf::Time time;
-    
-    std::vector<sf::RectangleShape>::iterator tail;
-    float posX , posY;
-    float x , y;
-    sf::RectangleShape* curr;
-    sf::RectangleShape* copy;
-    
+public:
+explicit Snake(sf::Vector2f startPos);
+sf::Vector2f getPos();
+void setPos(sf::Vector2f newPos);
+void setColor(int sz);
+void upd();
+sf::RectangleShape getSeg();
+
+
 };
-
-
 #endif
+
+

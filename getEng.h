@@ -17,26 +17,16 @@ const unsigned int FPS = 60;
 static const sf::Time TPF;
 sf::Time last;
 
-
-//bool impact(const sf::RectangleShape& , const sf::RectangleShape& );
-//sf::RectangleShape getSegment(sf::Vector2f dirLoc);
-
 std::vector<Snake> snake;
 sf::RenderWindow win;
 
-//sf::Event evt;
-
 int foodIn;
-
 int speed;
 
 sf::Vector2f randPos1;
 sf::Vector2f randPos2;
 std::vector<Snacks>snackSack;
-//std::vector<Collision>impact;
 
-
-sf::Vector2f headLocation;
 sf::FloatRect headBox;
 sf::FloatRect bodyBox;
 
@@ -56,6 +46,7 @@ int dir;
 
 bool dead;
 bool start;
+bool flash;
 
 public:
     sf::FloatRect food1;
@@ -65,21 +56,12 @@ public:
     sf::RectangleShape backOutline;
 
 
-    int countCycle; // from main
+    int countCycle; 
     bool callRand;
-    //sf::Time deltaTime;
 
 
     GetEng();
-    //Get(sf::RenderWindow *window);
-
     void getInit();
-
-    //void inpListener();
-    //void newDir(int newDir);
-    //void newDir(sf::Vector2f newDir);
-
-
     void slither();
     void newSnk();
     void add();
@@ -91,7 +73,7 @@ public:
     void background();
     void checkStart();
     void in();
-    //void drawFood(Snacks);
+    void sleepAndEat();
     void setSnack();
 
     enum dirPush{UP,DOWN,LEFT,RIGHT};
