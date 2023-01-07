@@ -9,15 +9,12 @@ class Score
     sf::Font snake;
     sf::Font prompt;
     
-   
-    
-
     
     public:
-     sf::Text title;
-     sf::Text promptStart;
-     sf::Text promptEnd;
-     sf::Text score;
+    sf::Text title;
+    sf::Text promptStart;
+    sf::Text promptEnd;
+    sf::Text score;
     void SetTitle()
     {
         snake.loadFromFile("RockSalt-Regular.ttf");
@@ -72,14 +69,6 @@ class Score
     {
         eat = digest;
     }
-
-    int GetFood()
-    {
-        return eat;
-    }
-
-
-
 
 };
 #endif
